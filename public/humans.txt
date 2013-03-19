@@ -1,0 +1,10 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+    Name: DERS
+    Location: Trondheim, Norway
+
+# TECHNOLOGY COLOPHON
+    HTML5, CSS3
+
