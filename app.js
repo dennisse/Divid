@@ -42,6 +42,7 @@ app.configure('development', function(){
  */
 
 app.get('/', routes.index);
+app.get('/login', routes.login);
 app.get('/users', user.list);
 
 
