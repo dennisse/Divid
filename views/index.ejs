@@ -1,37 +1,10 @@
- <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<% include header %>
 
-        <title><%= title %></title>
-        <meta name="description" content="" />
-        <meta name="author" content="">
-
-        <meta name="viewport" content="width=device-width" />
-        <link rel='stylesheet' href='/css/bootstrap.min.css' />
-        <link rel='stylesheet' href='/css/bootstrap-responsive.min.css' />
-
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-            <!--[if lt IE 9]>
-              <script src="../assets/js/html5shiv.js"></script>
-        <![endif]-->
+</head>
+<body>
+   <h1><%= title %></h1>
+   <p>Velkommen til <%= title %></p>
+   <p>Her kommer det <em>kanskje</em> mer senere.</p>
 
 
-    </head>
-   <body>
-        <h1><%= title %></h1>
-        <p>Velkommen til <%= title %></p>
-        <p>Her kommer det <em>kanskje</em> mer senere.</p>
-
-
-
-
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
-    </body>
-</html>
+<% include footer %>
