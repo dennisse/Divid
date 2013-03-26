@@ -52,32 +52,19 @@ module.exports = function(app) {
 
 
 
-
-
-
-
-
-
-
     /*
-     * 404 ERROR
+     * ERRORS
      */
 
+    /* 404 */
     app.get('*', function(req, res) {
         res.render('error', { title: '404', text: 'Fant ikke siden' });
     });
 
+    /* 403 on POST */
+    app.post('*', function(req, res) {
+        res.render('error', { title: '403', text: 'Du har ikke tilgang til denne siden' });
+    });
 
 
-
-
-
-
-
-
-
-
-
-
-
-}
+};
