@@ -4,8 +4,6 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
 
@@ -27,6 +25,8 @@ app.configure(function(){
     app.use(express.favicon()); // sets favicon
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: 'lsdrghoi4hgqio42nqf2uqi32f3bilu23fl23b' }));
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public')));
@@ -41,12 +41,7 @@ app.configure('development', function(){
  * Routes
  */
 
-app.get('/', routes.index);
-app.get('/login', routes.login);
-app.get('/users', user.list);
-
-
-
+require('./routes/router')(app);
 
 
 
