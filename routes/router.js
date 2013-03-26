@@ -40,4 +40,25 @@ module.exports = function(app) {
     });
 
 
+    /*
+     * 404 ERROR
+     */
+
+    app.get('*', function(req, res) {
+        res.render('error/404', { title: 'Fant ikke siden' });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
