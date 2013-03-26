@@ -45,7 +45,7 @@ module.exports = function(app) {
      */
 
     app.get('*', function(req, res) {
-        res.render('error/404', { title: 'Fant ikke siden' });
+        res.render('error', { title: '404', text: 'Fant ikke siden' });
     });
 
 
