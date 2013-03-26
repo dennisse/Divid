@@ -41,6 +41,25 @@ module.exports = function(app) {
 
 
     /*
+     * GET signup page
+     *
+     * '/signup'
+     */
+
+    app.get('/signup', function(req, res) {
+        res.render('signup', { title: 'Registrer deg' });
+    });
+
+
+
+
+
+
+
+
+
+
+    /*
      * 404 ERROR
      */
 
