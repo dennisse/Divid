@@ -41,7 +41,7 @@ app.configure('development', function(){
  * Routes
  */
 
-require('./routes/router')(app);
+require('./router')(app);
 
 
 
