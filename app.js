@@ -28,13 +28,13 @@ app.configure(function(){
     app.use(express.cookieParser());
     app.use(express.session({ secret: 'lsdrghoi4hgqio42nqf2uqi32f3bilu23fl23b' }));
     app.use(express.methodOverride());
-    app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+
 
 
 /**
