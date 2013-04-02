@@ -41,6 +41,25 @@ module.exports = function(app) {
     });
 
 
+    /* POST */
+
+    app.post('/login', function(req, res) {
+        AM.manualLogin(req.param('user'), req.param('pass'), function(e, o) {
+            if (!o) {
+                res.send(e, 400);
+            } else {
+                req.session.user = o;
+                if (req.param('remember-me') == 'true') {
+                    res.cookie('user', o.user, { maxAge: 900000 });
+                    res.cookieI('pass', o.pass, { maxAge: 90000 });
+                }
+                res.send(o, 200);
+            }
+        });
+    });
+
+
+
     /*
      * GET signup page
      *
