@@ -37,7 +37,16 @@ module.exports = function(app) {
      */
 
     app.get('/login', function(req, res) {
-        res.render('login', { title: 'Logg inn' });
+        if (req.cookies.user == undefined || req.cookies.pass == undefined) {
+            res.render('login', { title: 'Logg inn' });
+        } else {
+            AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
+                if (o != null) {
+                    req.session.user = o;
+                    res.redirect('/account');
+                } else { res.render('login', { title: 'Logg inn' }); }
+            });
+        }
     });
 
 
