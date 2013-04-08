@@ -43,16 +43,12 @@ module.exports = function(app) {
             } else {
                 AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
                     req.session.user = o;
-             res.redirect('/dashboard');
+                    res.redirect('/dashboard');
                 });
             }
             res.redirect('/login');
         } else {
-            if (req.cookies.user == undefined || req.cookies.pass == undefined) {
-                res.render('index', { title: 'waaaat' });
-            } else {
             res.render('index', { title: 'mordi' });
-            }
         }
     });
 
