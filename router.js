@@ -31,6 +31,34 @@ module.exports = function(app) {
 
 
     /*
+     * GET dashboard
+     *
+     * '/dashboard'
+     */
+
+    app.get('/dashboard', function(req, res) {
+        if (req.session.user == undefined) {
+            if (req.cookies.user == undefined || req.cookies.pass == undefined) {
+                res.redirect('/login');
+            } else {
+                AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
+                    req.session.user = o;
+             res.redirect('/dashboard');
+                });
+            }
+            res.redirect('/login');
+        } else {
+            if (req.cookies.user == undefined || req.cookies.pass == undefined) {
+                res.render('index', { title: 'waaaat' });
+            } else {
+            res.render('index', { title: 'mordi' });
+            }
+        }
+    });
+
+
+
+    /*
      * GET login page
      *
      * '/login'
@@ -43,7 +71,7 @@ module.exports = function(app) {
             AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
                 if (o != null) {
                     req.session.user = o;
-                    res.redirect('/account');
+                    res.redirect('/dashboard');
                 } else { res.render('login', { title: 'Logg inn' }); }
             });
         }
@@ -58,11 +86,11 @@ module.exports = function(app) {
                 res.send(e, 400);
             } else {
                 req.session.user = o;
-                if (req.param('remember-me') == 'true') {
-                    res.cookie('user', o.user, { maxAge: 900000 });
-                    res.cookieI('pass', o.pass, { maxAge: 90000 });
+                if (req.param('remember-me') == 'on') {
+                    res.cookie('user', o.user, { maxAge: 900000000 });
+                    res.cookie('pass', o.pass, { maxAge: 900000000 });
                 }
-                res.send(o, 200);
+                res.redirect('/dashboard');
             }
         });
     });
