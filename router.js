@@ -21,7 +21,7 @@ module.exports = function(app) {
             AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
                 if (o != null) {
                     req.session.user = o;
-                    res.redirect('/account');
+                    res.redirect('/dashboard');
                 } else {
                     res.render('index', { title: 'DERS' });
                 }
@@ -41,12 +41,14 @@ module.exports = function(app) {
             if (req.cookies.user == undefined || req.cookies.pass == undefined) {
                 res.redirect('/login');
             } else {
+                console.log('jeg er inne i elsen');
                 AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
                     req.session.user = o;
-                    res.redirect('/dashboard');
+                    res.redirect('/IJUSTAUTOLOGGEDDEGINN');
+                    console.log('DAFUQ SKJEDDE NÅ');
                 });
             }
-            res.redirect('/login');
+            res.redirect('/HAHAHAHAHAHA');
         } else {
             res.render('index', { title: 'mordi' });
         }
