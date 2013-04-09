@@ -44,13 +44,14 @@ module.exports = function(app) {
                 console.log('jeg er inne i elsen');
                 AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
                     req.session.user = o;
-                    res.redirect('/IJUSTAUTOLOGGEDDEGINN');
                     console.log('DAFUQ SKJEDDE NÅ');
+                    res.render('index', { title: 'Autologin' });
                 });
+                res.redirect('/IJUSTAUTOLOGGEDDEGINN');
             }
-            res.redirect('/HAHAHAHAHAHA');
+           // res.redirect('/HAHAHAHAHAHA');
         } else {
-            res.render('index', { title: 'mordi' });
+            res.render('index', { title: 'kanin' });
         }
     });
 
