@@ -12,6 +12,7 @@
     "connect": "*",
     "emailjs": "*",
     "mongodb": "*",
-    "moment": "*"
+    "moment": "*",
+    "less-middleware": "*"
   }
 }
