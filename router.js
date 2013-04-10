@@ -29,6 +29,16 @@ module.exports = function(app) {
         }
     });
 
+    /*
+     * GET TEST PAGE
+     *
+     * '/test'
+     */
+
+    app.get('/test', function(req, res) {
+        res.render('test', { title: 'test' });
+    });
+
 
     /*
      * GET dashboard
