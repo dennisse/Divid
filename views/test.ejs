@@ -20,6 +20,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner" id="top-navbar">
             <div class="container">
+                <% if (!loggedin) { %>
                 <div class="row collapse login-collapse">
                     <form action="/login" method="post" id="login-form" class="form-horizontal">
                         <div class="control-group">
@@ -46,6 +47,7 @@
                         </div>
                     </form>
                 </div>
+                <% } %>
                 <div class="row">
                     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="nav-collapse">
                         <span class="icon-bar"></span>
@@ -55,12 +57,13 @@
                     <a class="brand" href="#">Divid</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li><a href="#login">Login</a></li>
                             <li><a href="#signup">signup</a></li>
                             <li><a href="#dashboard">Dashboard</a></li>
                         </ul>
                     </div>
-                    <a class="brand login" data-toggle="collapse" data-target=".login-collapse" href="#login">Logg inn</a>
+                    <% if(!loggedin) { %><a class="brand login" data-toggle="collapse" data-target=".login-collapse" href="#login">Logg inn</a>
+                    <% } else { %><a class="brand login">Logg ut</a>
+                    <% } %>
                 </div>
             </div>
         </div>

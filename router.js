@@ -36,7 +36,10 @@ module.exports = function(app) {
      */
 
     app.get('/test', function(req, res) {
-        res.render('test', { title: 'test' });
+        res.render('test', {
+            title: 'test',
+            loggedin: false
+        });
     });
 
 
