@@ -22,7 +22,7 @@ app.configure(function(){
 
     app.set('views', __dirname + '/views'); // sets views to the right directory
     app.set('view engine', 'ejs'); // initiates viewengine. We use EJS, or embedded js - http://embeddedjs.com/
-    app.use(express.favicon(__dirname + '/public/favicon.ico')); // sets favicon
+    app.use(express.favicon(__dirname + '/public/faviconb.ico')); // sets favicon
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
     app.use(express.cookieParser());
