@@ -3,8 +3,9 @@
   font-size: 10px;
   font-family: 'Source Sans Pro', Arial, sans-serif;
   font-weight: 300;
-  margin:0;}
-#lerret {
+  margin:0;
+  /*background-color: #08090A;*/ }
+#scene {
   z-index: 1;
   position: absolute;
   overflow: hidden;
@@ -14,23 +15,23 @@
   background-repeat: no-repeat;
   background-size: cover; 
   background-image: linear-gradient(#8b9da9, #fff6e4);}
-#situasjon {
+#situation {
   position: absolute;
   width: 100%;
   height: 100%;
   -webkit-transform-style: preserve-3d; }
-.bane {
+.orbit {
   position: absolute;
   top: 50%;
   left: 50%;
   border: 0px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   -webkit-transform-style: preserve-3d;
-  -webkit-animation-name: bane;
+  -webkit-animation-name: orbit;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear; }
-.bane .bane {
-  -webkit-animation-name: subbane; }
+.orbit .orbit {
+  -webkit-animation-name: suborbit; }
 .pos {
   position: absolute;
   top: 50%;
@@ -42,7 +43,7 @@
   -webkit-animation-name: invert;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear; }
-#divid, .objekt, #aktivitet3 .satellitt {
+#divid, .object, #activity3 .satellitt {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -57,7 +58,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   /*box-shadow: 0 0 60px rgba(255, 160, 60, 0.4);*/}
-.objekt {
+.object {
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-animation-iteration-count: infinite;
@@ -67,38 +68,73 @@
   top: 50%;
   left: 50%;
   border-radius: 50%; }
-/* -------------------indeks plassering-------------------------------------------------------*/
-#aktivitet1 {
+/* -------------------index positions-------------------------------------------------------*/
+#activity1 {
   z-index: 12; }
-#aktivitet2 {
+#activity2 {
   z-index: 11; }
-#aktivitet3 {
+#activity3 {
   z-index: 10; }
 #satellitt {
   z-index: 9; }
-#aktivitet4 {
+#activity4 {
   z-index: 8; }
-#aktivitet5 {
+#activity5 {
   z-index: 7; }
-#aktivitet6 {
+#activity6 {
   z-index: 6; }
-#aktivitet7 {
+#activity7 {
   z-index: 5; }
-#aktivitet8 {
+#activity8 {
   z-index: 4; }
-#aktivitet9 {
+#activity9 {
   z-index: 3; }
-#aktivitet10 {
+#activity10 {
   z-index: 2; }
 #divid {
   z-index: 1; }
-/* --------------------webkit animasjoner-----------------------------------------------------*/
-@-webkit-keyframes bane {
+/* --------------------------------activity starting positions----------------------------------------*/
+#activity1 .pos {
+  left: 50%;
+  top: -1%; }
+#activity2 .pos {
+  left: 0;
+  top: 50%; }
+#activity3 .pos {
+  left: 100%;
+  top: 50%; }
+#activity4 .pos {
+  left: 100%;
+  top: 50%; }
+#activity5 .pos {
+  left: 50%;
+  top: 100%; }
+#activity6 .pos {
+  left: 100%;
+  top: 50%; }
+#activity7 .pos {
+  left: 0%;
+  top: 50%; }
+#activity8 .pos {
+  left: 0%;
+  top: 100%; }
+#activity9 .pos {
+  left: 100%;
+  top: 50%; }
+#activity10 .pos {
+  left: 50%;
+  top: 100%; }
+#activity11 .pos {
+  left: 50%;
+  top: 100%; }
+
+/* --------------------webkit animations-----------------------------------------------------*/
+@-webkit-keyframes orbit {
   0% {
     -webkit-transform: rotateZ(0deg); }
   100% {
     -webkit-transform: rotateZ(-360deg); } }
-@-webkit-keyframes subbane {
+@-webkit-keyframes suborbit {
   0% {
     -webkit-transform: rotateX(90deg) rotateZ(0deg); }
   100% {
@@ -108,191 +144,191 @@
     -webkit-transform: rotateX(-90deg) rotateY(360deg) rotateZ(0deg); }
   100% {
     -webkit-transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg); } }
-/* ------------------------Hele skaleringen 3D view----------------------------------------*/
+/* ------------------------scale 3D view----------------------------------------*/
 .view-3D.zoom-large #divid {
   -webkit-transform-style: preserve-3d; }
-.view-3D.zoom-large .bane {
+.view-3D.zoom-large .orbit {
   -webkit-transform-style: preserve-3d; }
-.view-3D #situasjon {
+.view-3D #situation {
   -webkit-transform: rotateX(75deg); }
 .view-3D #divid {
   -webkit-transform: rotateX(-90deg); }
 .view-3D .ring {
   -webkit-transform: rotateX(90deg); }
-.view-3D .objekt,
+.view-3D .object,
 .view-3D .satellitt {
   -webkit-transform: rotateX(0deg); }
 /* ------------------------zoom----------------------------------------------------------*/
-.zoom-large #situasjon {
+.zoom-large #situation {
   width: 100%; }
-.zoom-large.view-3D .scale-stretched #situasjon {
+.zoom-large.view-3D .scale-stretched #situation {
   font-size: 40%; } /*originalstr.62*/
-.zoom-large.view-3D .scale-d #situasjon {
+.zoom-large.view-3D .scale-d #situation {
   font-size: 48%; }
-.zoom-large.view-3D .scale-s #situasjon {
+.zoom-large.view-3D .scale-s #situation {
   font-size: 14%; }
 /* ---------------------------data-------------------------------------------------------*/
-/* ---------------------------fart-------------------------------------------------------*/
+/* ---------------------------speed-------------------------------------------------------*/
 /* sideral years */
-#aktivitet1 .pos,
-#aktivitet1 .objekt,
-#aktivitet1.bane {
-  /*border: 1px solid white;*/
+#activity1 .pos,
+#activity1 .object,
+#activity1.orbit {
+  /*border: 1px solid black;*/
   -webkit-animation-duration: 6.89016s; }/*2.89016*/
-#aktivitet2 .pos,
-#aktivitet2 .objekt,
-#aktivitet2.bane {
+#activity2 .pos,
+#activity2 .object,
+#activity2.orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 8.38237s; }/*7.38237*/
-#aktivitet3 .pos,
-#aktivitet3 .objekt,
-#aktivitet3.bane {
+#activity3 .pos,
+#activity3 .object,
+#activity3.orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 11.00021s; }/*12.00021*/
-#aktivitet3 .bane .pos,
-#aktivitet3 .bane {
+#activity3 .orbit .pos,
+#activity3 .orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 0.89764s; }/*0.89764*/
-#aktivitet4 .pos,
-#aktivitet4 .objekt,
-#aktivitet4.bane {
+#activity4 .pos,
+#activity4 .object,
+#activity4.orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 13.57017s; }/*22.57017*/
-#aktivitet5 .pos,
-#aktivitet5 .objekt,
-#aktivitet5.bane {
+#activity5 .pos,
+#activity5 .object,
+#activity5.orbit {
   /*border: 1px solid white;*/
-  -webkit-animation-duration: 15.35138s; }/*142.35138*/
-#aktivitet6 .pos,
-#aktivitet6 .objekt,
-#aktivitet6.bane,
-#aktivitet6 .ring {
+  -webkit-animation-duration: 17.35138s; }/*142.35138*/
+#activity6 .pos,
+#activity6 .object,
+#activity6.orbit,
+#activity6 .ring {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 19.36998s; }/*353.36998*/
-#aktivitet7 .pos,
-#aktivitet7 .objekt,
-#aktivitet7.bane {
+#activity7 .pos,
+#activity7 .object,
+#activity7.orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 23.20215s; }/*1008.20215*/
-#aktivitet8 .pos,
-#aktivitet8 .objekt,
-#aktivitet8.bane {
+#activity8 .pos,
+#activity8 .object,
+#activity8.orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 27.49584s; }/*1977.49584*/
-#aktivitet9 .pos,
-#aktivitet9 .objekt,
-#aktivitet9.bane {
+#activity9 .pos,
+#activity9 .object,
+#activity9.orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 30.49584s; }/*1977.49584*/
-#aktivitet10 .pos,
-#aktivitet10 .objekt,
-#aktivitet10.bane {
+#activity10 .pos,
+#activity10 .object,
+#activity10.orbit {
   /*border: 1px solid white;*/
   -webkit-animation-duration: 33.49584s; }/*1977.49584*/
-/* --------------------------------aktiviteters størrelser----------------------------------------*/
-/* --------------------------------strukkede størrelser-------------------------------------------*/
+/* --------------------------------activity sizes----------------------------------------*/
+/* --------------------------------stretched sizes-------------------------------------------*/
 .scale-stretched #divid {
   font-size: 24em; }/*24*/
-.scale-stretched #aktivitet1 .objekt {
+.scale-stretched #activity1 .object {
   font-size: 4.5em; }/*1.5*/
-.scale-stretched #aktivitet2 .objekt {
+.scale-stretched #activity2 .object {
   font-size: 5.58em; }/*3.72*/
-.scale-stretched #aktivitet3 .objekt {
+.scale-stretched #activity3 .object {
   font-size: 5.88em; }/*3.92*/
-.scale-stretched #aktivitet3 .satellitt {
+.scale-stretched #activity3 .satellitt {
   font-size: 4.8em; }/*1.2*/
-.scale-stretched #aktivitet4 .objekt {
+.scale-stretched #activity4 .object {
   font-size: 5.88em; }/*2.9*/
-.scale-stretched #aktivitet5 .objekt {
+.scale-stretched #activity5 .object {
   font-size: 9em; }/*12*/
-.scale-stretched #aktivitet6 .objekt {
+.scale-stretched #activity6 .object {
   font-size: 8.1em; }/*10.8*/
-.scale-stretched #aktivitet7 .objekt {
+.scale-stretched #activity7 .object {
   font-size: 7.02em; }/*4.68*/
-.scale-stretched #aktivitet8 .objekt {
+.scale-stretched #activity8 .object {
   font-size: 4.9em; }/*4.9*/
-.scale-stretched #aktivitet9 .objekt {
+.scale-stretched #activity9 .object {
   font-size: 7.9em; }/*4.9*/
-.scale-stretched #aktivitet10 .objekt {
+.scale-stretched #activity10 .object {
   font-size: 7.9em; }/*4.9*/
-/* ------------Strukkede baner-----------------------------------------------------------------*/
-.scale-stretched #aktivitet1.bane {
+/* ------------Streched orbits-----------------------------------------------------------------*/
+.scale-stretched #activity1.orbit {
   width: 32em; /*32*/
   height: 32em; 
   margin-top: -16em; /*-16*/
   margin-left: -16em; } 
-.scale-stretched #aktivitet2.bane {
+.scale-stretched #activity2.orbit {
   width: 40em; /*40*/
   height: 40em; 
   margin-top: -20em; /*-20*/
   margin-left: -20em; } 
-.scale-stretched #aktivitet3.bane {
+.scale-stretched #activity3.orbit {
   width: 56em; /*56*/
   height: 56em; 
   margin-top: -28em; /*-28*/
   margin-left: -28em; } 
-.scale-stretched #aktivitet3 .bane {
+.scale-stretched #activity3 .orbit {
   width: 16em; /*6*/
   height: 16em; 
   margin-top: -8em; /*-3*/
   margin-left: -8em; } 
-.scale-stretched #aktivitet4.bane {
+.scale-stretched #activity4.orbit {
   width: 72em; /*72*/ 
   height: 72em; 
   margin-top: -36em; /*-36*/
   margin-left: -36em; } 
-.scale-stretched #aktivitet5.bane {
+.scale-stretched #activity5.orbit {
   width: 80em; /*100*/
   height: 80em; 
   margin-top: -40em; /*-50*/
   margin-left: -40em; } 
-.scale-stretched #aktivitet6.bane {
+.scale-stretched #activity6.orbit {
   width: 100em; /*150*/
   height: 100em; 
   margin-top: -50em; /*-75*/
   margin-left: -50em; } 
-.scale-stretched #aktivitet7.bane {
+.scale-stretched #activity7.orbit {
   width: 120em; /*186*/
   height: 120em; 
   margin-top: -60em; /*-93*/
   margin-left: -60em; } 
-.scale-stretched #aktivitet8.bane {
+.scale-stretched #activity8.orbit {
   width: 140em; /*210*/
   height: 140em;
   margin-top: -70em; /*-105*/
   margin-left: -70em; }
-.scale-stretched #aktivitet9.bane {
+.scale-stretched #activity9.orbit {
   width: 160em; /*210*/
   height: 160em;
   margin-top: -80em; /*-105*/
   margin-left: -80em; }
-.scale-stretched #aktivitet10.bane {
+.scale-stretched #activity10.orbit {
   width: 180em; /*210*/
   height: 180em;
   margin-top: -90em; /*-105*/
   margin-left: -90em; }
-/* ------------bilder---------------------------------------------------------------*/
+/* ------------pictures---------------------------------------------------------------*/
 #divid {
   background-image: url('/img/anim/group.png'); }
-#aktivitet1 .objekt {
+#activity1 .object {
   background-image: url('/img/anim/restaurant.png');}
-#aktivitet2 .objekt {
+#activity2 .object {
   background-image: url('/img/anim/fly.png');}
-#aktivitet3 .objekt {
+#activity3 .object {
   background-image: url('/img/anim/handel.png');}
-#aktivitet3 .satelitt {
+#activity3 .satelite {
   background-image: url('/img/anim/betaling.png');}
-#aktivitet4 .objekt {
+#activity4 .object {
   background-image: url('/img/anim/bil.png');}
-#aktivitet5 .objekt {
+#activity5 .object {
   background-image: url('/img/anim/bank.png');}
-#aktivitet6 .objekt {
+#activity6 .object {
   background-image: url('/img/anim/uhell.png');}
-#aktivitet7 .objekt {
+#activity7 .object {
   background-image: url('/img/anim/hus.png');}
-#aktivitet8 .objekt {
+#activity8 .object {
   background-image: url('/img/anim/sport.png');}
-#aktivitet9 .objekt {
+#activity9 .object {
   background-image: url('/img/anim/deltomsorg.png');}
-#aktivitet10 .objekt {
+#activity10 .object {
   background-image: url('/img/anim/underholdning.png');}
