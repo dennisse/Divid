@@ -1,0 +1,298 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
+.anim {
+  font-size: 10px;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-weight: 300;
+  margin:0;}
+#lerret {
+  z-index: 1;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  background-size: cover; 
+  background-image: linear-gradient(#8b9da9, #fff6e4);}
+#situasjon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d; }
+.bane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 0px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  -webkit-transform-style: preserve-3d;
+  -webkit-animation-name: bane;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear; }
+.bane .bane {
+  -webkit-animation-name: subbane; }
+.pos {
+  position: absolute;
+  top: 50%;
+  width: 2em;
+  height: 2em;
+  margin-top: -1em;
+  margin-left: -1em;
+  -webkit-transform-style: preserve-3d;
+  -webkit-animation-name: invert;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear; }
+#divid, .objekt, #aktivitet3 .satellitt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  margin-left: -0.5em;
+  border-radius: 10%;
+  -webkit-transform-style: preserve-3d; }
+#divid {
+  /*background-color: #FB7209;*/
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*box-shadow: 0 0 60px rgba(255, 160, 60, 0.4);*/}
+.objekt {
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear; }
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%; }
+/* -------------------indeks plassering-------------------------------------------------------*/
+#aktivitet1 {
+  z-index: 12; }
+#aktivitet2 {
+  z-index: 11; }
+#aktivitet3 {
+  z-index: 10; }
+#satellitt {
+  z-index: 9; }
+#aktivitet4 {
+  z-index: 8; }
+#aktivitet5 {
+  z-index: 7; }
+#aktivitet6 {
+  z-index: 6; }
+#aktivitet7 {
+  z-index: 5; }
+#aktivitet8 {
+  z-index: 4; }
+#aktivitet9 {
+  z-index: 3; }
+#aktivitet10 {
+  z-index: 2; }
+#divid {
+  z-index: 1; }
+/* --------------------webkit animasjoner-----------------------------------------------------*/
+@-webkit-keyframes bane {
+  0% {
+    -webkit-transform: rotateZ(0deg); }
+  100% {
+    -webkit-transform: rotateZ(-360deg); } }
+@-webkit-keyframes subbane {
+  0% {
+    -webkit-transform: rotateX(90deg) rotateZ(0deg); }
+  100% {
+    -webkit-transform: rotateX(90deg) rotateZ(-360deg); } }
+@-webkit-keyframes invert {
+  0% {
+    -webkit-transform: rotateX(-90deg) rotateY(360deg) rotateZ(0deg); }
+  100% {
+    -webkit-transform: rotateX(-90deg) rotateY(0deg) rotateZ(0deg); } }
+/* ------------------------Hele skaleringen 3D view----------------------------------------*/
+.view-3D.zoom-large #divid {
+  -webkit-transform-style: preserve-3d; }
+.view-3D.zoom-large .bane {
+  -webkit-transform-style: preserve-3d; }
+.view-3D #situasjon {
+  -webkit-transform: rotateX(75deg); }
+.view-3D #divid {
+  -webkit-transform: rotateX(-90deg); }
+.view-3D .ring {
+  -webkit-transform: rotateX(90deg); }
+.view-3D .objekt,
+.view-3D .satellitt {
+  -webkit-transform: rotateX(0deg); }
+/* ------------------------zoom----------------------------------------------------------*/
+.zoom-large #situasjon {
+  width: 100%; }
+.zoom-large.view-3D .scale-stretched #situasjon {
+  font-size: 40%; } /*originalstr.62*/
+.zoom-large.view-3D .scale-d #situasjon {
+  font-size: 48%; }
+.zoom-large.view-3D .scale-s #situasjon {
+  font-size: 14%; }
+/* ---------------------------data-------------------------------------------------------*/
+/* ---------------------------fart-------------------------------------------------------*/
+/* sideral years */
+#aktivitet1 .pos,
+#aktivitet1 .objekt,
+#aktivitet1.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 6.89016s; }/*2.89016*/
+#aktivitet2 .pos,
+#aktivitet2 .objekt,
+#aktivitet2.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 8.38237s; }/*7.38237*/
+#aktivitet3 .pos,
+#aktivitet3 .objekt,
+#aktivitet3.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 11.00021s; }/*12.00021*/
+#aktivitet3 .bane .pos,
+#aktivitet3 .bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 0.89764s; }/*0.89764*/
+#aktivitet4 .pos,
+#aktivitet4 .objekt,
+#aktivitet4.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 13.57017s; }/*22.57017*/
+#aktivitet5 .pos,
+#aktivitet5 .objekt,
+#aktivitet5.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 15.35138s; }/*142.35138*/
+#aktivitet6 .pos,
+#aktivitet6 .objekt,
+#aktivitet6.bane,
+#aktivitet6 .ring {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 19.36998s; }/*353.36998*/
+#aktivitet7 .pos,
+#aktivitet7 .objekt,
+#aktivitet7.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 23.20215s; }/*1008.20215*/
+#aktivitet8 .pos,
+#aktivitet8 .objekt,
+#aktivitet8.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 27.49584s; }/*1977.49584*/
+#aktivitet9 .pos,
+#aktivitet9 .objekt,
+#aktivitet9.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 30.49584s; }/*1977.49584*/
+#aktivitet10 .pos,
+#aktivitet10 .objekt,
+#aktivitet10.bane {
+  /*border: 1px solid white;*/
+  -webkit-animation-duration: 33.49584s; }/*1977.49584*/
+/* --------------------------------aktiviteters størrelser----------------------------------------*/
+/* --------------------------------strukkede størrelser-------------------------------------------*/
+.scale-stretched #divid {
+  font-size: 24em; }/*24*/
+.scale-stretched #aktivitet1 .objekt {
+  font-size: 4.5em; }/*1.5*/
+.scale-stretched #aktivitet2 .objekt {
+  font-size: 5.58em; }/*3.72*/
+.scale-stretched #aktivitet3 .objekt {
+  font-size: 5.88em; }/*3.92*/
+.scale-stretched #aktivitet3 .satellitt {
+  font-size: 4.8em; }/*1.2*/
+.scale-stretched #aktivitet4 .objekt {
+  font-size: 5.88em; }/*2.9*/
+.scale-stretched #aktivitet5 .objekt {
+  font-size: 9em; }/*12*/
+.scale-stretched #aktivitet6 .objekt {
+  font-size: 8.1em; }/*10.8*/
+.scale-stretched #aktivitet7 .objekt {
+  font-size: 7.02em; }/*4.68*/
+.scale-stretched #aktivitet8 .objekt {
+  font-size: 4.9em; }/*4.9*/
+.scale-stretched #aktivitet9 .objekt {
+  font-size: 7.9em; }/*4.9*/
+.scale-stretched #aktivitet10 .objekt {
+  font-size: 7.9em; }/*4.9*/
+/* ------------Strukkede baner-----------------------------------------------------------------*/
+.scale-stretched #aktivitet1.bane {
+  width: 32em; /*32*/
+  height: 32em; 
+  margin-top: -16em; /*-16*/
+  margin-left: -16em; } 
+.scale-stretched #aktivitet2.bane {
+  width: 40em; /*40*/
+  height: 40em; 
+  margin-top: -20em; /*-20*/
+  margin-left: -20em; } 
+.scale-stretched #aktivitet3.bane {
+  width: 56em; /*56*/
+  height: 56em; 
+  margin-top: -28em; /*-28*/
+  margin-left: -28em; } 
+.scale-stretched #aktivitet3 .bane {
+  width: 16em; /*6*/
+  height: 16em; 
+  margin-top: -8em; /*-3*/
+  margin-left: -8em; } 
+.scale-stretched #aktivitet4.bane {
+  width: 72em; /*72*/ 
+  height: 72em; 
+  margin-top: -36em; /*-36*/
+  margin-left: -36em; } 
+.scale-stretched #aktivitet5.bane {
+  width: 80em; /*100*/
+  height: 80em; 
+  margin-top: -40em; /*-50*/
+  margin-left: -40em; } 
+.scale-stretched #aktivitet6.bane {
+  width: 100em; /*150*/
+  height: 100em; 
+  margin-top: -50em; /*-75*/
+  margin-left: -50em; } 
+.scale-stretched #aktivitet7.bane {
+  width: 120em; /*186*/
+  height: 120em; 
+  margin-top: -60em; /*-93*/
+  margin-left: -60em; } 
+.scale-stretched #aktivitet8.bane {
+  width: 140em; /*210*/
+  height: 140em;
+  margin-top: -70em; /*-105*/
+  margin-left: -70em; }
+.scale-stretched #aktivitet9.bane {
+  width: 160em; /*210*/
+  height: 160em;
+  margin-top: -80em; /*-105*/
+  margin-left: -80em; }
+.scale-stretched #aktivitet10.bane {
+  width: 180em; /*210*/
+  height: 180em;
+  margin-top: -90em; /*-105*/
+  margin-left: -90em; }
+/* ------------bilder---------------------------------------------------------------*/
+#divid {
+  background-image: url('/img/group.png'); }
+#aktivitet1 .objekt {
+  background-image: url('/img/restaurant.png');}
+#aktivitet2 .objekt {
+  background-image: url('/img/fly.png');}
+#aktivitet3 .objekt {
+  background-image: url('/img/handel.png');}
+#aktivitet3 .satelitt {
+  background-image: url('/img/betaling.png');}
+#aktivitet4 .objekt {
+  background-image: url('/img/bil.png');}
+#aktivitet5 .objekt {
+  background-image: url('/img/bank.png');}
+#aktivitet6 .objekt {
+  background-image: url('/img/uhell.png');}
+#aktivitet7 .objekt {
+  background-image: url('/img/hus.png');}
+#aktivitet8 .objekt {
+  background-image: url('/img/sport.png');}
+#aktivitet9 .objekt {
+  background-image: url('/img/deltomsorg.png');}
+#aktivitet10 .objekt {
+  background-image: url('/img/underholdning.png');}
