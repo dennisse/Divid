@@ -56,15 +56,20 @@ module.exports = function(app) {
             } else {
                 console.log('jeg er inne i elsen');
                 AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
-                    req.session.user = o;
-                    console.log('DAFUQ SKJEDDE NÅ');
-                    res.render('index', { title: 'Autologin' });
+                    if (o != null) {
+                        req.session.user = o;
+                        res.redirect('/IJUSTAUTOLOGGEDDEGINN');
+                    } else {
+                    res.redirect('/');
+                    }
                 });
-                res.redirect('/IJUSTAUTOLOGGEDDEGINN');
             }
            // res.redirect('/HAHAHAHAHAHA');
         } else {
-            res.render('index', { title: 'kanin' });
+            res.render('dashboard', {
+                                        title: 'kanin',
+                                        loggedin: true
+                                    });
         }
     });
 
