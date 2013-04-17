@@ -142,12 +142,30 @@ section.projects section.project .participants {
     font-size: @fontSizeSmall;
 }
 
+section.overview .lastactivity {
+    background-color: @grayLighter;
+    -webkit-border-radius: @borderRadiusLarge;
+       -moz-border-radius: @borderRadiusLarge;
+            border-radius: @borderRadiusLarge;
 
+}
 
-
-
-
-
+section.overview .lastactivity > .activity {
+    border-bottom: 1px solid @grayLight;
+    margin-bottom: 5px;
+}
+section.overview .lastactivity > .activity:last-child {
+    border-bottom: none;
+}
+section.overview .lastactivity > .activity [class*="span"] {
+}
+section.overview .lastactivity > .activity [class*="span"] .info {
+    font-size: @fontSizeMini;
+    color: @grayLight;
+}
+section.overview .lastactivity > .activity [class*="span"] > .row-fluid [class*="span"] {
+    min-height: 0;
+}
 
 #vertical(@startColor: #555, @endColor: #333) {
     background-color: mix(@startColor, @endColor, 60%);
