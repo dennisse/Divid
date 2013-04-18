@@ -1,5 +1,4 @@
-
-var AM = require('./modules/account-manager');
+var passlo = require('./modules/passport-local');
 var EM = require('./modules/email-dispatcher');
 
 

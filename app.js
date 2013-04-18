@@ -4,8 +4,9 @@
  */
 
 var express = require('express')
-  , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , bcrypt = require('bcrypt')
+  , passport = require('passport');
 
 var app = express(); // initiates express
 
@@ -30,6 +31,8 @@ app.configure(function(){
     app.use(express.methodOverride());
     app.use(require('less-middleware')({ src: __dirname + '/public' }));
     app.use(express.static(path.join(__dirname, 'public')));
+    app.use(passport.initialize());
+    app.use(passport.session());
 });
 
 app.configure('development', function(){
@@ -50,6 +53,9 @@ require('./router')(app);
  * Server initiation
  */
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+app.listen(app.get('port'), function() {
+    console.log("Express server listening on port " + app.get('port'));
 });
+
+
+

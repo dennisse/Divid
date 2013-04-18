@@ -13,6 +13,8 @@
     "emailjs": "*",
     "mongodb": "*",
     "moment": "*",
-    "less-middleware": "*"
+    "less-middleware": "*",
+    "passport": "*",
+    "bcrypt": "*"
   }
 }
