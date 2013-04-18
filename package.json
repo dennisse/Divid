@@ -15,6 +15,7 @@
     "moment": "*",
     "less-middleware": "*",
     "passport": "*",
+    "passport-local": "*",
     "bcrypt": "*"
   }
 }

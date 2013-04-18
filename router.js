@@ -1,5 +1,6 @@
-var passlo = require('./modules/passport-local');
-var EM = require('./modules/email-dispatcher');
+var passlo = require('./modules/passport-local')
+  , passport = require('passport')
+  , EM = require('./modules/email-dispatcher');
 
 
 
@@ -13,19 +14,7 @@ module.exports = function(app) {
      */
 
     app.get('/', function(req, res){
-        // check if the user's credentials are saved in a cookie
-        if (req.cookies.user == undefined || req.cookies.pass == undefined) {
-            res.render('index', { title: 'DERS' });
-        } else { // appempt automatic login
-            AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
-                if (o != null) {
-                    req.session.user = o;
-                    res.redirect('/dashboard');
-                } else {
-                    res.render('index', { title: 'DERS' });
-                }
-            });
-        }
+        res.render('index', { title: 'DERS' });
     });
 
     /*
@@ -49,27 +38,10 @@ module.exports = function(app) {
      */
 
     app.get('/dashboard', function(req, res) {
-        if (req.session.user == undefined) {
-            if (req.cookies.user == undefined || req.cookies.pass == undefined) {
-                res.redirect('/login');
-            } else {
-                console.log('jeg er inne i elsen');
-                AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
-                    if (o != null) {
-                        req.session.user = o;
-                        res.redirect('/IJUSTAUTOLOGGEDDEGINN');
-                    } else {
-                    res.redirect('/');
-                    }
-                });
-            }
-           // res.redirect('/HAHAHAHAHAHA');
-        } else {
             res.render('dashboard', {
                                         title: 'kanin',
                                         loggedin: true
                                     });
-        }
     });
 
 
@@ -81,34 +53,25 @@ module.exports = function(app) {
      */
 
     app.get('/login', function(req, res) {
-        if (req.cookies.user == undefined || req.cookies.pass == undefined) {
             res.render('login', { title: 'Logg inn' });
-        } else {
-            AM.autoLogin(req.cookies.user, req.cookies.pass, function(o) {
-                if (o != null) {
-                    req.session.user = o;
-                    res.redirect('/dashboard');
-                } else { res.render('login', { title: 'Logg inn' }); }
-            });
-        }
     });
 
 
     /* POST */
 
-    app.post('/login', function(req, res) {
-        AM.manualLogin(req.param('user'), req.param('pass'), function(e, o) {
-            if (!o) {
-                res.send(e, 400);
-            } else {
-                req.session.user = o;
-                if (req.param('remember-me') == 'on') {
-                    res.cookie('user', o.user, { maxAge: 900000000 });
-                    res.cookie('pass', o.pass, { maxAge: 900000000 });
-                }
-                res.redirect('/dashboard');
+    app.post('/login', function(req, res, next) {
+        passport.authenticate('local', function(err, user, info) {
+            if (err) return next(err);
+            if (!user) {
+                console.log(info.message);
+                req.session.messages = [info.message];
+                return res.redirect('/login');
             }
-        });
+            req.logIn(user, function(err) {
+                if (err) return next(err);
+                return res.redirect('/dashboard');
+            })
+        })(req, res, next);
     });
 
 

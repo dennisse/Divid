@@ -10,8 +10,6 @@ var express = require('express')
 
 var app = express(); // initiates express
 
-
-
 /**
  * App configuration
  */
