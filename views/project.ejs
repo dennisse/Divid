@@ -1,0 +1,697 @@
+<% include header %>
+
+</head>
+<body>
+    <% include navbar %>
+
+    <!-- Wrapper
+    ================================================== -->
+    <div class="container" id="wrapper">
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="row-fluid">
+                <div class="span2 info text-right">
+                    prosjekt
+                </div>
+                <div class="span10">
+                    <h1><%= title %></h1>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2 info text-right">
+                    opprettet
+                </div>
+                <div class="span10">
+                    <p>2013-04-18</p>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span2 info text-right">
+                    deltakere
+                </div>
+                <div class="span10">
+                    Truls Hyttebakken <span class="muted">(eier)</span><br />
+                    Stian Rabaldertusten <span class="muted">(admin)</span><br />
+                    Robert Joramo<br />
+                    Dennis Eriksen<br />
+                    Helene Apelort<br />
+                    <small><a href="/ppl">Legg til flere deltakere</a></small>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span10 offset2">
+                    <a class="btn btn-large" href="/post">Før utgift</a>
+                </div>
+            </div>
+        </div><!-- /div.span6 -->
+
+
+
+
+
+
+
+
+        <div class="span6">
+            <section class="status">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <h2>Status total</h2>
+                    </div>
+                    <div class="span6">
+                        <div class="row-fluid">
+                                <table class="table table-bordered table-condensed">
+                                    <tr>
+                                        <td class="success">3000</td>
+                                        <td class="error">4000</td>
+                                        <td>1000</td>
+                                    </tr>
+                                </table><a href="#table-info" class="accordion-toggle" data-toggle="collapse"><i class="icon-info-sign"></i></a>
+                        </div>
+                        <div class="row-fluid accordion collapse" id="table-info">
+                            <p class="text-info"><small>Her vises hvor mye andre skylder deg totalt, hvor mye du skylder andre totalt, og differansen mellom disse to tallene</small></p>
+                        </div>
+                    </div>
+                </div>
+                <canvas id="myChart" width="450" height="200"></canvas>
+            </section>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="row-fluid">
+        <div class="span12">
+            <section class="overview">
+                <h2>Siste aktivitet</h2>
+                <div class="lastactivity">
+
+                   <div class="row-fluid act443 activity">
+                        <div class="span5">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Mer kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    delt på
+                                </div>
+                                <div class="span8">
+                                    <small>
+                                    Stian, Dennis, Trine
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    kategori
+                                </div>
+                                <div class="span8">
+                                    Mat
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    når
+                                </div>
+                                <div class="span9">
+                                    2013-04-14
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    sum
+                                </div>
+                                <div class="span9">
+                                    583 kr
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span1">
+                            <div class="row-fluid">
+                                <a href="http://i.imgur.com/0I6SHwu.jpg" target="_blank"><i class="icon-picture"></i></a>
+                            </div>
+                            <div class="row-fluid info">
+                                <a href="/edit/LONGID">[edit]</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span5">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">for</div>
+                                <div class="span10">Robert Joramo</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10 info">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Mer kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    delt på
+                                </div>
+                                <div class="span8">
+                                    <small>
+                                    Stian, Dennis, Trine
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    kategori
+                                </div>
+                                <div class="span8">
+                                    Mat
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    når
+                                </div>
+                                <div class="span9">
+                                    2013-04-14
+                                </div>
+                            </div>
+                            <div class="row-fluid">&nbsp;</div>
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    sum
+                                </div>
+                                <div class="span9">
+                                    583 kr
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span1">
+                            <div class="row-fluid">
+                                <a href="http://i.imgur.com/0I6SHwu.jpg" target="_blank"><i class="icon-picture"></i></a>
+                            </div>
+                            <div class="row-fluid">&nbsp;</div>
+                            <div class="row-fluid info">
+                                <a href="/edit/LONGID">[edit]</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                   <div class="row-fluid act443 activity">
+                        <div class="span5">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Mer kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    delt på
+                                </div>
+                                <div class="span8">
+                                    <small>
+                                    Stian, Dennis, Trine
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    kategori
+                                </div>
+                                <div class="span8">
+                                    Mat
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    når
+                                </div>
+                                <div class="span9">
+                                    2013-04-14
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    sum
+                                </div>
+                                <div class="span9">
+                                    583 kr
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span1">
+                            <div class="row-fluid">
+                                <a href="http://i.imgur.com/0I6SHwu.jpg" target="_blank"><i class="icon-picture"></i></a>
+                            </div>
+                            <div class="row-fluid info">
+                                <a href="/edit/LONGID">[edit]</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span5">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">for</div>
+                                <div class="span10">Robert Joramo</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10 info">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Mer kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    delt på
+                                </div>
+                                <div class="span8">
+                                    <small>
+                                    Stian, Dennis, Trine
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    kategori
+                                </div>
+                                <div class="span8">
+                                    Mat
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    når
+                                </div>
+                                <div class="span9">
+                                    2013-04-14
+                                </div>
+                            </div>
+                            <div class="row-fluid">&nbsp;</div>
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    sum
+                                </div>
+                                <div class="span9">
+                                    583 kr
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span1">
+                            <div class="row-fluid">
+                                <a href="http://i.imgur.com/0I6SHwu.jpg" target="_blank"><i class="icon-picture"></i></a>
+                            </div>
+                            <div class="row-fluid">&nbsp;</div>
+                            <div class="row-fluid info">
+                                <a href="/edit/LONGID">[edit]</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span5">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Mer kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    delt på
+                                </div>
+                                <div class="span8">
+                                    <small>
+                                    Stian, Dennis, Trine
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    kategori
+                                </div>
+                                <div class="span8">
+                                    Mat
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    når
+                                </div>
+                                <div class="span9">
+                                    2013-04-14
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    sum
+                                </div>
+                                <div class="span9">
+                                    583 kr
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span1">
+                            <div class="row-fluid">
+                                <a href="http://i.imgur.com/0I6SHwu.jpg" target="_blank"><i class="icon-picture"></i></a>
+                            </div>
+                            <div class="row-fluid info">
+                                <a href="/edit/LONGID">[edit]</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span5">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">for</div>
+                                <div class="span10">Robert Joramo</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10 info">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Mer kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    delt på
+                                </div>
+                                <div class="span8">
+                                    <small>
+                                    Stian, Dennis, Trine
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span4 info text-right">
+                                    kategori
+                                </div>
+                                <div class="span8">
+                                    Mat
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    når
+                                </div>
+                                <div class="span9">
+                                    2013-04-14
+                                </div>
+                            </div>
+                            <div class="row-fluid">&nbsp;</div>
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">
+                                    sum
+                                </div>
+                                <div class="span9">
+                                    583 kr
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span1">
+                            <div class="row-fluid">
+                                <a href="http://i.imgur.com/0I6SHwu.jpg" target="_blank"><i class="icon-picture"></i></a>
+                            </div>
+                            <div class="row-fluid">&nbsp;</div>
+                            <div class="row-fluid info">
+                                <a href="/edit/LONGID">[edit]</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span8">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">prosjekt</div>
+                                <div class="span10"><a href="/kurt/Kollektivet">kurt/<strong>Kollektivet</strong></a></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Stol!</div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">når</div>
+                                <div class="span9">2013-04-12 15:11</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">&nbsp;</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span1"><a href="http://i.imgur.com/PZzttmu.png" target="_blank"><i class="icon-picture"></i></a></div>
+                                <div class="span4 info text-right">sum</div>
+                                <div class="span7">105 kr</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span8">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">prosjekt</div>
+                                <div class="span10"><a href="/kurt/Kollektivet">kurt/<strong>Kollektivet</strong></a></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Kurt Iversen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Kjøpte no iskrem</div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">når</div>
+                                <div class="span9">2013-04-10 15:22</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">&nbsp;</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span1">&nbsp;</div>
+                                <div class="span4 info text-right">sum</div>
+                                <div class="span7">55 kr</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span8">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">prosjekt</div>
+                                <div class="span10"><a href="/dennisse/hyttetur">dennisse/<strong>hyttetur</strong></a></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Dennis Eriksen</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">En halvspist osteskive med kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">når</div>
+                                <div class="span9">2013-04-04 22:39</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">&nbsp;</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span1">&nbsp;</div>
+                                <div class="span4 info text-right">sum</div>
+                                <div class="span7">23 kr</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span8">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">prosjekt</div>
+                                <div class="span10"><a href="/dennisse/hyttetur">dennisse/<strong>hyttetur</strong></a></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Robert Joramo</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">kaviar</div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">når</div>
+                                <div class="span9">2013-04-04 22:37</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">&nbsp;</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span1">&nbsp;</div>
+                                <div class="span4 info text-right">sum</div>
+                                <div class="span7">5433 kr</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row-fluid act443 activity">
+                        <div class="span8">
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">prosjekt</div>
+                                <div class="span10"><a href="/turidl/Kosekveldene">turidl/<strong>Kosekveldene</strong></a></div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">av</div>
+                                <div class="span10">Kurt Sanandreas</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span2 info text-right">hva</div>
+                                <div class="span10">Tok med Turiid på restaurant og hadde det kjempekoselig. Var litt dyrt, men verdt det!</div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="row-fluid">
+                                <div class="span3 info text-right">når</div>
+                                <div class="span9">2013-03-05 11:48</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">&nbsp;</div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span1"><a href="http://i.imgur.com/qYL2mLb.jpg" target="_blank"><i class="icon-picture"></i></a></div>
+                                <div class="span4 info text-right">sum</div>
+                                <div class="span7">534 kr</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div><!-- /div.span7 -->
+
+
+    </div><!-- /div.row -->
+    </div><!-- /div.#wrapper -->
+
+
+<% include footer %>
+    <script src="/js/Chart.min.js"></script>
+    <script>
+        var data = {
+            labels : ["January","February","March","April","May","June","July"],
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    data : [65,59,90,81,56,55,40]
+                },
+                {
+                    fillColor : "rgba(151,187,205,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    data : [0,25,10,100,10,25,0]
+                }
+            ]
+        }
+        //var myLine = new Chart(document.getElementById("myChart").getContext("2d")).Line(data);
+        var ctx = $("#myChart").get(0).getContext("2d");
+        var myNewChart = new Chart(ctx).Line(data);
+    </script>
+</body>
+</html>

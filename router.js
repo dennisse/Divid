@@ -80,7 +80,9 @@ module.exports = function(app) {
      * '/project'
     */
 
-
+    app.get('/project', function(req, res) {
+        res.render('project', { title: 'Harepus', loggedin: true });
+    })
 
 
 
