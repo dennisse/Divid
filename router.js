@@ -74,6 +74,16 @@ module.exports = function(app) {
         })(req, res, next);
     });
 
+    /*
+     * GET project page
+     *
+     * '/project'
+    */
+
+
+
+
+
 
 
     /*

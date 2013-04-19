@@ -97,6 +97,21 @@ section.content {
     background-color: @grayLighter;
 }
 
+section.status table {
+    width: 80%;
+    margin-bottom: 0;
+    float: left;
+}
+section.status table tr td {
+    text-align: center;
+}
+section.status table tr td.success {
+    background-color: @successBackground;
+}
+section.status table tr td.error {
+    background-color: @errorBackground;
+}
+section.status i { margin: 5px; }
 
 section.projects section.project {
     margin: 10px 0;
@@ -115,8 +130,8 @@ section.projects section.project h1 {
     font-weight: normal;
     line-height: @baseLineHeight;
 }
-section.projects section.project .row-fluid {
-    min-height: 50px;
+section.projects section.project .row-fluid [class*="span"] {
+    min-height: 0;
 }
 section.projects section.project .span11 {
     padding: 5px;
@@ -135,12 +150,6 @@ section.projects a.btn-large {
     border: 2px solid @grayLight;
 }
 
-section.projects section.project h1 .username {
-    color: @grayLight;
-}
-section.projects section.project .participants {
-    font-size: @fontSizeSmall;
-}
 
 section.overview .lastactivity {
     background-color: @grayLighter;
