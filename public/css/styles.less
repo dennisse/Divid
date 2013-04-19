@@ -152,7 +152,6 @@ section.projects a.btn-large {
 
 
 section.overview .lastactivity {
-    background-color: @grayLighter;
     -webkit-border-radius: @borderRadiusLarge;
        -moz-border-radius: @borderRadiusLarge;
             border-radius: @borderRadiusLarge;
@@ -161,7 +160,6 @@ section.overview .lastactivity {
 
 section.overview .lastactivity > .activity {
     border-bottom: 1px solid @grayLight;
-    margin-bottom: 5px;
 }
 section.overview .lastactivity > .activity:last-child {
     border-bottom: none;
@@ -174,6 +172,21 @@ section.overview .lastactivity > .activity [class*="span"] {
 }
 section.overview .lastactivity > .activity [class*="span"] > .row-fluid [class*="span"] {
     min-height: 0;
+}
+
+.lastactivity .activity:nth-child(even) {
+    background-color: @grayLighter;
+}
+
+div.lastactivity .activity .details {
+    background-color: @infoBackground;
+}
+
+.text-small {
+    font-size: @fontSizeSmall;
+}
+.no-text-decoration:hover {
+    text-decoration: none;
 }
 
 #vertical(@startColor: #555, @endColor: #333) {
