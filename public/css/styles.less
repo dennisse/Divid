@@ -1,83 +1,101 @@
 /*
  * Divid stylesheet
  */
-body {
-  margin-top: 40px;
-}
-section.content {
-  padding: 30px 5px 5px;
-}
-#login-form {
-  display: block;
-  float: right;
-  margin: 10px 0 0;
-  color: #eeeeee;
-}
-#login-form input {
-  background-color: rgba(0, 0, 0, 0);
-}
-#login-form .input-prepend .add-on {
-  background-color: #222222;
-}
-#login-form .btn {
-  margin-top: -2px;
-}
-#login-form .form-horizontal .control-group:last-child {
-  margin-bottom: 100px;
-}
-#top-navbar {
-  min-height: 40px;
-  vertical-align: 100px;
-  /*    background: rgba(red(@top-navbar-bgColor),green(@top-navbar-bgColor),blue(@top-navbar-bgColor),0.9);
-*/
 
-  background-color: rgba(0, 0, 0, 0.74);
-  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.9)), to(rgba(0, 0, 0, 0.5)));
-  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
-  background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6000000', endColorstr='#80000000', GradientType=0);
+//Imports the bootstrap-variables
+@import "variables.less";
+
+// The rest comes here
+
+body {
+    margin-top: @navbarHeight;
 }
+
+section.content {
+    padding: 30px 5px 5px;
+}
+
+#login-form {
+    display: block;
+    float:right;
+    margin: 10px 0 0;
+    color: @grayLighter;
+}
+
+#login-form  input {
+    background-color: rgba(0,0,0,0);
+}
+
+#login-form .input-prepend .add-on {
+    background-color: @grayDarker;
+}
+
+#login-form .btn {
+    margin-top: -2px;
+}
+
+#login-form .form-horizontal .control-group:last-child {
+    margin-bottom: 100px;
+}
+
+@top-navbar-bgColor: @black;
+
+#top-navbar {
+
+    min-height: 40px;
+    vertical-align: 100px;
+/*    background: rgba(red(@top-navbar-bgColor),green(@top-navbar-bgColor),blue(@top-navbar-bgColor),0.9);
+*/
+    #vertical(rgba(red(@top-navbar-bgColor),green(@top-navbar-bgColor),blue(@top-navbar-bgColor),0.9), rgba(red(@top-navbar-bgColor),green(@top-navbar-bgColor),blue(@top-navbar-bgColor),0.5));
+
+    }
+
+.navbar {
+}
+
 .navbar .brand.login {
-  float: right;
-  color: #ffc40d;
+    float: right;
+    color: @yellow;
 }
+
 .bs-docs-sidenav {
-  background-color: #ffffff;
-  width: 200px;
-  top: 150px;
-  padding: 0;
-  margin: 0;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+    background-color: @white;
+    width: 200px;
+    top: 150px;
+    padding: 0;
+    margin: 0;
+
+    -webkit-border-radius: @borderRadiusLarge;
+       -moz-border-radius: @borderRadiusLarge;
+            border-radius: @borderRadiusLarge;
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+       -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+            box-shadow: 0 1px 4px rgba(0,0,0,.065);
 }
+
 .bs-docs-sidenav > li > a {
-  display: block;
-  width: 190px \9;
-  margin: 0 0 -1px;
-  padding: 6px 14px;
-  border: 1px solid #eeeeee;
+    display: block;
+    width: 190px \9;
+    margin: 0 0 -1px;
+    padding: 6px 14px;
+    border: 1px solid @grayLighter;
 }
+
 .bs-docs-sidenav > li:first-child > a {
-  -webkit-border-radius: 6px 6px 0 0;
-  -moz-border-radius: 6px 6px 0 0;
-  border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+       -moz-border-radius: 6px 6px 0 0;
+            border-radius: 6px 6px 0 0;
 }
+
 .bs-docs-sidenav > li:last-child > a {
-  -webkit-border-radius: 0 0 6px 6px;
-  -moz-border-radius: 0 0 6px 6px;
-  border-radius: 0 0 6px 6px;
+    -webkit-border-radius: 0 0 6px 6px;
+       -moz-border-radius: 0 0 6px 6px;
+            border-radius: 0 0 6px 6px;
 }
+
 .bs-docs-sidenav > li > a:hover {
-  background-color: #eeeeee;
+    background-color: @grayLighter;
 }
-<<<<<<< HEAD
 
 section.status table {
     width: 80%;
@@ -180,100 +198,5 @@ div.lastactivity .activity .details {
     background-image: linear-gradient(to bottom, @startColor, @endColor); // Standard, IE10
     background-repeat: repeat-x;
     filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@startColor),argb(@endColor))); // IE9 and down
-=======
-section.status table {
-  width: 80%;
-  margin-bottom: 0;
-  float: left;
->>>>>>> Changed divid home
 }
-section.status table tr td {
-  text-align: center;
-}
-section.status table tr td.success {
-  background-color: #dff0d8;
-}
-section.status table tr td.error {
-  background-color: #f2dede;
-}
-section.status i {
-  margin: 5px;
-}
-section.projects section.project {
-  margin: 10px 0;
-  padding: 0;
-  border: 2px solid #999999;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
-section.projects section.project h1 {
-  font-size: 17.5px;
-  padding: 0;
-  margin: 0;
-  font-weight: normal;
-  line-height: 20px;
-}
-section.projects section.project .row-fluid [class*="span"] {
-  min-height: 0;
-}
-section.projects section.project .span11 {
-  padding: 5px;
-  border-right: 2px solid #999999;
-}
-section.projects section.project .span1 {
-  display: inline-block;
-  height: 100%;
-  background-color: white;
-  min-height: inherit;
-  font-size: 3em;
-}
-section.projects a.btn-large {
-  font-weight: bold;
-  font-size: 3em;
-  border: 2px solid #999999;
-}
-section.overview .lastactivity {
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-}
-section.overview .lastactivity > .activity {
-  border-bottom: 1px solid #999999;
-}
-section.overview .lastactivity > .activity:last-child {
-  border-bottom: none;
-}
-[class*="span"] .info {
-  font-size: 10.5px;
-  color: #999999;
-}
-section.overview .lastactivity > .activity [class*="span"] > .row-fluid [class*="span"] {
-  min-height: 0;
-}
-.lastactivity .activity:nth-child(even) {
-  background-color: #eeeeee;
-}
-div.lastactivity .activity .details {
-  background-color: #d9edf7;
-}
-.text-small {
-  font-size: 11.9px;
-}
-.no-text-decoration:hover {
-  text-decoration: none;
-}
-.span4 {
-background-color:#F7F6F6;
-}
-.hero-unit{
-  Width:900px;
-  Height:500px;
-  background: -moz-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%, rgba(181,197,216,1) 57%);
-  background: -webkit-gradient(radial, top left, 0px, top left, 100%, color-stop(0%,rgba(105,155,200,1)), color-stop(57%,rgba(181,197,216,1)));
-  background: -webkit-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
-  background: -o-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
-  background: -ms-radial-gradient(top left, ellipse cover, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
-  background: radial-gradient(ellipse at top left, rgba(105,155,200,1) 0%,rgba(181,197,216,1) 57%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#699bc8', endColorstr='#b5c5d8',GradientType=1 );
-}
+
