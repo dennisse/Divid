@@ -63,7 +63,7 @@ userSchema.methods.generateRandomToken = function () {
 
 // seed a test user
 var User = mongoose.model('User', userSchema);
-
+/*
 var usr = new User({ username: 'bob', email: 'bob@example.com', password: 'secret' });
 usr.save(function(err) {
     if (err) {
@@ -71,7 +71,7 @@ usr.save(function(err) {
     } else {
         console.log('user: ' + usr.username + + 'saved.');
     }
-})
+})*/
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -96,13 +96,18 @@ passport.serializeUser( function(user, done) {
             }
         });
     }
+    console.log('serializing user');
     if (user._id) { createAccessToken(); }
+    else { done(null, user); }
 });
 
 passport.deserializeUser( function(token, done) {
-    User.findOne( { accessToken: token }, function(err, user) {
-        done(err, user);
-    });
+    console.log('deserializing ' + token.provider);
+    if (token.provider === undefined) {
+        User.findOne( { accessToken: token }, function(err, user) {
+            done(err, user);
+        });
+    } else { done(null, token); }
 });
 
 // Use the LocalStrategy within Passport.
@@ -110,7 +115,7 @@ passport.deserializeUser( function(token, done) {
 //   credentials (in this case, a username and password), and invoke a callback
 //   with a user object.  In the real world, this would query a database;
 //   however, in this example we are using a baked-in set of users.
-/*passport.use(new LocalStrategy(function(username, password, done) {
+passport.use(new LocalStrategy(function(username, password, done) {
     User.findOne({ username: username }, function(err, user) {
         if (err) return done(err);
         if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
@@ -123,26 +128,32 @@ passport.deserializeUser( function(token, done) {
             }
         });
     });
-}));*/
-
-passport.use(new LocalStrategy(function(username, password, done) {
-  User.findOne({ username: username }, function(err, user) {
-    if (err) { return done(err); }
-    if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-    user.comparePassword(password, function(err, isMatch) {
-      if (err) return done(err);
-      if(isMatch) {
-        return done(null, user);
-      } else {
-        return done(null, false, { message: 'Invalid password' });
-      }
-    });
-  });
 }));
 
+// Use the FacebookStrategy within Passport.
+//   Strategies in Passport require a `verify` function, which accept
+//   credentials (in this case, an accessToken, refreshToken, and Facebook
+//   profile), and invoke a callback with a user object.
+passport.use(new FacebookStrategy({
+    clientID: FACEBOOK_APP_ID,
+    clientSecret: FACEBOOK_APP_SECRET,
+    callbackURL: "https://divid.no/auth/facebook/callback"
+}, function(accessToken, refreshToken, profile, done) {
+    // asynchronous verification, for effect...
+    process.nextTick(function() {
+
+        // To keep the example simple, the user's Facebook profile is returned to
+        // represent the logged-in user.  In a typical application, you would want
+        // to associate the Facebook account with a user record in your database,
+        // and return that user instead.
+        return done(null, profile);
+    });
+  }
+));
 
 // to ensure that users are logged in
 function ensureAuthenticated(req, res, next) {
+    console.log('checking to see if authenticated');
     if (req.isAuthenticated()) return next();
     res.redirect('/login');
 }
@@ -193,8 +204,8 @@ module.exports = function(app) {
      * '/dashboard'
      */
 
-    app.get('/dashboard', ensureAuthenticated, function(req, res) {
-        console.log(req.user.username);
+    app.get('/dashboard', function(req, res) {
+        console.log('/dashboard - ' + req.user.username);
         res.render('dashboard', {
                                         title: 'kanin',
                                         loggedin: true
@@ -231,6 +242,27 @@ module.exports = function(app) {
         })(req, res, next);
     });
 
+    // GET /auth/facebook
+    //   Use passport.authenticate() as route middleware to authenticate the
+    //   request.  The first step in Facebook authentication will involve
+    //   redirecting the user to facebook.com.  After authorization, Facebook will
+    //   redirect the user back to this application at /auth/facebook/callback
+    app.get('/auth/facebook', passport.authenticate('facebook'), function(req, res){
+        // The request will be redirected to Facebook for authentication, so this
+        // function will not be called.
+    });
+
+    // GET /auth/facebook/callback
+    //   Use passport.authenticate() as route middleware to authenticate the
+    //   request.  If authentication fails, the user will be redirected back to the
+    //   login page.  Otherwise, the primary route function function will be called,
+    //   which, in this example, will redirect the user to the home page.
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function(req, res) {
+        console.log('/auth/facebook/callback --- ' + req.user.username);
+        res.redirect('/dashboard');
+    });
+
+
 
 
     /*
@@ -240,7 +272,7 @@ module.exports = function(app) {
      */
     app.get('/logout', function(req, res) {
         req.logout();
-        res.redirect('/');
+        res.redirect('/test');
     });
 
 
