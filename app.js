@@ -33,7 +33,6 @@ require('./config/express')(app, config, passport);
 require('./router')(app, config);
 
 
-
 /**
  * Server initiation
  */
