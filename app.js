@@ -17,7 +17,7 @@ var app = express(); // initiates express
 app.configure(function(){
     // this controls the port the application will be running on.
     // by adding 'process.enc.PORT' we enable the app to run on automated systems like heroku
-    app.set('port', process.env.PORT || 8000);
+    app.set('port', process.env.PORT || 3000);
 
     app.set('views', __dirname + '/views'); // sets views to the right directory
     app.set('view engine', 'ejs'); // initiates viewengine. We use EJS, or embedded js - http://embeddedjs.com/
