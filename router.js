@@ -205,7 +205,7 @@ module.exports = function(app) {
      */
 
     app.get('/dashboard', function(req, res) {
-        console.log('/dashboard - ' + req.user.username);
+        console.log('/dashboard - ' + req.user);
         res.render('dashboard', {
                                         title: 'kanin',
                                         loggedin: true
