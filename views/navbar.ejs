@@ -30,7 +30,7 @@
                                     </label>
                                 </div>
                                 <div class="span5">
-                                    <button type="submit" class="btn btn-inverse btn-small">Logg inn</button><a href="/login/facebook">f</a>
+                                    <button type="submit" class="btn btn-inverse btn-small">Logg inn</button><a href="/auth/facebook">f</a>
                                 </div>
                             </div>
                         </form>
@@ -54,7 +54,7 @@
                         </ul>
                     </div>
                     <% if(!loggedin) { %><a class="brand login" data-toggle="collapse" data-target=".login-collapse" href="#login">Logg inn</a>
-                    <% } else { %><a class="brand login">Logg ut</a>
+                    <% } else { %><a href="/logout" class="brand login">Logg ut</a>
                     <% } %>
                 </div>
             </div>
