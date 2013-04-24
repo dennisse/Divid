@@ -191,7 +191,6 @@ module.exports = function(app) {
      */
 
     app.get('/dashboard', function(req, res) {
-        ensureAuthenticated();
             res.render('dashboard', {
                                         title: 'kanin',
                                         loggedin: true
