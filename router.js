@@ -1,10 +1,13 @@
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
+  , FacebookStrategy = require('passport-facebook').Strategy
   , mongodb = require('mongodb')
   , mongoose = require('mongoose')
   , bcrypt = require('bcrypt')
   , SALT_WORK_FACTOR = 15;
 
+var FACEBOOK_APP_ID = "504825706245603";
+var FACEBOOK_APP_SECRET = "e5ea0faed85d8749cafd38732530ef35";
 
 // connects to mongodb
 mongoose.connect('localhost', 'test');
@@ -190,8 +193,9 @@ module.exports = function(app) {
      * '/dashboard'
      */
 
-    app.get('/dashboard', function(req, res) {
-            res.render('dashboard', {
+    app.get('/dashboard', ensureAuthenticated, function(req, res) {
+        console.log(req.user.username);
+        res.render('dashboard', {
                                         title: 'kanin',
                                         loggedin: true
                                     });
