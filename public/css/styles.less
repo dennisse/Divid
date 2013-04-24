@@ -11,7 +11,11 @@ body {
     margin-top: @navbarHeight;
 	background-color:white;
 }
-
+@media (max-width: 767px) {
+    body {
+        margin-top: 0;
+    }
+}
 section.content {
     padding: 30px 5px 5px;
 }
@@ -169,6 +173,11 @@ section.overview .lastactivity > .activity [class*="span"] {
 [class*="span"] .info {
     font-size: @fontSizeMini;
     color: @grayLight;
+}
+@media (max-width: 480px) {
+    [class*="span"] .info {
+        text-align: left;
+    }
 }
 section.overview .lastactivity > .activity [class*="span"] > .row-fluid [class*="span"] {
     min-height: 0;
