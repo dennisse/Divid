@@ -6,8 +6,6 @@ var passport = require('passport')
   , bcrypt = require('bcrypt')
   , SALT_WORK_FACTOR = 15;
 
-var FACEBOOK_APP_ID = "504825706245603";
-var FACEBOOK_APP_SECRET = "e5ea0faed85d8749cafd38732530ef35";
 
 // connects to mongodb
 mongoose.connect('localhost', 'test');
@@ -135,9 +133,9 @@ passport.use(new LocalStrategy(function(username, password, done) {
 //   credentials (in this case, an accessToken, refreshToken, and Facebook
 //   profile), and invoke a callback with a user object.
 passport.use(new FacebookStrategy({
-    clientID: FACEBOOK_APP_ID,
-    clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "https://divid.no/auth/facebook/callback"
+    clientID: config.facebook.clientID,
+    clientSecret: config.facebook.clientSecret,
+    callbackURL: config.facebook.callbackURL
 }, function(accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
     process.nextTick(function() {

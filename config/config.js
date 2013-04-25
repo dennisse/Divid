@@ -8,6 +8,11 @@ module.exports = {
         root: rootPath,
         app: {
             name: 'Divid'
+        },
+        facebook: {
+            clientID: "504825706245603",
+            clientSecret: "e5ea0faed85d8749cafd38732530ef35",
+            callbackURL: "https://divid.no/auth/facebook/callback"
         }
     }
 }
