@@ -38,25 +38,26 @@
                 </div>
                 <% } %>
                 <div class="row">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
                     <img class="logo" src="/img/dividlogo.png" href="#">
                     <!--<a class="brand" href="#">Divid</a>--!>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <% if(!loggedin) { %><a class="brand login" data-toggle="collapse" data-target=".login-collapse" href="#login">Logg inn</a>
+                        <% } else { %><a href="/logout" class="brand login">Logg ut</a>
+                        <% } %>
+                    </div>
                     <div class="nav-collapse collapse">
                         <ul class="nav menu">
                             <li><a href="#signup">Registrer</a></li>
                             <li><a href="#kontakt">Kontakt</a></li>
-							<li><a href="#dashboard">Dashboard</a></li>
-                               
+                            <li><a href="#dashboard">Dashboard</a></li>
                         </ul>
                     </div>
-                    <% if(!loggedin) { %><a class="brand login" data-toggle="collapse" data-target=".login-collapse" href="#login">Logg inn</a>
-                    <% } else { %><a href="/logout" class="brand login">Logg ut</a>
-                    <% } %>
                 </div>
             </div>
         </div>
