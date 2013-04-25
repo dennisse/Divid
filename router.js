@@ -1,6 +1,4 @@
 var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy
-  , FacebookStrategy = require('passport-facebook').Strategy
   , mongodb = require('mongodb')
   , mongoose = require('mongoose')
   , bcrypt = require('bcrypt')
@@ -108,46 +106,6 @@ passport.deserializeUser( function(token, done) {
     } else { done(null, token); }
 });
 
-// Use the LocalStrategy within Passport.
-//   Strategies in passport require a `verify` function, which accept
-//   credentials (in this case, a username and password), and invoke a callback
-//   with a user object.  In the real world, this would query a database;
-//   however, in this example we are using a baked-in set of users.
-passport.use(new LocalStrategy(function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-        if (err) return done(err);
-        if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-        user.comparePassword(password, function(err, isMatch) {
-            if (err) return done(err);
-            if (isMatch) {
-                return done(null, user);
-            } else {
-                return done(null, false, { message: 'Invalid password' });
-            }
-        });
-    });
-}));
-
-// Use the FacebookStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Facebook
-//   profile), and invoke a callback with a user object.
-passport.use(new FacebookStrategy({
-    clientID: config.facebook.clientID,
-    clientSecret: config.facebook.clientSecret,
-    callbackURL: config.facebook.callbackURL
-}, function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function() {
-
-        // To keep the example simple, the user's Facebook profile is returned to
-        // represent the logged-in user.  In a typical application, you would want
-        // to associate the Facebook account with a user record in your database,
-        // and return that user instead.
-        return done(null, profile);
-    });
-  }
-));
 
 // to ensure that users are logged in
 function ensureAuthenticated(req, res, next) {
