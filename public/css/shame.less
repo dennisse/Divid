@@ -4,14 +4,15 @@
 
 //Imports the bootstrap-variables
 @import "variables.less";
-
+//imports the functions from bootstrap
+@import "bootstrapless/mixins.less";
 // The rest comes here
 
 body {
     margin-top: @navbarHeight;
 	background-color:white;
 }
-@media (max-width: 767px) {
+@media (max-width: @navbarCollapseWidth) {
     body {
         margin-top: 0;
     }
@@ -57,8 +58,10 @@ section.content {
 .nav .menu{
 color: #FF9A00;
 }
-.navbar .brand.login {
+.navbar div.brand {
     float: right;
+}
+.navbar a.brand {
     color: #FF9A00;
 }
 
@@ -191,6 +194,20 @@ div.lastactivity .activity .details {
     background-color: @infoBackground;
 }
 
+.lastactivity .activity .date {
+    width: 30px;
+}
+.lastactivity .activity .date .row-fluid { text-align: center; }
+.lastactivity .activity .date .row-fluid:first-child {
+    background-color: @gray;
+    color: @white;
+}
+.lastactivity .activity .date .row-fluid:nth-child(2) {
+    background-color: @grayLight;
+    color: @black;
+    line-height: 12px;
+}
+
 .text-small {
     font-size: @fontSizeSmall;
 }
@@ -198,65 +215,29 @@ div.lastactivity .activity .details {
     text-decoration: none;
 }
 
-#vertical(@startColor: #555, @endColor: #333) {
-    background-color: mix(@startColor, @endColor, 60%);
-    background-image: -moz-linear-gradient(top, @startColor, @endColor); // FF 3.6+
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@startColor), to(@endColor)); // Safari 4+, Chrome 2+
-    background-image: -webkit-linear-gradient(top, @startColor, @endColor); // Safari 5.1+, Chrome 10+
-    background-image: -o-linear-gradient(top, @startColor, @endColor); // Opera 11.10
-    background-image: linear-gradient(to bottom, @startColor, @endColor); // Standard, IE10
-    background-repeat: repeat-x;
-    filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",argb(@startColor),argb(@endColor))); // IE9 and down
+@media (max-width: 480px) {
+    canvas { display: none; }
 }
 
-.infobox {
-	text-align:center;
-	/*color:white;*/
-	background-color: @grayLighter;
-	margin:15px;
-	padding:35px;
-	height: 220px;
-	-webkit-border-radius: 15px;
-        -moz-border-radius: 15px;
-            border-radius: 15px;
+@media(max-width: 767px) {
+    #grid > .fluid(@fluidGridColumnWidth768, @fluidGridGutterWidth768);
+    .row-fluid .smallfullwidth {
+        width: 100%;
+        margin-left: 0;
+        text-align: left;
+    }
+    .smallfullwidthh [class*="span"] {
+        width: 100%;
+        margin-left: 0;
+        text-align: left;
+    }
+    body {
+        padding: 0 5px;
+    }
+    .navbar-fixed-top {
+        margin: 0 -5px;
+    }
 }
 
-.registrer {
-margin-left: 20px;
-background-color: #FF9A00;
-}
 
-.infobtn {
-}
-
-.showcase {
-    width:1200px;
-	height:400px;
-	margin-top: 20px;
-	margin-bottom:20px;
-	padding:10px;
-	background-color: @grayLighter;
-	/*background-image: url('/img/people.png');
-	background-repeat:no-repeat;
-	background-attachment:fixed;
-	background-position:center;*/
-    -webkit-border-radius: 6px;
-        -moz-border-radius: 6px;
-            border-radius: 6px;
-}
-
-.logo {
-float: left;
-padding: -10px -20px -10px;
-margin-left: 20;
-}
-
-.marketbtn {
-margin: 5px;
-position: relative;
-}
-
-.tutorial {
-
-}
-
+@import "use.less";
