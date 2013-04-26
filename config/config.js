@@ -15,8 +15,8 @@ module.exports = {
             callbackURL: "https://divid.no/auth/facebook/callback"
         },
         twitter: {
-            clientID: "CONSUMER KEY",
-            clientSecret: "CONSUMER SECRET",
+            clientID: "tpCfKBUyAfogTpFxnb9w",
+            clientSecret: "abzInK4Nu0IFUhyXl73O2XjlFLFlzmBtLmbXk6v8",
             callbackURL: "https://divid.no/auth/twitter/callback"
         }
     }
