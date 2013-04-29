@@ -20,8 +20,6 @@ var ProjectSchema = new Schema({
     updated: { type: Date, default: Date.now }
 });
 
-console.log(Schema.ObjectId);
-
 
 // the four validations below only apply if you are signing up traditionally
 
