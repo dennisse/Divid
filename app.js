@@ -2,58 +2,54 @@
 /**
  * Module dependencies.
  */
-
 var express = require('express')
-  , path = require('path')
-  , bcrypt = require('bcrypt')
+    , fs = require('fs')
   , passport = require('passport');
-
-var app = express(); // initiates express
 
 /**
  * App configuration
  */
+var port = process.env.PORT || 8000
+  , env = process.env.NODE_ENV || 'development'
+  , config = require('./config/config')[env]
+  , auth = require('./config/middlewares/authorization')
+  , mongoose = require('mongoose');
 
-app.configure(function(){
-    // this controls the port the application will be running on.
-    // by adding 'process.enc.PORT' we enable the app to run on automated systems like heroku
-    app.set('port', process.env.PORT || 8001);
-
-    app.set('views', __dirname + '/views'); // sets views to the right directory
-    app.set('view engine', 'ejs'); // initiates viewengine. We use EJS, or embedded js - http://embeddedjs.com/
-    app.use(express.favicon(__dirname + '/public/faviconb.ico')); // sets favicon
-    app.use(express.logger('dev'));
-    app.use(express.bodyParser());
-    app.use(express.cookieParser());
-    app.use(express.session({ secret: 'lsdrghoi4hgqio42nqf2uqi32f3bilu23fl23b' }));
-    app.use(express.methodOverride());
-    app.use(require('less-middleware')({ src: __dirname + '/public' }));
-    app.use(express.static(path.join(__dirname, 'public')));
-    app.use(passport.initialize());
-    app.use(passport.session());
+// Bootstrap db connection
+mongoose.connect(config.db);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback(){
+    console.log('Connected to MongoDB');
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
+// Bootstrap models
+var models_path = __dirname + '/models';
+fs.readdirSync(models_path).forEach( function(file) {
+    require(models_path + '/' + file);
 });
 
+// Bootstrap passport config
+require('./config/passport')(passport, config);
+
+/**
+ * Express
+ */
+var app = express();
+// express settings
+require('./config/express')(app, config, passport);
 
 
 /**
  * Routes
  */
-
-require('./router')(app);
-
+require('./router')(app, passport, auth);
 
 
 /**
  * Server initiation
  */
-
-app.listen(app.get('port'), function() {
-    console.log("Express server listening on port " + app.get('port'));
+app.listen(port, function() {
+    console.log("Express server listening on port " + port);
 });
-
-
 

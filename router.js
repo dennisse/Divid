@@ -1,162 +1,11 @@
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy
-  , FacebookStrategy = require('passport-facebook').Strategy
-  , mongodb = require('mongodb')
-  , mongoose = require('mongoose')
-  , bcrypt = require('bcrypt')
-  , SALT_WORK_FACTOR = 15;
 
-var FACEBOOK_APP_ID = "504825706245603";
-var FACEBOOK_APP_SECRET = "e5ea0faed85d8749cafd38732530ef35";
+/**
+ * Dependencies
+ */
 
-// connects to mongodb
-mongoose.connect('localhost', 'test');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback(){
-    console.log('Connected to MongoDB');
-});
+var users = require('./controllers/users')
+  , system = require('./controllers/system');
 
-// user scheme
-var userSchema = mongoose.Schema({
-    username:   { type: String, required: true, unique: true },
-    email:      { type: String, required: true, unique: true },
-    password:   { type: String, required: true }, //passwords doesn't need to be unique
-    accessToken:{ type: String } // used for Remember Me
-});
-
-// bcrypt middleware
-userSchema.pre('save', function(next) {
-    var user = this;
-
-    if (!user.isModified('password')) return next();
-
-    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-        if(err) return next(err);
-
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            user.password = hash;
-            next();
-        });
-    });
-});
-
-// password verification
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
-};
-
-// remember me implementation
-userSchema.methods.generateRandomToken = function () {
-    var user = this,
-        chars = "_!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-        token = new Date().getTime() + '_';
-    for (var x = 0; x < SALT_WORK_FACTOR; x++) {
-        var i = Math.floor(Math.random() * 94);
-        token += chars.charAt(i);
-    }
-    return token;
-};
-
-// seed a test user
-var User = mongoose.model('User', userSchema);
-/*
-var usr = new User({ username: 'bob', email: 'bob@example.com', password: 'secret' });
-usr.save(function(err) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log('user: ' + usr.username + + 'saved.');
-    }
-})*/
-
-// Passport session setup.
-//   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.
-//
-//   Both serializer and deserializer edited for Remember Me functionality
-passport.serializeUser( function(user, done) {
-    var createAccessToken = function() {
-        var token = user.generateRandomToken();
-        User.findOne( { accessToken: token }, function (err, existingUser) {
-            if (err) return done(err);
-            if (existingUser) {
-                createAccessToken(); //run it again. has to be unique
-            } else {
-                user.set('accessToken', token);
-                user.save( function(err) {
-                    if (err) return done(err);
-                    return done(null, user.get('accessToken'));
-                });
-            }
-        });
-    }
-    console.log('serializing user');
-    if (user._id) { createAccessToken(); }
-    else { done(null, user); }
-});
-
-passport.deserializeUser( function(token, done) {
-    console.log('deserializing ' + token.provider);
-    if (token.provider === undefined) {
-        User.findOne( { accessToken: token }, function(err, user) {
-            done(err, user);
-        });
-    } else { done(null, token); }
-});
-
-// Use the LocalStrategy within Passport.
-//   Strategies in passport require a `verify` function, which accept
-//   credentials (in this case, a username and password), and invoke a callback
-//   with a user object.  In the real world, this would query a database;
-//   however, in this example we are using a baked-in set of users.
-passport.use(new LocalStrategy(function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-        if (err) return done(err);
-        if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-        user.comparePassword(password, function(err, isMatch) {
-            if (err) return done(err);
-            if (isMatch) {
-                return done(null, user);
-            } else {
-                return done(null, false, { message: 'Invalid password' });
-            }
-        });
-    });
-}));
-
-// Use the FacebookStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Facebook
-//   profile), and invoke a callback with a user object.
-passport.use(new FacebookStrategy({
-    clientID: FACEBOOK_APP_ID,
-    clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "https://divid.no/auth/facebook/callback"
-}, function(accessToken, refreshToken, profile, done) {
-    // asynchronous verification, for effect...
-    process.nextTick(function() {
-
-        // To keep the example simple, the user's Facebook profile is returned to
-        // represent the logged-in user.  In a typical application, you would want
-        // to associate the Facebook account with a user record in your database,
-        // and return that user instead.
-        return done(null, profile);
-    });
-  }
-));
-
-// to ensure that users are logged in
-function ensureAuthenticated(req, res, next) {
-    console.log('checking to see if authenticated');
-    if (req.isAuthenticated()) return next();
-    res.redirect('/login');
-}
 
 /*
  * ============================================================
@@ -164,89 +13,24 @@ function ensureAuthenticated(req, res, next) {
  *
  */
 
+module.exports = function(app, passport, auth) {
+    app.get('/', system.index);
+
+    app.get('/test', system.test);
+
+    app.get('/home', system.home);
+
+    app.get('/faq', system.faq);
 
 
-module.exports = function(app) {
-    /*
-     * GET home page.
-     *
-     * '/'
-     */
-
-    app.get('/', function(req, res){
-        res.render('index', { title: 'DERS' });
-    });
-
-    /*
-     * GET TEST PAGE
-     *
-     * '/test'
-     */
-
-    app.get('/test', function(req, res) {
-        res.render('test', {
-            title: 'test',
-            loggedin: false
-        });
-    });
-
-    app.get('/home', function(req, res) {
-        res.render('home', {
-            title: 'home',
-            loggedin: false
-        });
-    });
-
-	app.get('/faq', function(req, res) {
-        res.render('faq', {
-            title: 'faq',
-            loggedin: false
-        });
-    });
-
-    /*
-     * GET dashboard
-     *
-     * '/dashboard'
-     */
-
-    app.get('/dashboard', function(req, res) {
-        console.log('/dashboard - ' + req.user);
-        res.render('dashboard', {
-                                        title: 'kanin',
-                                        loggedin: true
-                                    });
-    });
+    app.get('/dashboard', system.dashboard);
 
 
-
-    /*
-     * GET login page
-     *
-     * '/login'
-     */
-
-    app.get('/login', function(req, res) {
-            res.render('login', { title: 'Logg inn' });
-    });
+    app.get('/login', users.login);
 
 
-    /* POST */
+    app.post('/login', users.signin);
 
-    app.post('/login', function(req, res, next) {
-        passport.authenticate('local', function(err, user, info) {
-            if (err) return next(err);
-            if (!user) {
-                console.log(info.message);
-                req.session.messages = [info.message];
-                return res.redirect('/login');
-            }
-            req.logIn(user, function(err) {
-                if (err) return next(err);
-                return res.redirect('/dashboard');
-            })
-        })(req, res, next);
-    });
 
     // GET /auth/facebook
     //   Use passport.authenticate() as route middleware to authenticate the
@@ -267,19 +51,15 @@ module.exports = function(app) {
         console.log('/auth/facebook/callback --- ' + req.user.username);
         res.redirect('/dashboard');
     });
-
-
-
+    app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/login' }), users.signin);
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), users.authCallback);
 
     /*
      * GET logout
      *
      * '/logout'
      */
-    app.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect('/test');
-    });
+    app.get('/logout', users.logout);
 
 
 
@@ -290,11 +70,7 @@ module.exports = function(app) {
      * '/project'
     */
 
-    app.get('/project', function(req, res) {
-        res.render('project', { title: 'Harepus', loggedin: true });
-    })
-
-
+    app.get('/project', system.project);
 
 
 
@@ -304,46 +80,12 @@ module.exports = function(app) {
      * '/signup'
      */
 
-    app.get('/signup', function(req, res) {
-        res.render('signup', { title: 'Registrer deg' });
-    });
+    app.get('/signup', users.signup);
 
 
     /* POST */
 
-    app.post('/signup', function(req, res) {
-        AM.addNewAccount({
-            name    : req.param('name'),
-            email   : req.param('email'),
-            user    : req.param('user'),
-            pass    : req.param('pass'),
-            country : req.param('country')
-        }, function(e) {
-            if (e) {
-                res.send(e, 400);
-            } else {
-                res.send('ok', 200);
-            }
-        });
-    });
-
-
-
-
-
-    /*
-     * ERRORS
-     */
-
-    /* 404 */
-    app.get('*', function(req, res) {
-        res.render('error', { title: '404', text: 'Fant ikke siden' });
-    });
-
-    /* 403 on POST */
-    app.post('*', function(req, res) {
-        res.render('error', { title: '403', text: 'Du har ikke tilgang til denne siden' });
-    });
+    app.post('/signup', users.create);
 
 
 };
