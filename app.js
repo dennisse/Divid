@@ -21,7 +21,11 @@ var port = process.env.PORT || 8000
 
 // Bootstrap db connection
 mongoose.connect(config.db);
-
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback(){
+    console.log('Connected to MongoDB');
+});
 
 // Bootstrap models
 var models_path = __dirname + '/models';

@@ -9,7 +9,6 @@ var mongoose = require('mongoose')
 /**
  * Login
  */
-
 exports.login = function(req, res) {
     res.render('login', {
         title: 'Login'
@@ -21,8 +20,7 @@ exports.login = function(req, res) {
 /**
  * Logout
  */
-
-exports.logoug = function(req, res) {
+exports.logout = function(req, res) {
     req.logout();
     res.resirect('/test');
 }
@@ -30,14 +28,21 @@ exports.logoug = function(req, res) {
 
 /**
  * Signin
+ * This is triggered when the user post to /login
  */
-
 exports.signin = function(req, res) {}
+
+
+/**
+ * Signup
+ */
+exports.signup = function(req, res) {
+        res.render('signup', { title: 'Registrer deg' });
+}
 
 /**
  * Create users
  */
-
 exports.create = function(req, res) {
     var user = new User(req.body);
     user.provider = 'local';
