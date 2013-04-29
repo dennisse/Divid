@@ -1,18 +1,16 @@
-var passport = require('passport')
-  , mongodb = require('mongodb')
-  , mongoose = require('mongoose')
-  , bcrypt = require('bcrypt')
-  , SALT_WORK_FACTOR = 15;
+var mongodb = require('mongodb')
+  , mongoose = require('mongoose');
 
+var users = require('./controllers/users');
 
 // connects to mongodb
-mongoose.connect('localhost', 'test');
+//mongoose.connect('localhost', 'test');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback(){
     console.log('Connected to MongoDB');
 });
-
+/*
 // user scheme
 var userSchema = mongoose.Schema({
     username:   { type: String, required: true, unique: true },
@@ -76,6 +74,7 @@ usr.save(function(err) {
 //   the user by ID when deserializing.
 //
 //   Both serializer and deserializer edited for Remember Me functionality
+/*
 passport.serializeUser( function(user, done) {
     var createAccessToken = function() {
         var token = user.generateRandomToken();
@@ -113,7 +112,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) return next();
     res.redirect('/login');
 }
-
+/*
 /*
  * ============================================================
  * Routes
@@ -122,7 +121,7 @@ function ensureAuthenticated(req, res, next) {
 
 
 
-module.exports = function(app) {
+module.exports = function(app, passport, auth) {
     /*
      * GET home page.
      *
@@ -183,10 +182,11 @@ module.exports = function(app) {
 
     /* POST */
 
-    app.post('/login', function(req, res, next) {
+    app.post('/login', users.signin);/* function(req, res, next) {
         passport.authenticate('local', function(err, user, info) {
             if (err) return next(err);
             if (!user) {
+                console.log('post/login');
                 console.log(info.message);
                 req.session.messages = [info.message];
                 return res.redirect('/login');
@@ -196,7 +196,7 @@ module.exports = function(app) {
                 return res.redirect('/dashboard');
             })
         })(req, res, next);
-    });
+    });*/
 
     // GET /auth/facebook
     //   Use passport.authenticate() as route middleware to authenticate the
@@ -217,9 +217,8 @@ module.exports = function(app) {
         console.log('/auth/facebook/callback --- ' + req.user.username);
         res.redirect('/dashboard');
     });
-
-
-
+    app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/login' }), users.signin);
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/login' }), users.authCallback);
 
     /*
      * GET logout
@@ -261,22 +260,7 @@ module.exports = function(app) {
 
     /* POST */
 
-    app.post('/signup', function(req, res) {
-        AM.addNewAccount({
-            name    : req.param('name'),
-            email   : req.param('email'),
-            user    : req.param('user'),
-            pass    : req.param('pass'),
-            country : req.param('country')
-        }, function(e) {
-            if (e) {
-                res.send(e, 400);
-            } else {
-                res.send('ok', 200);
-            }
-        });
-    });
-
+    app.post('/signup', users.create);
 
 
 

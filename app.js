@@ -4,7 +4,7 @@
  */
 
 var express = require('express')
-  , path = require('path')
+    , fs = require('fs')
   , passport = require('passport');
 
 
@@ -13,10 +13,24 @@ var app = express(); // initiates express
 /**
  * App configuration
  */
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 8000
   , env = process.env.NODE_ENV || 'development'
-  , config = require('./config/config')[env];
+  , config = require('./config/config')[env]
+  , auth = require('./config/middlewares/authorization')
+  , mongoose = require('mongoose');
 
+// Bootstrap db connection
+mongoose.connect(config.db);
+
+
+// Bootstrap models
+var models_path = __dirname + '/models';
+fs.readdirSync(models_path).forEach( function(file) {
+    require(models_path + '/' + file);
+});
+
+// Bootstrap passport config
+require('./config/passport')(passport, config);
 
 /**
  * Express
@@ -29,7 +43,7 @@ require('./config/express')(app, config, passport);
 /**
  * Routes
  */
-require('./router')(app, config);
+require('./router')(app, passport, auth);
 
 
 /**

@@ -48,11 +48,11 @@ module.exports = function (app, config, passport) {
 
             console.error(err.stack);
 
-            res.status(500).render('500', { error: err.stack }); // render page
+            res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack }); // render page
         });
 
         app.use(function(req, res, next) {
-            res.status(404).render('404', { url: req.originalUrl, error: 'Not found' }); // render page
+            res.status(404).render('error', { title: '404', text: 'Fant ikke siden du så etter' }); // render page
         });
     });
 }
