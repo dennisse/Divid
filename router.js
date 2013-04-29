@@ -1,13 +1,17 @@
+
+/**
+ * Dependencies
+ */
+
 var users = require('./controllers/users')
   , system = require('./controllers/system');
+
 
 /*
  * ============================================================
  * Routes
  *
  */
-
-
 
 module.exports = function(app, passport, auth) {
     app.get('/', system.index);
