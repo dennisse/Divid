@@ -2,13 +2,9 @@
 /**
  * Module dependencies.
  */
-
 var express = require('express')
     , fs = require('fs')
   , passport = require('passport');
-
-
-var app = express(); // initiates express
 
 /**
  * App configuration
@@ -53,9 +49,7 @@ require('./router')(app, passport, auth);
 /**
  * Server initiation
  */
-
 app.listen(port, function() {
     console.log("Express server listening on port " + port);
 });
-
 
