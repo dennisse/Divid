@@ -13,28 +13,33 @@
 */
 
 exports.index = function(req, res) {
-        res.render('index', { title: 'DERS' });
+    res.render('index', { title: 'DERS' });
     };
 
 
 
 exports.test = function(req, res) {
-        res.render('test', {
-            title: 'test',
-            loggedin: false
-        });
-    };
+    res.render('test', {
+        title: 'test',
+        loggedin: false
+    });
+};
 
 
 exports.home = function(req, res) {
-        res.render('home', {
-            title: 'home',
-            loggedin: false
-        });
-    };
+    res.render('home', {
+        title: 'home',
+        loggedin: false
+    });
+};
 
 
-
+exports.faq = function(req, res) {
+    res.render('faq', {
+        title: 'faq',
+        loggedin: false
+    });
+}
 
 
 
@@ -47,16 +52,16 @@ exports.home = function(req, res) {
 
 
 exports.dashboard = function(req, res) {
-        console.log('/dashboard - ' + req.user);
-        res.render('dashboard', {
-            title: 'kanin',
-            loggedin: true
-        });
-    };
+    console.log('/dashboard - ' + req.user);
+    res.render('dashboard', {
+        title: 'kanin',
+        loggedin: true
+    });
+};
 
 
 
 exports.project = function(req, res) {
-        res.render('project', { title: 'Harepus', loggedin: true });
+    res.render('project', { title: 'Harepus', loggedin: true });
 }
 
