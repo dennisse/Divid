@@ -17,7 +17,7 @@ Start the application with ```npm start```
 
 
 
-
+To change port, open ```app.js``` and edit the portnumber. 8001-8005 are available public for testing. 8000 is master.
 
 
 
