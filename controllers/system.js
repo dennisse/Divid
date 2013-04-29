@@ -65,7 +65,7 @@ exports.project = function(req, res) {
     res.render('project', { title: 'Harepus', loggedin: true });
 }
 
-exports.newproject = function(req, res) {
+exports.newProject = function(req, res) {
     res.render('newproject', { title: 'Nytt prosjekt', loggedin: true });
 }
 
