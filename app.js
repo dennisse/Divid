@@ -3,17 +3,17 @@
  * Module dependencies.
  */
 var express = require('express')
-    , fs = require('fs')
-  , passport = require('passport');
+  , fs = require('fs')
+  , passport = require('passport')
+  , mongoose = require('mongoose');
 
 /**
  * App configuration
  */
-var port = process.env.PORT || 8001
+var port = process.env.PORT || 8000
   , env = process.env.NODE_ENV || 'development'
   , config = require('./config/config')[env]
-  , auth = require('./config/middlewares/authorization')
-  , mongoose = require('mongoose');
+  , auth = require('./config/middlewares/authorization');
 
 // Bootstrap db connection
 mongoose.connect(config.db);
@@ -24,6 +24,7 @@ db.once('open', function callback(){
 });
 
 // Bootstrap models
+// This gets all model files in ./models
 var models_path = __dirname + '/models';
 fs.readdirSync(models_path).forEach( function(file) {
     require(models_path + '/' + file);

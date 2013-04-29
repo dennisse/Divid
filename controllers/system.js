@@ -2,7 +2,8 @@
 /**
  * Module dependencies
  */
-
+var mongoose = require('mongoose')
+  , Project = mongoose.model('Project');
 
 
 
@@ -65,7 +66,15 @@ exports.project = function(req, res) {
     res.render('project', { title: 'Harepus', loggedin: true });
 }
 
-exports.newproject = function(req, res) {
+exports.newProject = function(req, res) {
     res.render('newproject', { title: 'Nytt prosjekt', loggedin: true });
+}
+
+exports.postNewProject = function(req, res) {
+    var project = new Project(req.body);
+    project.save(function(err) {
+        if (err) return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true, errors: err.errors, project: project });
+        return res.redirect('/dashboard');
+    });
 }
 
