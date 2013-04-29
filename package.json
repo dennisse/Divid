@@ -22,7 +22,6 @@
     , "passport-local": "latest"
     , "passport-facebook": "latest"
     , "passport-twitter": "latest"
-    , "bcrypt": "latest"
     , "nodemon": "latest"
     }
   , "devDependencies": {
