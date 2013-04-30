@@ -101,6 +101,17 @@ exports.project = function(req, res) {
     res.render('project', { title: 'Harepus', loggedin: true });
 }
 
+exports.projectParticipants = function(req, res) {
+
+    res.render('projectParticipants', { title: 'Prosjektdeltakere', loggedin: true });
+
+}
+
+exports.postProjectParticipants = function(req, res) {
+
+}
+
+
 exports.newProject = function(req, res) {
     res.render('newproject', { title: 'Nytt prosjekt', loggedin: true });
 }
