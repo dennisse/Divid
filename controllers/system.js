@@ -3,9 +3,9 @@
  * Module dependencies
  */
 var mongoose = require('mongoose')
-  , Project = mongoose.model('Project');
-
-
+  , Project = mongoose.model('Project')
+  , Access = mongoose.model('Access')
+  , User = mongoose.model('User');
 
 
 /**
@@ -53,17 +53,46 @@ exports.faq = function(req, res) {
 
 
 exports.dashboard = function(req, res) {
-    console.log('/dashboard - ' + req.user);
+    console.log('/dashboard - ' + req.user._id);
 
+/*
+    Access.find({ user: req.user._id }, function(err, accesses) {
+        if (err) return res.render('500');
+        console.log('accesses ' + accesses);
+        accesses.forEach(function(access) {
+            Project.load(access.project, function(err, project) {
+                    if (err) return res.render('500');
+                    projectList.push(project);
+                    console.log(project.user.username);
+                });
+        });
+    });
+*/
+    Access.loadUser(req.user._id, function(err, projects) {
+        if (err) return res.render('500');
+        Project.populate(projects, { path: 'project.user', model: User }, function(err, projects) {
+
+            console.log('accesses: ' + projects);
+
+            res.render('dashboard', {
+                title: 'Dashboard',
+                loggedin: true,
+                projects: projects
+            });
+
+        });
+
+    })
+
+/*
     Project.find(function(err, projects) {
         if (err) return res.render('500');
-        console.log(projects);
         res.render('dashboard', {
             title: 'Dashboad',
             loggedin: true,
             projects: projects
         });
-    });
+    });*/
 }
 
 
@@ -78,12 +107,25 @@ exports.newProject = function(req, res) {
 
 exports.postNewProject = function(req, res) {
     var project = new Project(req.body);
+    project.user = req.user._id;
     project.save(function(err) {
         if (err) {
             console.log(err.errors);
             return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true, errors: err.errors, project: project });
         }
-        return res.redirect('/dashboard');
     });
+
+    var access = new Access();
+    access.user = req.user._id;
+    access.creator = req.user._id;
+    access.project = project._id;
+    access.permissions = 1;
+    access.save(function(err) {
+        if (err) {
+            console.log(err.errors);
+            return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
+        }
+        return res.redirect('/dashboard');
+    })
 }
 
