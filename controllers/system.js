@@ -54,11 +54,17 @@ exports.faq = function(req, res) {
 
 exports.dashboard = function(req, res) {
     console.log('/dashboard - ' + req.user);
-    res.render('dashboard', {
-        title: 'kanin',
-        loggedin: true
+
+    Project.find(function(err, projects) {
+        if (err) return res.render('500');
+        console.log(projects);
+        res.render('dashboard', {
+            title: 'Dashboad',
+            loggedin: true,
+            projects: projects
+        });
     });
-};
+}
 
 
 
@@ -73,7 +79,10 @@ exports.newProject = function(req, res) {
 exports.postNewProject = function(req, res) {
     var project = new Project(req.body);
     project.save(function(err) {
-        if (err) return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true, errors: err.errors, project: project });
+        if (err) {
+            console.log(err.errors);
+            return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true, errors: err.errors, project: project });
+        }
         return res.redirect('/dashboard');
     });
 }

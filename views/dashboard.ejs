@@ -12,10 +12,11 @@
         <div class="smallfullwidth span5">
             <h1>Prosjekter</h1>
             <section class="projects">
+                <% projects.forEach(function(project) { %>
                 <section class="project">
                     <div class="row-fluid">
                         <div class="span11">
-                            <h1><a href="/project">dennisse/<strong>hytteturskogentilfrank</strong></a></h1>
+                            <h1><a href="/project">dennisse/<strong><%= project.name %></strong></a></h1>
                             <div class="row-fluid">
                                 <div class="span8">
                                     <small>Meg, Robert, Turid-Laila, Kurt, Stian, Aleksander, Frank, Olav, Heidi, Anette, Kristine</small>
@@ -30,6 +31,7 @@
                         </div>
                     </div>
                 </section>
+            <% }); %>
                 <section class="project">
                     <div class="row-fluid">
                         <div class="span11">
