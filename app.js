@@ -10,7 +10,7 @@ var express = require('express')
 /**
  * App configuration
  */
-var port = process.env.PORT || 8001
+var port = process.env.PORT || 8000
   , env = process.env.NODE_ENV || 'development'
   , config = require('./config/config')[env]
   , auth = require('./config/middlewares/authorization');
@@ -44,7 +44,7 @@ require('./config/express')(app, config, passport);
 /**
  * Routes
  */
-require('./router')(app, passport, auth);
+require('./routes')(app, passport, auth);
 
 
 /**
