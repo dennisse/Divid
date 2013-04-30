@@ -44,7 +44,7 @@ require('./config/express')(app, config, passport);
 /**
  * Routes
  */
-require('./router')(app, passport, auth);
+require('./routes')(app, passport, auth);
 
 
 /**
