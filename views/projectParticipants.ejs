@@ -1,0 +1,55 @@
+<% include header %>
+
+</head>
+<body>
+    <% include navbar %>
+
+    <!-- Wrapper
+    ================================================== -->
+    <div class="container" id="wrapper">
+    <div class="row-fluid">
+
+
+        <form class="form-horizontal" method="post">
+        <fieldset>
+
+        <h1><legend><%= title %></legend></h1>
+        <p>Her kan du invitere venner til å delta i prosjektet ditt. Skriv inn eposadressene deres, en på hver linje, i tekstboksen under.</p>
+        <div class="control-group">
+            <label class="control-label">Epostadresser</label>
+            <div class="controls">
+                <textarea id="emails" name="emails" class="span6"></textarea>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Beskrivelse</label>
+            <div class="controls">
+                <textarea id="description" name="description" class="span6">Hei! Jeg har oppdaget et nytt og kult program... Bla bla bla. Stian og Erling fixes.</textarea>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label"></label>
+            <div class="controls">
+                <button type="submit" id="button1id" name="button1id" class="btn btn-primary">Inviter</button>
+                <button type="reset" id="button2id" name="button2id" class="btn">Nullstill</button>
+            </div>
+        </div>
+
+        </fieldset>
+        </form>
+
+
+
+
+
+
+
+    </div><!-- /div.row -->
+    </div><!-- /div.#wrapper -->
+
+
+<% include footer %>
+</body>
+</html>
