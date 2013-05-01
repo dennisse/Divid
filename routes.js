@@ -50,12 +50,18 @@ module.exports = function(app, passport, auth) {
     */
 
 
-    app.get('/dashboard', system.dashboard);
+    app.get('/dashboard', auth.requiresLogin, system.dashboard);
 
 
     app.get('/project', auth.requiresLogin, system.project);
 
     app.get('/project/new', auth.requiresLogin, system.newProject);
 
-    app.post('/project/new', auth.requiresLogin, system.postNewProject)
+    app.post('/project/new', auth.requiresLogin, system.postNewProject);
+
+    app.get('/project/:short', auth.requiresLogin, system.project);
+
+    app.get('/project/:short/participants', auth.requiresLogin, system.projectParticipants);
+
+    app.post('/project/:short/participants', auth.requiresLogin, system.postProjectParticipants);
 };

@@ -6,10 +6,10 @@
             <div class="container">
                 <% if (!loggedin) { %>
                 <div class="row-fluid collapse login-collapse">
-                    <div class="span7">
+                    <div class="span6">
                         <!--<img src="/img/logo_white.png">-->
                     </div>
-                    <div class="span5">
+                    <div class="span6">
                         <form action="/login" method="post" id="login-form" class="form-horizontal">
                             <div class="control-group">
                                 <div class="input-prepend">
@@ -31,15 +31,16 @@
                                 </div>
                                 <div class="span5">
                                     <button type="submit" class="btn btn-inverse btn-small">Logg inn</button>
-                                     <a href="/auth/facebook">f</a>
-                                     <a href="/auth/twitter">t</a>
                                 </div>
+                            </div>
+                            <div class="row-fluid">
+                                Eller logg inn med <a href="/auth/facebook">facebook</a> / <a href="/auth/twitter">twitter</a>
                             </div>
                         </form>
                     </div>
                 </div>
                 <% } %>
-                <div class="row">
+                <div class="row-fluid">
                     <img class="logo" src="/img/dividlogo.png" href="#">
                     <!--<a class="brand" href="#">Divid</a>--!>
                     <div class="pull-right">

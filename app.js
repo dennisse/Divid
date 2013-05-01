@@ -20,7 +20,7 @@ mongoose.connect(config.db);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback(){
-    console.log('Connected to MongoDB');
+    console.log('Connected to ' + config.db);
 });
 
 // Bootstrap models
@@ -44,7 +44,7 @@ require('./config/express')(app, config, passport);
 /**
  * Routes
  */
-require('./router')(app, passport, auth);
+require('./routes')(app, passport, auth);
 
 
 /**
