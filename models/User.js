@@ -5,7 +5,7 @@
 
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
-  , crypto =require('crypto')
+  , crypto = require('crypto')
   , authTypes = ['facebook', 'twitter'];
 
 
@@ -20,6 +20,7 @@ var UserSchema = new Schema({
     provider: String,
     hashed_password: String,
     salt: String,
+    accessToken: String,
     facebook: {},
     twitter: {}
 });
@@ -98,6 +99,7 @@ UserSchema.methods = {
         return this.encryptPassword(plainText) === this.hashed_password;
     },
 
+
    /**
     * Make salt
     *
@@ -108,6 +110,7 @@ UserSchema.methods = {
     makeSalt: function() {
         return Math.round((new Date().valueOf() * Math.random())) + '';
     },
+
 
    /**
     * Encrypt password
@@ -120,6 +123,24 @@ UserSchema.methods = {
     encryptPassword: function(password) {
         if (!password) return '';
         return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+    },
+
+
+   /**
+    * Generate random access token for Remember Me function
+    *
+    * @return {String}
+    * @api public
+    */
+
+    generateRandomToken: function() {
+        var chars = "_!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+          , token = new Date().getTime() + '_';
+        for (var i = 0; i < 16; i++) {
+            var x = Math.floor(Math.random() * 62);
+            token += chars.charAt(x);
+        }
+        return token;
     }
 }
 
