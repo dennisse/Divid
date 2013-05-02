@@ -104,39 +104,55 @@
 							<iframe src="http://player.vimeo.com/video/41974181" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 						</div>
 					</div>
-<<<<<<< HEAD
 					<div class="span5 sectionright">
-					<a href="https://itunes.apple.com/us/genre/ios-finance/id6015?mt=8" title="Appstore">
-						<div id="app" class="apple"> <img src="/img/iph.png" class="apple">
-					</a>
-					<a href="https://play.google.com/store"><img src="/img/android.png" id="android" class="infoimg"></a>
-					<a href="http://www.windowsphone.com/nb-no/store"><img src="/img/win.png" id="windows" class="infoimg"></a>
-=======
-					<div class="span5 sectionright">
-					<a href="https://itunes.apple.com/us/genre/ios-finance/id6015?mt=8"><img src="/img/iph.png" onmouseover="this.src='/img/iphoneA.png'" onmouseout="this.src='/img/iph.png'"></a>
-					<a href="https://play.google.com/store"><img src="/img/android.png" onmouseover="this.src='/img/androidA.png'" onmouseout="this.src='/img/android.png'"></a>
-					<a href="http://www.windowsphone.com/nb-no/store"><img src="/img/win.png" onmouseover="this.src='/img/winA.png'" onmouseout="this.src='/img/win.png'"></a>
->>>>>>> a935f29043c48063839c5f139dbbde6817b213f6
+						<a href="https://itunes.apple.com/us/genre/ios-finance/id6015?mt=8"><img src="/img/iph.png" onmouseover="this.src='/img/iphoneA.png'" onmouseout="this.src='/img/iph.png'"></a>
+						<a href="https://play.google.com/store"><img src="/img/android.png" onmouseover="this.src='/img/androidA.png'" onmouseout="this.src='/img/android.png'"></a>
+						<a href="http://www.windowsphone.com/nb-no/store"><img src="/img/win.png" onmouseover="this.src='/img/winA.png'" onmouseout="this.src='/img/win.png'"></a>
 					</div>
 				</div>
 			</div>
 		<div id="hvordan" class="span12 content">
 			<div class="container last">
-				<div class="span6 sectionleft">
-				<h1>Registrering</h1>
-				<p>"Her skal registreringsformen inn"</p>
-				</div>
-				<!--<div class="span6 sectionright">
-				<h1>Divid er enkelt!</h1> <!-- Vi viser deg hvor enkelt det er å bruke Divid.--!>
-					<ul>
-						<h3><i class="icon-chevron-right icon-white"></i> Divid tar bryet ut av delingen og løser det rettferdig</h3>
-						<h3><i class="icon-chevron-right icon-white"></i> Divid hjelper deg med å holde oversikt over dine utgifter, utlegg og lån</h3> <!--Ikke la uvissheten om at du glemmer eller manglende tillit til folk hindre deg i dele eller låne.--!>
-						<h3><i class="icon-chevron-right icon-white"></i> Hold venner og bekjente oppdatert med hva de skylder deg og vice versa</h3>
-						<h3><i class="icon-chevron-right icon-white"></i> Ta bilde av kvitteringene eller en utlånt gjenstand så er de tilgjengelig i Divids bildebank for senere gjennomsyn</h3><!--Du slipper kvitteringer - ta bilde av de og kast de i søpla. Bildene lastes opp til Divids servere så har du de senere hvis det er bruk for de.--!> 
-					</ul>
-				</div>-->
-			</div>
-		</div>
+				<input type="hidden" id="userId">
+    <div id="account-form-container">
+        <form method="post" id="account-form" class="form-horizontal well span6">
+        <h1></h1>
+        <h1>Registrering</h1>
+        <hr>
+        <fieldset>
+            <div id="name-cg" class="control-group">
+                <label for="name-tf" class="control-label">Name</label>
+                <div class="controls">
+                    <input id="name-tf" type="text" name="name" class="input-xlarge">
+                </div>
+            </div>
+            <div id="email-cg" class="control-group">
+                <label for="email-tf" class="control-label">Email</label>
+                <div class="controls">
+                    <input id="email-tf" type="text" name="email" class="input-xlarge">
+                </div>
+            </div>
+            <hr>
+            <p id="sub2" class="subheading"></p>
+            <div id="user-cg" class="control-group">
+                <label for="user-tf" class="control-label">Username</label>
+                <div class="controls">
+                    <input id="user-tf" type="text" name="username" class="input-xlarge disabled">
+                </div>
+            </div>
+            <div id="pass-cg" class="control-group">
+                <label for="pass-tf" class="control-label">Password</label>
+                <div class="controls">
+                    <input id="pass-tf" type="password" name="password" value="" class="input-xlarge">
+                </div>
+            </div>
+            <div class="form-actions cut">
+                <button type="button" id="account-form-btn1" class="btn">Avbryt</button>
+                <button type="submit" id="account-form-btn2" class="btn">Registrer</button>
+            </div>
+        </fieldset>
+        </form>
+    </div>
     </div> 
     </div><!-- /div.row -->
 	</div><!-- /div#wrapper -->
