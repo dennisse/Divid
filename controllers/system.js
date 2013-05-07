@@ -113,6 +113,13 @@ exports.postProjectParticipants = function(req, res) {
 
 }
 
+exports.projectPost = function(req, res) {
+
+}
+
+exports.postProjectPost = function(req, res) {
+
+}
 
 exports.newProject = function(req, res) {
     res.render('newproject', { title: 'Nytt prosjekt', loggedin: true });

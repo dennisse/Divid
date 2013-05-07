@@ -61,6 +61,10 @@ module.exports = function(app, passport, auth) {
 
     app.get('/project/:short', auth.requiresLogin, system.project);
 
+    app.get('/project/:short/post', auth.requiresLogin, system.projectPost);
+
+    app.post('/project/:short/post', auth.requiresLogin, system.postProjectPost);
+
     app.get('/project/:short/participants', auth.requiresLogin, system.projectParticipants);
 
     app.post('/project/:short/participants', auth.requiresLogin, system.postProjectParticipants);
