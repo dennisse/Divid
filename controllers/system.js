@@ -109,11 +109,11 @@ exports.projectParticipants = function(req, res) {
 
 exports.postProjectParticipants = function(req, res) {
 
-
-
 }
 
 exports.projectPost = function(req, res) {
+    res.render('projectPost', { title: 'Legg til utgift', loggedin: true, req: req });
+
 
 }
 
@@ -122,7 +122,7 @@ exports.postProjectPost = function(req, res) {
 }
 
 exports.newProject = function(req, res) {
-    res.render('newproject', { title: 'Nytt prosjekt', loggedin: true });
+    res.render('newProject', { title: 'Nytt prosjekt', loggedin: true });
 }
 
 exports.postNewProject = function(req, res) {
