@@ -14,25 +14,71 @@
         <fieldset>
 
         <h1><legend><%= title %></legend></h1>
-        <p>Her kan du invitere venner til å delta i prosjektet ditt. Skriv inn eposadressene deres, en på hver linje, i tekstboksen under.</p>
+        <p>Ta på meg!</p>
         <div class="control-group">
-            <label class="control-label">Epostadresser</label>
+            <label for="username" class="control-label">Av</label>
             <div class="controls">
-                <textarea id="emails" name="emails" class="span6"></textarea>
+                <span class="input-medium uneditable-input"><%= req.user.username %></span>
+                <span class="help-block"><small><a href="#forSomeone" data-toggle="collapse">Klikk her</a> for å føre utgiften <em>for</em> noen andre</small></span>
+            </div>
+        </div>
+        <div class="control-group collapse" id="forSomeone">
+            <label for="for" class="control-label">For</label>
+            <div class="controls">
+                <input type="text" name="for" id="for">
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="what" class="control-label">Hva <strong class="text-error">*</strong></label>
+            <div class="controls">
+                <input type="text" name="what" id="what" placeholder="Hva ble kjøpt" required>
+            </div>
+        </div>
+        <%
+        var d = new Date();
+        var n = d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+        var t = d.toLocaleTimeString().slice(0, 5);
+
+        %>
+    <!-- <%= d %> -->
+        <div class="control-group">
+            <label for="date" class="control-label">Når</label>
+            <div class="controls">
+                <input type="date" name="date" value="<%= n %>" class="input-medium">
+                <input type="time" name="time" value="<%= t %>" class="input-medium">
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="cost" class="control-label">Hvor mye  <strong class="text-error">*</strong></label>
+            <div class="controls">
+                <input type="number" name="cost" id="cost" class="input-small" placeholder="0" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="split_between" class="control-label">Delt på</label>
+            <div class="controls">
+                <select multiple="multiple">
+                    <option value="">Dennis</option>
+                    <option value="">Kurt</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="file" class="control-label">Kvittering</label>
+            <div class="controls">
+                <input type="file" name="file" id="file">
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="comment" class="control-label">Kommentar</label>
+            <div class="controls">
+                <textarea id="comment" name="comment" class="span6"></textarea>
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label">Beskrivelse</label>
-            <div class="controls">
-                <textarea id="description" name="description" class="span6">Hei! Jeg har oppdaget et nytt og kult program... Bla bla bla. Stian og Erling fixes.</textarea>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label"></label>
-            <div class="controls">
-                <button type="submit" id="button1id" name="button1id" class="btn btn-primary">Inviter</button>
+            <div class="form-actions">
+                <button type="submit" id="button1id" name="button1id" class="btn btn-primary">Post</button>
                 <button type="reset" id="button2id" name="button2id" class="btn">Nullstill</button>
             </div>
         </div>
