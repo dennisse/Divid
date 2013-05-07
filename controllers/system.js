@@ -98,7 +98,7 @@ exports.dashboard = function(req, res) {
 
 
 exports.project = function(req, res) {
-    res.render('project', { title: 'Harepus', loggedin: true });
+    res.render('project', { title: 'Harepus', loggedin: true, req: req });
 }
 
 exports.projectParticipants = function(req, res) {
