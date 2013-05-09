@@ -11,6 +11,7 @@
 
 
         <form class="form-horizontal" method="post">
+        <input type="hidden" name="project" value="<%= project._id %>">
         <fieldset>
 
         <h1><legend><%= title %></legend></h1>
@@ -35,10 +36,10 @@
             </div>
         </div>
         <%
-        var d = new Date();
-        var n = d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
-        var t = d.toLocaleTimeString().slice(0, 5);
-
+            // we need to populate the date- and timefield with the current time and date
+            var d = new Date();
+            var n = d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+            var t = d.toLocaleTimeString().slice(0, 5);
         %>
     <!-- <%= d %> -->
         <div class="control-group">
