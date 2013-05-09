@@ -41,12 +41,6 @@ ProjectSchema.pre('save', function(next) {
 
 ProjectSchema.statics = {
 
-    log: function() {
-        console.log('wat. wat logged this');
-    },
-
-
-
    /**
     * Find project by id
     *
