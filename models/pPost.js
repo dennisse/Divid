@@ -11,7 +11,7 @@ var pPostSchema = new Schema({
     for: { type: Schema.ObjectId, ref: 'User' },
     project: { type: Schema.ObjectId, ref: 'Project' },
     what: { type: String, default: '', trim: true },
-    comment: {type: String, default: '', trim: true },
+    comment: { type: String, default: '', trim: true },
     participants: [],
     value: { type: Number, defailt: 0 },
     file: { type: String, default: '', trim: true },
