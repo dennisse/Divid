@@ -58,9 +58,11 @@
         <div class="control-group">
             <label for="split_between" class="control-label">Delt på</label>
             <div class="controls">
-                <select multiple="multiple">
-                    <option value="">Dennis</option>
-                    <option value="">Kurt</option>
+
+                <span class="selectAll">Select all</span>
+                <select name="participants[]" id="participants" multiple="multiple">
+                    <option value="5180e11b0074a8b029000001" selected="selected">Dennis</option>
+                    <option value="51814b792c94cc5346000001" selected="selected">Kurt</option>
                 </select>
             </div>
         </div>
@@ -98,5 +100,12 @@
 
 
 <% include footer %>
+                <script>
+                    $(".selectAll").click(function() {
+                        $('#participants').children().attr('selected','selected');
+                        //$(this).parent().find('option').attr('selected','selected');
+                    });
+                </script>
+
 </body>
 </html>
