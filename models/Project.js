@@ -59,8 +59,22 @@ ProjectSchema.statics = {
         this.findOne({ _id: id })
           .populate('user')
           .exec(callback);
-    }
+    },
 
+
+   /**
+    * Find project my shortURL
+    *
+    * @param {shortURL} shortURL
+    * @param {Function} callback
+    * @api private
+    */
+
+    loadShort : function(shortURL, callback) {
+        this.findOne({ shortURL: shortURL })
+          .populate('user')
+          .exec(callback);
+    }
 
 }
 
