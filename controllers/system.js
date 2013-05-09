@@ -5,8 +5,8 @@
 var mongoose = require('mongoose')
   , Project = mongoose.model('Project')
   , Access = mongoose.model('Access')
-  , User = mongoose.model('User');
-
+  , User = mongoose.model('User')
+  , pPost = mongoose.model('pPost');
 
 /**
  * Before the user log in
@@ -43,6 +43,12 @@ exports.faq = function(req, res) {
 }
 
 
+exports.contact = function(req, res) {
+    res.render('contact', {
+        title: 'contact',
+        loggedin: false
+    });
+}
 
 
 /**
@@ -57,11 +63,11 @@ exports.dashboard = function(req, res) {
 
 /*
     Access.find({ user: req.user._id }, function(err, accesses) {
-        if (err) return res.render('500');
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         console.log('accesses ' + accesses);
         accesses.forEach(function(access) {
             Project.load(access.project, function(err, project) {
-                    if (err) return res.render('500');
+                    if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
                     projectList.push(project);
                     console.log(project.user.username);
                 });
@@ -69,7 +75,7 @@ exports.dashboard = function(req, res) {
     });
 */
     Access.loadUser(req.user._id, function(err, projects) {
-        if (err) return res.render('500');
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         Project.populate(projects, { path: 'project.user', model: User }, function(err, projects) {
 
             console.log('accesses: ' + projects);
@@ -82,11 +88,11 @@ exports.dashboard = function(req, res) {
 
         });
 
-    })
+    });
 
 /*
     Project.find(function(err, projects) {
-        if (err) return res.render('500');
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         res.render('dashboard', {
             title: 'Dashboad',
             loggedin: true,
@@ -98,7 +104,12 @@ exports.dashboard = function(req, res) {
 
 
 exports.project = function(req, res) {
-    res.render('project', { title: 'Harepus', loggedin: true, req: req });
+    Project.loadShort(req.params.short, function(err, project) {
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
+        res.render('project', { title: 'Harepus', loggedin: true, req: req, project: project });
+
+    });
 }
 
 exports.projectParticipants = function(req, res) {
@@ -112,13 +123,31 @@ exports.postProjectParticipants = function(req, res) {
 }
 
 exports.projectPost = function(req, res) {
-    res.render('projectPost', { title: 'Legg til utgift', loggedin: true, req: req });
+
+   /** ###################################
+    * Need to check if user has access to this project!!
+    */
+    console.log(req.loggedin);
+    Project.loadShort(req.params.short, function(err, project) {
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+        res.render('projectPost', { title: 'Legg til utgift', loggedin: true, req: req, project: project });
+    });
+
 
 
 }
 
 exports.postProjectPost = function(req, res) {
+/*//    var ppost = new pPost(req.body);
+    ppost.user = req.user._id;
+    ppost.project = ;
+/*/
+    var ppost = new pPost(req.body);
+    console.log('ppost.user = ' + req.user._id);
+    console.log('ppost.project = ' + ppost.project);
+    console.log('ppost.what = ' + ppost.what);
 
+//*//
 }
 
 exports.newProject = function(req, res) {

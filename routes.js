@@ -22,6 +22,8 @@ module.exports = function(app, passport, auth) {
 
     app.get('/faq', system.faq);
 
+    app.get('/contact', system.contact);
+
     app.get('/login', users.login);
 
     app.get('/signup', users.signup);
