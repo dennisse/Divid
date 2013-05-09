@@ -146,8 +146,12 @@ exports.postProjectPost = function(req, res) {
     console.log('ppost.user = ' + req.user._id);
     console.log('ppost.project = ' + ppost.project);
     console.log('ppost.what = ' + ppost.what);
+    console.log('ppost.participants = ' + ppost.participants);
+    console.log('req.body = ' + Object.keys(req.body));
+    ppost.when = new Date(req.body.date + ' ' + req.body.time + ':00');
+    console.log('ppost.when = ' + ppost.when);
 
-//*//
+    //*//
 }
 
 exports.newProject = function(req, res) {
