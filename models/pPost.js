@@ -17,7 +17,8 @@ var pPostSchema = new Schema({
     file: { type: String, default: '', trim: true },
     currency: { type: String, default: 'kr', trim: true },
     created: { type: Date, default: Date.now },
-    updated: { type: Date, default: Date.now }
+    updated: { type: Date, default: Date.now },
+    when: { type: Date, default: Date.now }
 });
 
 
