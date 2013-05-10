@@ -23,7 +23,8 @@
     , "passport-facebook": "latest"
     , "passport-twitter": "latest"
     , "nodemon": "latest"
-    }
+    , "express-validator": "latest"
+  }
   , "devDependencies": {
       "mocha": "latest"
     }
