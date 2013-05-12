@@ -22,11 +22,6 @@ var pPostSchema = new Schema({
 });
 
 
-pPostSchema.path('what').validate(function(name) {
-    return what.length;
-}, 'You need to name the expense');
-
-
 
 
 pPostSchema.statics = {
@@ -44,7 +39,6 @@ pPostSchema.statics = {
           .populate('user')
           .exec(callback);
     }
-
 
 }
 
