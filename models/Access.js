@@ -19,10 +19,6 @@ var AccessSchema = new Schema({
 
 AccessSchema.statics = {
 
-    log: function() {
-        console.log('wat. wat logged this');
-    },
-
    /**
     * Load ALL accesses for a single user
     *
@@ -36,6 +32,24 @@ AccessSchema.statics = {
           .populate('project')
           .sort({ 'created': -1 }) // sort by date
           .exec(callback);
+    },
+
+
+   /**
+    * Check to see if user has access to a particular project
+    *
+    * @param {ObjectId} user
+    * @param {ObjectId} project
+    * @return {Boolean}
+    * @api public
+    */
+
+    checkAccess: function(user, project) {
+        console.log('inni checkAccess!')
+        this.findOne({ user: user }).where('project').equals(project).exec(function(err, access) {
+            if (err || !access) return false;
+            else return true;
+        });
     }
 }
 
