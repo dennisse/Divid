@@ -40,16 +40,15 @@ AccessSchema.statics = {
     *
     * @param {ObjectId} user
     * @param {ObjectId} project
-    * @return {Boolean}
-    * @api public
+    * @param {Function} callback
+    * @api private
     */
 
-    checkAccess: function(user, project) {
+    checkAccess: function(user, project, callback) {
         console.log('inni checkAccess!')
-        this.findOne({ user: user }).where('project').equals(project).exec(function(err, access) {
-            if (err || !access) return false;
-            else return true;
-        });
+        this.findOne({ user: user })
+          .where('project').equals(project)
+          .exec(callback);
     }
 }
 
