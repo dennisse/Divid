@@ -11,6 +11,12 @@ var mongoose = require('mongoose')
 
 /**
  *  User schema
+ *
+ *  statuscodes:
+ *  1: invited
+ *  2: unconfirmed
+ *  3: active
+ *  4: paying user
  */
 
 var UserSchema = new Schema({
@@ -22,8 +28,10 @@ var UserSchema = new Schema({
     salt: String,
     accessToken: String,
     facebook: {},
-    twitter: {}
+    twitter: {},
+    status: { type: Number, default: 2 }
 });
+
 
 /**
  * Virtuals
@@ -37,9 +45,11 @@ UserSchema
     this.hashed_password = this.encryptPassword(password)
   }).get(function() { return this._password });
 
+
 /**
  *  Validations
  */
+
 var validatePrecenceOf = function (value) {
     return value && value.length;
 }
@@ -66,6 +76,7 @@ UserSchema.path('hashed_password').validate(function(hashed_password) {
     if(authTypes.indexOf(this.provider) !== -1) return true;
     return hashed_password.length;
 }, 'Password cannot be blank');
+
 
 /**
  * Pre-save hook
