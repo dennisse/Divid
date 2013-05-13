@@ -144,47 +144,38 @@ exports.postProjectPost = function(req, res) {
     req.assert('project', 'The project was lost').notEmpty();
     req.assert('what', 'You need to fill in the what-field').notEmpty();
     req.assert('value', 'The value must be a positive number').notEmpty().isInt().min(0);
-    var projectId = req.sanitize('project').escape();
 
     // error when validation fails
     var errors = req.validationErrors();
     if (errors) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil', error: errors.stack });
 
+    Project.load(req.sanitize('project').escape(), function(err, project) {
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
-    Access.findOne({ user: req.user._id }).where('project').equals(projectId).exec(function(err, access) {
-        if (err || !access) return res.status(403).render('error', { title: '403', text: 'no sir.' });
+        // check if access
+        Access.checkAccess(req.user._id, project._id, function(err, access) {
+            if (err || !access) return res.status(403).render('error', { title: '403', text: 'no sir.' });
 
-        // Time to fill in the model!
-        var ppost = new pPost();
-        ppost.user = req.user._id;
-      console.log('ppost.user = ' + req.user._id);
+            // Time to fill in the model!
+            var ppost = new pPost();
 
-        ppost.for = req.user._id;
+            ppost.user         = req.user._id;
+            ppost.for          = req.user._id;
+            ppost.project      = project._id;
+            ppost.what         = req.sanitize('what').escape();
+            ppost.comment      = req.sanitize('comment').xss(); // xss will remove cross-site-scripting in the textfield.
+            ppost.participants = req.sanitize('participants').escape();
+            ppost.value        = req.sanitize('value').toInt(); // this will remove leading zeroes. '0123' => '123'
+            ppost.when         = new Date(req.sanitize('date').escape() + ' ' + req.sanitize('time').escape() + ':00');
 
-        ppost.project = req.sanitize('project').escape(); // escape will escape html-specific characters, like " & > etc."
-      console.log('ppost.project = ' + ppost.project);
-
-        ppost.what = req.sanitize('what').escape();
-      console.log('ppost.what = ' + ppost.what);
-
-        ppost.comment = req.sanitize('comment').xss(); // xss will remove cross-site-scripting in the textfield.
-
-        ppost.participants = req.sanitize('participants').escape();
-      console.log('ppost.participants = ' + ppost.participants);
-
-        ppost.value = req.sanitize('value').toInt(); // this will remove leading zeroes. '0123' => '123'
-
-        ppost.when = new Date(req.sanitize('date').escape() + ' ' + req.sanitize('time').escape() + ':00');
-      console.log('ppost.when = ' + ppost.when);
-
-        console.log('req.profile: ' + req.profile);
-        ppost.save(function(err) {
-            if (err) {
-                console.log(err.errors);
-                res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', loggedin: true, req: req, project: project });
-            }
-            return res.redirect('/dashboard');
-        })
+            ppost.save(function(err) {
+                if (err) {
+                    console.log(err.errors);
+                    res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', loggedin: true, req: req, project: project });
+                }
+                return res.redirect('/project/' + project.shortURL);
+            })
+        });
     });
 }
 exports.newProject = function(req, res) {
