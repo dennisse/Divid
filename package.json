@@ -24,6 +24,7 @@
     , "passport-twitter": "latest"
     , "nodemon": "latest"
     , "express-validator": "latest"
+    , "emailjs": "latest"
   }
   , "devDependencies": {
       "mocha": "latest"
