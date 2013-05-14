@@ -29,7 +29,8 @@ var UserSchema = new Schema({
     accessToken: String,
     facebook: {},
     twitter: {},
-    status: { type: Number, default: 2 }
+    status: { type: Number, default: 2 },
+    randomToken: String
 });
 
 
@@ -140,14 +141,16 @@ UserSchema.methods = {
    /**
     * Generate random access token for Remember Me function
     *
+    * @param {Number} length
     * @return {String}
     * @api public
     */
 
-    generateRandomToken: function() {
+    generateRandomToken: function(length) {
+        if (typeof(length) === 'undefined') length = 16; // default length of token
         var chars = "_!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
           , token = new Date().getTime() + '_';
-        for (var i = 0; i < 16; i++) {
+        for (var i = 0; i < length; i++) {
             var x = Math.floor(Math.random() * 62);
             token += chars.charAt(x);
         }
