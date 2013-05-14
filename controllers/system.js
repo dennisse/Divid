@@ -3,6 +3,8 @@
  * Module dependencies
  */
 var mongoose = require('mongoose')
+  , env = process.env.NODE_ENV || 'development'
+  , config = require('../config/config.js')[env]
   , Project = mongoose.model('Project')
   , Access = mongoose.model('Access')
   , User = mongoose.model('User')
@@ -119,7 +121,21 @@ exports.projectParticipants = function(req, res) {
 }
 
 exports.postProjectParticipants = function(req, res) {
+    var email = require('emailjs');
 
+    var server = email.server.connect(config.email);
+    console.log(server);
+
+    var message = {
+        text:       'lol',
+        from:       'Divid <divid@divid.no>',
+        to:         'dennis.se@gmail.com',
+        subject:    'test'
+    }
+
+    server.send(message, function(err, message) { console.log(err || message);});
+
+    res.redirect('back');
 }
 
 exports.projectPost = function(req, res) {
