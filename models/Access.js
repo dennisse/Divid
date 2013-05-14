@@ -48,21 +48,25 @@ AccessSchema.statics = {
     },
 
 
-   /**
+    /**
     * Check to see if user has access to a particular project
     *
     * @param {ObjectId} user
     * @param {ObjectId} project
+    * @param {Number} permissisons
     * @param {Function} callback
     * @api private
     */
 
-    checkAccess: function(user, project, callback) {
-        console.log('inni checkAccess!')
+    checkAccess: function(user, project, permissions, callback) {
+        if (typeof(permissions) === 'undefined') permissions = 0;
+        console.log('inni checkPermissions!')
         this.findOne({ user: user })
           .where('project').equals(project)
+          .where('permissions').gte(permissions)
           .exec(callback);
     }
+
 }
 
 mongoose.model('Access', AccessSchema);
