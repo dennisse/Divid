@@ -30,7 +30,9 @@ exports.logout = function(req, res) {
  * Signin
  * This is triggered when the user post to /login
  */
-exports.signin = function(req, res) {}
+exports.signin = function(req, res) {
+    res.redirect('/dashboard');
+}
 
 
 /**
