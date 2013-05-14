@@ -10,14 +10,18 @@ module.exports = {
             name: 'Divid'
         },
         facebook: {
-            clientID: "504825706245603",
-            clientSecret: "e5ea0faed85d8749cafd38732530ef35",
-            callbackURL: "https://divid.no/auth/facebook/callback"
+            clientID: '504825706245603',
+            clientSecret: 'e5ea0faed85d8749cafd38732530ef35',
+            callbackURL: 'https://divid.no/auth/facebook/callback'
         },
         twitter: {
-            clientID: "tpCfKBUyAfogTpFxnb9w",
-            clientSecret: "abzInK4Nu0IFUhyXl73O2XjlFLFlzmBtLmbXk6v8",
-            callbackURL: "https://divid.no/auth/twitter/callback"
+            clientID: 'tpCfKBUyAfogTpFxnb9w',
+            clientSecret: 'abzInK4Nu0IFUhyXl73O2XjlFLFlzmBtLmbXk6v8',
+            callbackURL: 'https://divid.no/auth/twitter/callback'
+        },
+        email: {
+            server: 'localhost',
+            ssl: false
         }
     }
 }
