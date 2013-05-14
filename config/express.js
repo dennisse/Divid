@@ -3,8 +3,7 @@
  * Module dependencies
  */
 
-var express = require('express')
-  , expressValidator = require('express-validator');
+var express = require('express');
 
 
 /**
@@ -28,8 +27,6 @@ module.exports = function (app, config, passport) {
         app.use(express.cookieParser()); //must be above sessions
 
         app.use(express.bodyParser()); //must be above methodOverride
-
-        app.use(expressValidator); // loads validation
 
         app.use(express.methodOverride());
 

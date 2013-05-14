@@ -8,7 +8,23 @@ var mongoose = require('mongoose')
   , Project = mongoose.model('Project')
   , Access = mongoose.model('Access')
   , User = mongoose.model('User')
-  , pPost = mongoose.model('pPost');
+  , pPost = mongoose.model('pPost')
+  , Validator = require('validator').Validator
+  , v = new Validator()
+  , sanitize = require('validator').sanitize;
+
+
+// validation error handling. This collects all errors before pushing them out in getErrors()
+Validator.prototype.error = function(msg) {
+    this._errors.push(msg);
+    return this;
+}
+Validator.prototype.getErrors = function() {
+    var returnThis = this._errors;
+    this._errors = ''; // need to reset errors between sessions because of object model
+    return returnThis;
+}
+
 
 /**
  * Before the user log in
@@ -157,13 +173,13 @@ exports.projectPost = function(req, res) {
 exports.postProjectPost = function(req, res) {
 
     // Validation
-    req.assert('project', 'The project was lost').notEmpty();
-    req.assert('what', 'You need to fill in the what-field').notEmpty();
-    req.assert('value', 'The value must be a positive number').notEmpty().isInt().min(0);
+    v.check('project', 'The project was lost').notEmpty();
+    v.check('what', 'You need to fill in the what-field').notEmpty();
+    v.check('value', 'The value must be a positive number').notEmpty().isInt().min(0);
 
     // error when validation fails
-    var errors = req.validationErrors();
-    if (errors) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil', error: errors.stack });
+    var errors = v.getErrors();
+    if (errors.length !== 0) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil', error: errors.stack });
 
     Project.load(req.sanitize('project').escape(), function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
@@ -178,11 +194,11 @@ exports.postProjectPost = function(req, res) {
             ppost.user         = req.user._id;
             ppost.for          = req.user._id;
             ppost.project      = project._id;
-            ppost.what         = req.sanitize('what').escape();
-            ppost.comment      = req.sanitize('comment').xss(); // xss will remove cross-site-scripting in the textfield.
-            ppost.participants = req.sanitize('participants').escape();
-            ppost.value        = req.sanitize('value').toInt(); // this will remove leading zeroes. '0123' => '123'
-            ppost.when         = new Date(req.sanitize('date').escape() + ' ' + req.sanitize('time').escape() + ':00');
+            ppost.what         = sanitize(req.body.what).escape();
+            ppost.comment      = sanitize(req.body.comment).xss(); // xss will remove cross-site-scripting in the textfield.
+            ppost.participants = sanitize(req.body.participants).escape();
+            ppost.value        = sanitize(req.body.value).toInt(); // this will remove leading zeroes. '0123' => '123'
+            ppost.when         = new Date(sanitize(req.body.date).escape() + ' ' + sanitize(req.body.time).escape() + ':00');
 
             ppost.save(function(err) {
                 if (err) {
