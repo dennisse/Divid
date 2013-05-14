@@ -158,6 +158,23 @@ UserSchema.methods = {
     }
 }
 
+UserSchema.statics = {
+
+   /**
+    * Load user from their email address
+    *
+    * @param {String} email
+    * @param {Function} callback
+    * @api private
+    */
+
+    loadUser: function(email, callback) {
+        this.findOne({ email: email })
+        .exec(callback);
+    }
+
+}
+
 mongoose.model('User', UserSchema);
 
 
