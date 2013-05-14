@@ -6,6 +6,18 @@
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
+
+/**
+ * Schema
+ *
+ * Permissions:
+ * 3 = normal
+ * 6 = admin
+ * 9 = owner
+ * These permissions are set in steps of three, in case
+ * we need to add more permissions later.
+ */
+
 var AccessSchema = new Schema({
     user: { type: Schema.ObjectId, ref: 'User' },
     creator: { type: Schema.ObjectId, ref: 'User' },
@@ -14,6 +26,7 @@ var AccessSchema = new Schema({
     created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now }
 });
+
 
 // the four validations below only apply if you are signing up traditionally
 
