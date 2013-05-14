@@ -169,7 +169,7 @@ exports.postProjectPost = function(req, res) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
         // check if access
-        Access.checkAccess(req.user._id, project._id, function(err, access) {
+        Access.checkAccess(req.user._id, project._id, 0, function(err, access) {
             if (err || !access) return res.status(403).render('error', { title: '403', text: 'no sir.' });
 
             // Time to fill in the model!
@@ -210,7 +210,7 @@ exports.postNewProject = function(req, res) {
         access.user = req.user._id;
         access.creator = req.user._id;
         access.project = project._id;
-        access.permissions = 1;
+        access.permissions = 9;
         access.save(function(err) {
             if (err) {
                 console.log(err.errors);
