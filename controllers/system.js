@@ -77,7 +77,6 @@ exports.contact = function(req, res) {
 
 
 exports.dashboard = function(req, res) {
-    console.log('/dashboard - ' + req.user._id);
 
 /*
     Access.find({ user: req.user._id }, function(err, accesses) {
@@ -95,8 +94,6 @@ exports.dashboard = function(req, res) {
     Access.loadUser(req.user._id, function(err, projects) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         Project.populate(projects, { path: 'project.user', model: User }, function(err, projects) {
-
-            console.log('accesses: ' + projects);
 
             res.render('dashboard', {
                 title: 'Dashboard',
