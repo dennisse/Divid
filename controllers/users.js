@@ -170,6 +170,7 @@ exports.postProjectParticipants = function(req, res) {
                         newUser.email = mailAddress;
                         newUser.status = 1;
                         newUser.password = newUser.generateRandomToken(32);
+                        newUser.randomToken = newUser.generateRandomToken(10);
                         newUser.save(function(err) {
                             if (err) return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
                             console.log('made new user ' + newUser._id);
@@ -225,4 +226,18 @@ exports.postProjectParticipants = function(req, res) {
     });
 }
 
+
+/**
+ * claimInvite
+ * So users can use their inviteEmail
+ */
+
+exports.claimInvite = function(req, res) {
+
+}
+
+
+exports.postClaimInvite = function(req, res) {
+
+}
 

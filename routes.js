@@ -32,7 +32,6 @@ module.exports = function(app, passport, auth) {
 
     app.post('/signup', users.create);
 
-
     app.post('/test', users.signin);
 
     app.get('/auth/facebook', passport.authenticate('facebook', { failureRedirect: '/test' }), users.signin);
@@ -40,6 +39,10 @@ module.exports = function(app, passport, auth) {
 
     app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/test' }), users.signin);
     app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/test' }), users.authCallback);
+
+    app.get('/invite/:randomToken', users.claimInvite);
+
+    app.post('/invite/:randomToken', users.postClaimInvite);
 
     app.get('/logout', users.logout);
 
