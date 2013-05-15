@@ -52,6 +52,9 @@ module.exports = function(app, passport, auth) {
 
     app.get('/dashboard', auth.requiresLogin, system.dashboard);
 
+    app.get('/registerEmail', auth.requiresLogin, users.registerEmail);
+
+    app.post('/registerEmail', auth.requiresLogin, users.postRegisterEmail);
 
     app.get('/project', auth.requiresLogin, system.project);
 
