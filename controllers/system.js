@@ -136,23 +136,6 @@ exports.projectParticipants = function(req, res) {
 
 }
 
-exports.postProjectParticipants = function(req, res) {
-    var email = require('emailjs');
-
-    var server = email.server.connect(config.email);
-    console.log(server);
-
-    var message = {
-        text:       'lol',
-        from:       'Divid <divid@divid.no>',
-        to:         'dennis.se@gmail.com',
-        subject:    'test'
-    }
-
-    server.send(message, function(err, message) { console.log(err || message);});
-
-    res.redirect('back');
-}
 
 exports.projectPost = function(req, res) {
 
@@ -206,7 +189,7 @@ exports.postProjectPost = function(req, res) {
                     res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', loggedin: true, req: req, project: project });
                 }
                 return res.redirect('/project/' + project.shortURL);
-            })
+            });
         });
     });
 }
