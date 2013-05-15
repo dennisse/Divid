@@ -129,7 +129,7 @@ exports.postProjectParticipants = function(req, res) {
                         var newUser = new User();
                         newUser.email = mailAddress;
                         newUser.status = 1;
-
+                        newUser.password = newUser.generateRandomToken(32);
                         newUser.save(function(err) {
                             if (err) return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
                             console.log('made new user ' + newUser._id);
