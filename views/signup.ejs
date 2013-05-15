@@ -19,7 +19,11 @@
             <div id="email-cg" class="control-group">
                 <label for="email-tf" class="control-label">Email</label>
                 <div class="controls">
-                    <input id="email-tf" type="text" name="email" class="input-xlarge">
+                    <% if (invite) { %>
+                        <span class="input uneditable-input"><%= email %></span>
+                    <% } else { %>
+                        <input id="email-tf" type="text" name="email" class="input-xlarge">
+                    <% } %>
                 </div>
             </div>
             <hr>
@@ -57,11 +61,11 @@
             <button data-dismiss="modal" class="btn btn-warning">OK</button>
         </div>
     </div>
-    
-    
-    
-    
-    
+
+
+
+
+
     <div class="modal-alert modal hide fade">
         <div class="modal-header">
             <button data-dismiss="modal" class="close">x</button>

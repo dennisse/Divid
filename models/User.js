@@ -30,7 +30,9 @@ var UserSchema = new Schema({
     facebook: {},
     twitter: {},
     status: { type: Number, default: 2 },
-    randomToken: String
+    randomToken: String,
+    created: { type: Date, default: Date.now },
+    updated: { type: Date, default: Date.now }
 });
 
 
@@ -86,10 +88,9 @@ UserSchema.path('hashed_password').validate(function(hashed_password) {
 UserSchema.pre('save', function(next) {
     if (!this.isNew || this.status === 1) return next();
 
-    if(!validatePrecenceOf(this.password)
-      && authTypes.indexOf(this.provider) === -1)
-      next(new Error('Invalid password'));
-    else next();
+    this.updated = Date.now();
+    next();
+
 });
 
 
@@ -142,14 +143,15 @@ UserSchema.methods = {
     * Generate random access token for Remember Me function
     *
     * @param {Number} length
+    * @param {Boolean} noDate
     * @return {String}
     * @api public
     */
 
-    generateRandomToken: function(length) {
-        if (typeof(length) === 'undefined') length = 16; // default length of token
+    generateRandomToken: function(length, noDate) {
+        if (typeof(length) === undefined) length = 16; // default length of token
         var chars = '_-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-          , token = new Date().getTime() + '_';
+          , token = noDate ? '' : new Date().getTime() + '_';
         for (var i = 0; i < length; i++) {
             var x = Math.floor(Math.random() * chars.length);
             token += chars.charAt(x);
