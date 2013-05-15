@@ -1,0 +1,43 @@
+<% include header %>
+
+</head>
+<body>
+
+    <!-- Wrapper
+    ================================================== -->
+    <div class="container" id="wrapper">
+    <div class="row-fluid">
+
+        <form class="form-horizontal" method="post">
+        <fieldset>
+
+        <h1><legend><%= title %></legend></h1>
+        <p>Vær vennlig å registrer eposten din</p>
+
+        <div class="control-group">
+            <label class="control-label">Epost-adresse</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-envelope"></i></span>
+                    <input type="email" name="email" id="email" placeholder="E-post" required>
+                </div>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="form-actions">
+                <button type="submit" id="buttonSubmit" name="submit" class="btn btn-primary">Registrer</button>
+                <button type="reset" id="buttonReset" name="reset" class="btn">Nullstill</button>
+            </div>
+        </div>
+
+
+        </fieldset>
+        </form>
+
+    </div><!-- /div.row -->
+    </div><!-- /div.#wrapper -->
+
+
+<% include footer %>
+</body>
+</html>
