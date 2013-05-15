@@ -36,10 +36,7 @@ module.exports = function(app, passport, auth) {
     app.post('/test', users.signin);
 
     app.get('/auth/facebook', passport.authenticate('facebook', { failureRedirect: '/test' }), users.signin);
-
-    app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/test' }), function(req, res) {
-        res.redirect('/dashboard');
-    });
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/test' }), users.authCallback);
 
     app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/test' }), users.signin);
     app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/test' }), users.authCallback);
