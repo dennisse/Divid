@@ -83,6 +83,9 @@ exports.create = function(req, res) {
  */
 
 exports.authCallback = function(req, res, next) {
+    // if the user hasn't registered an email, we need to do so
+    if (!req.user.email || req.user.email === 'undefined') return res.redirect('/registerEmail');
+
     res.redirect('/dashboard');
 }
 
