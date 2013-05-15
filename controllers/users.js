@@ -84,9 +84,46 @@ exports.create = function(req, res) {
 
 exports.authCallback = function(req, res, next) {
     // if the user hasn't registered an email, we need to do so
-    if (!req.user.email || req.user.email === 'undefined') return res.redirect('/registerEmail');
+    if (!req.user.email || req.user.email === undefined) return res.redirect('/registerEmail');
 
     res.redirect('/dashboard');
+}
+
+
+/**
+ * registerEmail
+ * Will register the users email if they don't have already
+ */
+
+exports.registerEmail = function(req, res) {
+    // in case some user who has alreadu registered an email gets on this page
+    if (req.user.email !== undefined) return res.redirect('/dashboard');
+    res.render('registerEmail', { title: 'Registrer din e-post' });
+}
+
+
+/**
+ * postRegisterEmail
+ */
+
+exports.postRegisterEmail = function(req, res) {
+
+    v.check(req.body.email, 'You need to supply a proper email').isEmail();
+    var errors = v.getErrors();
+    if (errors.length !== 0) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil<br>' + errors, error: errors });
+
+    // first we need to check if the email is already in use
+    User.findOne({ email: req.body.email }, function(err, user) {
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
+        // if mail is in use..
+        if (user) return res.render('registerEmail', { title: 'Den e-posten er allerede i bruk. Vennligs registrer en annen.' });
+
+        User.update({ _id: req.user._id }, { email: req.body.email }, function(err) {
+            if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+            return res.redirect('/dashboard');
+        });
+    });
 }
 
 
