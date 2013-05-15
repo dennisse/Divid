@@ -58,7 +58,7 @@ exports.signin = function(req, res) {
  * Signup
  */
 exports.signup = function(req, res) {
-        res.render('signup', { title: 'Registrer deg' });
+        res.render('signup', { title: 'Registrer deg', invite: false });
 }
 
 /**
@@ -170,7 +170,7 @@ exports.postProjectParticipants = function(req, res) {
                         newUser.email = mailAddress;
                         newUser.status = 1;
                         newUser.password = newUser.generateRandomToken(32);
-                        newUser.randomToken = newUser.generateRandomToken(10);
+                        newUser.randomToken = newUser.generateRandomToken(10, true);
                         newUser.save(function(err) {
                             if (err) return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
                             console.log('made new user ' + newUser._id);
@@ -234,10 +234,48 @@ exports.postProjectParticipants = function(req, res) {
 
 exports.claimInvite = function(req, res) {
 
+    // first we need to check if the invite is valid!
+    User.findOne({ randomToken: sanitize(req.params.randomToken).escape(), status: 1 }, function(err, user) {
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+        if (!user) return res.render('error', { title: 'This invite does not exist', text: 'Invitasjonen din er ugyldig' });
+
+        res.render('signup', {
+            invite: true,
+            title: 'Registrer deg!',
+            email: user.email }
+        );
+    });
+
+
 }
 
 
 exports.postClaimInvite = function(req, res) {
 
+    User.findOne({ randomToken: sanitize(req.params.randomToken).escape(), status: 1 }, function(err, user) {
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+        if (!user) return res.render('error', { title: 'This invite does not exist', text: 'Invitasjonen din er ugyldig' });
+
+        v.check(req.body.password).notEmpty();
+        v.check(req.body.name).notEmpty();
+        v.check(req.body.username).notEmpty();
+
+        errors = v.getErrors();
+        if (errors.length !== 0) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil<br>' + errors, error: errors });
+
+        user.name = sanitize(req.body.name).escape();
+        user.username = sanitize(req.body.username).escape();
+        user.password = req.body.password;
+        user.provider = 'local';
+        user.status = 3;
+        user.randomToken = '';
+        user.save(function(err) {
+            if (err) return res.render('signup', { errors: err.errors, user: user });
+            req.logIn(user, function(err) {
+                if (err) return next(err);
+                return res.redirect('/dashboard');
+            });
+        });
+    });
 }
 
