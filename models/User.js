@@ -148,10 +148,10 @@ UserSchema.methods = {
 
     generateRandomToken: function(length) {
         if (typeof(length) === 'undefined') length = 16; // default length of token
-        var chars = "_!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+        var chars = '_-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
           , token = new Date().getTime() + '_';
         for (var i = 0; i < length; i++) {
-            var x = Math.floor(Math.random() * 62);
+            var x = Math.floor(Math.random() * chars.length);
             token += chars.charAt(x);
         }
         return token;
