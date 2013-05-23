@@ -40,7 +40,8 @@ pPostSchema.statics = {
           .exec(callback);
     },
 
-   /**
+
+          /**
     * Find all posts that belong to a project, by project id
     *
     * @param {ObjectId} project
@@ -51,6 +52,24 @@ pPostSchema.statics = {
     loadProject: function(project, callback) {
         this.find({ project: project })
           .populate('user')
+          .sort({ 'when': -1 })
+          .exec(callback);
+    },
+
+
+   /**
+    * Find last ten posts belonging projects a user is part of, by project ids
+    *
+    * @param {Array[ObjectId]} projects
+    * @param {Function} callback
+    * @api private
+    */
+
+    loadByProjects: function(projects, callback) {
+        this.find({ project: { $in: projects } })
+          .populate({ path: 'user', select: 'name email status' })
+          .populate({ path: 'project', select: 'name shortURL' })
+          .limit(10)
           .sort({ 'when': -1 })
           .exec(callback);
     }
