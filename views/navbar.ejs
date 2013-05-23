@@ -4,7 +4,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner" id="top-navbar">
             <div class="container">
-                <% if (!loggedin) { %>
+                <% if (user === undefined) { %>
                 <div class="row-fluid collapse login-collapse">
                     <div class="span6">
                         <!--<img src="/img/logo_white.png">-->
@@ -52,17 +52,17 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <% if(!loggedin) { %><a class="brand login" data-toggle="collapse" data-target=".login-collapse" href="#login">Logg inn</a>
-                        <% } else { %><a href="/logout" class="brand login">Logg ut</a>
-                        <% } %>
+                        <div class="login">
+                            <% if(user === undefined) { %><a class="login" data-toggle="collapse" data-target=".login-collapse" href="#login">Logg inn</a>
+                            <% } else { %>Logget inn som <%= user.username %> <a href="/logout" class="login">Logg ut</a>
+                            <% } %>
+                        </div>
                     </div>
                     <div class="nav-collapse collapse">
                         <ul class="nav menu">
                             <li><a href="/faq">FAQ</a></li>
-                            <li><a href="/forum">Forum</a></li>
                             <li><a href="/contact">Kontakt</a></li>
                             <li><a href="/project/new">Nytt prosjekt</a></li>
-                            <li><a href="/dashboard">Dashboard</a></li>
                         </ul>
                     </div>
                 </div>
