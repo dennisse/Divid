@@ -38,6 +38,21 @@ pPostSchema.statics = {
         this.findOne({ _id: id })
           .populate('user')
           .exec(callback);
+    },
+
+   /**
+    * Find all posts that belong to a project, by project id
+    *
+    * @param {ObjectId} project
+    * @param {Function} callback
+    * @api private
+    */
+
+    loadProject: function(project, callback) {
+        this.find({ project: project })
+          .populate('user')
+          .sort({ 'when': -1 })
+          .exec(callback);
     }
 
 }
