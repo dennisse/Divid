@@ -122,8 +122,10 @@ exports.dashboard = function(req, res) {
 exports.project = function(req, res) {
     Project.loadShort(req.params.short, function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-
-        res.render('project', { title: 'Harepus', user: req.user, req: req, project: project });
+        Access.loadProject(project._id, function(err, access) {
+            if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+            res.render('project', { title: project.name, user: req.user, req: req, project: project, access: access });
+        });
 
     });
 }
@@ -154,15 +156,15 @@ exports.projectPost = function(req, res) {
 exports.postProjectPost = function(req, res) {
 
     // Validation
-    v.check('project', 'The project was lost').notEmpty();
-    v.check('what', 'You need to fill in the what-field').notEmpty();
-    v.check('value', 'The value must be a positive number').notEmpty().isInt().min(0);
+    v.check(req.body.project, 'The project was lost').notEmpty();
+    v.check(req.body.what, 'You need to fill in the what-field').notEmpty();
+    v.check(req.body.value, 'The value must be a positive number').notEmpty().isInt().min(0);
 
     // error when validation fails
     var errors = v.getErrors();
-    if (errors.length !== 0) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil', error: errors.stack });
+    if (errors.length !== 0) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil ' + errors, error: errors });
 
-    Project.load(req.sanitize('project').escape(), function(err, project) {
+    Project.load(sanitize(req.body.project).escape(), function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
         // check if access
