@@ -124,7 +124,10 @@ exports.project = function(req, res) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         Access.loadProject(project._id, function(err, access) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-            res.render('project', { title: project.name, user: req.user, req: req, project: project, access: access });
+            pPost.loadProject(project._id, function(err, posts) {
+                if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+                res.render('project', { title: project.name, user: req.user, req: req, project: project, access: access, posts: posts });
+            });
         });
 
     });
@@ -164,7 +167,7 @@ exports.postProjectPost = function(req, res) {
     var errors = v.getErrors();
     if (errors.length !== 0) return res.status(500).render('error', { title: '500', text: 'Det oppstod en valideringsfeil ' + errors, error: errors });
 
-    Project.load(sanitize(req.body.project).escape(), function(err, project) {
+    Project.loadShort(req.params.short, function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
         // check if access
@@ -182,12 +185,8 @@ exports.postProjectPost = function(req, res) {
             ppost.participants = sanitize(req.body.participants).escape();
             ppost.value        = sanitize(req.body.value).toInt(); // this will remove leading zeroes. '0123' => '123'
             ppost.when         = new Date(sanitize(req.body.date).escape() + ' ' + sanitize(req.body.time).escape() + ':00');
-
             ppost.save(function(err) {
-                if (err) {
-                    console.log(err.errors);
-                    res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', user: req.user, req: req, project: project });
-                }
+                if (err) return res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', user: req.user, req: req, project: project });
                 return res.redirect('/project/' + project.shortURL);
             });
         });
