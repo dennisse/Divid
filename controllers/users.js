@@ -185,15 +185,11 @@ exports.postProjectParticipants = function(req, res) {
                                 }
                                 console.log('made new access for user ' + newUser._id);
                                 message.to = newUser.email;
-                                message.text = 'Du ble lagt til projektet "' + project.name + '"';
+                                message.text = 'Hei! Du har blitt invitert til å delta i et Divid-prosjekt! https://divid.no/invite/' + newUser.randomToken;
                                 server.send(message, function(err, message) { console.log(err || message);});
                             });
                         });
 
-
-                        message.to = newUser.email;
-                        message.text = 'Hei hå';
-                        server.send(message, function(err, message) { console.log(err || message);});
                     } else { // if the user exists, add him to the project
                         Access.checkAccess(user._id, project._id, 0, function(err, acc) {
                             if (err) return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
