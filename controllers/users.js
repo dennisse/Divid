@@ -119,7 +119,7 @@ exports.postRegisterEmail = function(req, res) {
         // if mail is in use..
         if (user) return res.render('registerEmail', { title: 'Den e-posten er allerede i bruk. Vennligs registrer en annen.' });
 
-        User.update({ _id: req.user._id }, { email: req.body.email }, function(err) {
+        User.update({ _id: req.user._id }, { email: req.body.email, status: 3 }, function(err) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
             return res.redirect('/dashboard');
         });
