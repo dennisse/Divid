@@ -95,13 +95,24 @@ exports.dashboard = function(req, res) {
     Access.loadUser(req.user._id, function(err, projects) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         Project.populate(projects, { path: 'project.user', model: User }, function(err, projects) {
-
-            res.render('dashboard', {
+            var projectIDs = [];
+            projects.forEach(function(project) { projectIDs.push(project.project._id); console.log(project.project.name); });
+            pPost.loadByProjects(projectIDs, function(err, posts) {
+                console.log(posts);
+                if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+                res.render('dashboard', {
+                    title: 'Dashboard',
+                    user: req.user,
+                    projects: projects,
+                    posts: posts
+                });
+            });
+            /*            res.render('dashboard', {
                 title: 'Dashboard',
                 user: req.user,
                 projects: projects
             });
-
+*/
         });
 
     });
