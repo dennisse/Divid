@@ -32,7 +32,8 @@ Validator.prototype.getErrors = function() {
 */
 
 exports.index = function(req, res) {
-    res.render('index', { title: 'DERS', loggedin: false });
+    if (req.user !== undefined) { return res.redirect('/dashboard'); }
+    res.render('index', { title: 'DERS', user: req.user });
     };
 
 
@@ -40,7 +41,7 @@ exports.index = function(req, res) {
 exports.test = function(req, res) {
     res.render('test', {
         title: 'test',
-        loggedin: false
+        user: req.user
     });
 };
 
@@ -48,7 +49,7 @@ exports.test = function(req, res) {
 exports.home = function(req, res) {
     res.render('home', {
         title: 'home',
-        loggedin: false
+        user: req.user
     });
 };
 
@@ -56,7 +57,7 @@ exports.home = function(req, res) {
 exports.faq = function(req, res) {
     res.render('faq', {
         title: 'faq',
-        loggedin: false
+        user: req.user
     });
 }
 
@@ -64,7 +65,7 @@ exports.faq = function(req, res) {
 exports.contact = function(req, res) {
     res.render('contact', {
         title: 'contact',
-        loggedin: false
+        user: req.user
     });
 }
 
@@ -97,7 +98,7 @@ exports.dashboard = function(req, res) {
 
             res.render('dashboard', {
                 title: 'Dashboard',
-                loggedin: true,
+                user: req.user,
                 projects: projects
             });
 
@@ -110,7 +111,7 @@ exports.dashboard = function(req, res) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         res.render('dashboard', {
             title: 'Dashboad',
-            loggedin: true,
+            user: req.user,
             projects: projects
         });
     });*/
@@ -122,14 +123,14 @@ exports.project = function(req, res) {
     Project.loadShort(req.params.short, function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
-        res.render('project', { title: 'Harepus', loggedin: true, req: req, project: project });
+        res.render('project', { title: 'Harepus', user: req.user, req: req, project: project });
 
     });
 }
 
 exports.projectParticipants = function(req, res) {
 
-    res.render('projectParticipants', { title: 'Prosjektdeltakere', loggedin: true });
+    res.render('projectParticipants', { title: 'Prosjektdeltakere', user: req.user });
 
 }
 
@@ -143,7 +144,7 @@ exports.projectPost = function(req, res) {
     Project.loadShort(req.params.short, function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         req.project = project;
-        res.render('projectPost', { title: 'Legg til utgift', loggedin: true, req: req, project: project });
+        res.render('projectPost', { title: 'Legg til utgift', user: req.user, req: req, project: project });
     });
 
 
@@ -183,7 +184,7 @@ exports.postProjectPost = function(req, res) {
             ppost.save(function(err) {
                 if (err) {
                     console.log(err.errors);
-                    res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', loggedin: true, req: req, project: project });
+                    res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', user: req.user, req: req, project: project });
                 }
                 return res.redirect('/project/' + project.shortURL);
             });
@@ -191,7 +192,7 @@ exports.postProjectPost = function(req, res) {
     });
 }
 exports.newProject = function(req, res) {
-    res.render('newProject', { title: 'Nytt prosjekt', loggedin: true });
+    res.render('newProject', { title: 'Nytt prosjekt', user: req.user });
 }
 
 exports.postNewProject = function(req, res) {
@@ -200,7 +201,7 @@ exports.postNewProject = function(req, res) {
     project.save(function(err) {
         if (err) {
             console.log(err.errors);
-            return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true, errors: err.errors, project: project });
+            return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', user: req.user, errors: err.errors, project: project });
         }
         var access = new Access();
         access.user = req.user._id;
@@ -210,7 +211,7 @@ exports.postNewProject = function(req, res) {
         access.save(function(err) {
             if (err) {
                 console.log(err.errors);
-                return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
+                return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', user: req.user });
             }
             return res.redirect('/dashboard');
         });
