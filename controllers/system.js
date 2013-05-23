@@ -32,7 +32,7 @@ Validator.prototype.getErrors = function() {
 */
 
 exports.index = function(req, res) {
-    res.render('index', { title: 'DERS' });
+    res.render('index', { title: 'DERS', loggedin: false });
     };
 
 
