@@ -14,7 +14,7 @@
                     prosjekt
                 </div>
                 <div class="span10">
-                    <h1><%= title %></h1>
+                    <h1><%= project.name %></h1>
                 </div>
             </div>
             <div class="row-fluid">
@@ -22,7 +22,10 @@
                     opprettet
                 </div>
                 <div class="span10">
-                    <p>2013-04-18</p>
+                    <p>
+                        <% var d = new Date(project.created); %>
+                        <%= d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2) + ' ' + d.toLocaleTimeString().slice(0, 5) %>
+                    </p>
                 </div>
             </div>
             <div class="row-fluid">
@@ -30,11 +33,11 @@
                     deltakere
                 </div>
                 <div class="span10">
-                    Truls Hyttebakken <span class="muted">(eier)</span><br />
-                    Stian Rabaldertusten <span class="muted">(admin)</span><br />
-                    Robert Joramo<br />
-                    Dennis Eriksen<br />
-                    Helene Apelort<br />
+                    <% access.forEach(function(participants) { %>
+                        <% if (participants.user.status === 1) { %><span class="muted"><%= participants.user.email %> (ikke registrert)</span><br>
+                        <% } else { %><%= participants.user.name %><% if (participants.permissions >= 6) { %> <span class="muted">(<%= participants.permissions === 9 ? 'eier' : 'admin' %>)</span><% } %><br>
+                        <% } %>
+                    <% }); %>
                     <small><a href="/project/<%= req.params.short %>/participants">Legg til flere deltakere</a></small>
                 </div>
             </div>
