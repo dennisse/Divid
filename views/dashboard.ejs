@@ -12,7 +12,9 @@
         <div class="smallfullwidth span5">
             <h1>Prosjekter</h1>
             <section class="projects">
-                <% projects.forEach(function(projects) { %>
+                <% if (projects.length === 0) { %>
+                    <p>Du har ingen aktive prosjekt. Du kan starte et prosjekt ved å klikke <a href="/project/new">her</a>.</p>
+                <% } else { projects.forEach(function(projects) { %>
                     <section class="project">
                         <div class="row-fluid">
                             <div class="span11">
@@ -31,43 +33,7 @@
                             </div>
                         </div>
                     </section>
-                <% }); %>
-                <section class="project">
-                    <div class="row-fluid">
-                        <div class="span11">
-                            <h1><a href="/kurt/Kollektivet">kurt/<strong>Kollektivet</strong></a></h1>
-                            <div class="row-fluid">
-                                <div class="span8">
-                                    <small>Meg, Robert, Heidi, Anette, Kristine</small>
-                                </div>
-                                <div class="span4">
-                                    <small>Oppgjør: <span class="text-error">-2314 kr</span></small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span1">
-                            <p class="flip">Før utgift</p>
-                        </div>
-                    </div>
-                </section>
-                <section class="project">
-                    <div class="row-fluid">
-                        <div class="span11">
-                            <h1><a href="/turidl/Kosekveldene">turidl/<strong>Kosekveldene</strong></a></h1>
-                              <div class="row-fluid">
-                                <div class="span8">
-                                    <small>Meg, Turid-Laila</small>
-                                </div>
-                                <div class="span4">
-                                    <small>Oppgjør: <span class="text-success">551 kr</span></small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span1">
-                            <p>+</p>
-                        </div>
-                    </div>
-                </section>
+                <% }); } %>
                 <a href="/project/new" class="btn btn-large btn-block" type="button">+</a>
             </section>
         </div><!-- /div.span5 -->
