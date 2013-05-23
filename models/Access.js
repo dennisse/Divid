@@ -48,7 +48,22 @@ AccessSchema.statics = {
     },
 
 
-    /**
+   /**
+    * Load all users associated with a project
+    *
+    * @param {ObjectId} project
+    * @param {Function} callback
+    * @api private
+    */
+
+    loadProject: function(project, callback) {
+        this.find({ project: project })
+          .populate('user')
+          .sort({ 'created': 1 }) // sort by date
+          .exec(callback);
+    },
+
+   /**
     * Check to see if user has access to a particular project
     *
     * @param {ObjectId} user
