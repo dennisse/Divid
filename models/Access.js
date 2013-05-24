@@ -63,6 +63,23 @@ AccessSchema.statics = {
           .exec(callback);
     },
 
+
+   /**
+    * Load all users associated with several projects
+    *
+    * @param {Arrau[ObjectId]} projects
+    * @param {Function} callback
+    * @api private
+    */
+
+    loadProjects: function(projects, callback) {
+        this.find({ project: { $in: projects } })
+          .populate({ path: 'user', select: 'name email status' })
+          .sort({ 'created': -1 })
+          .exec(callback);
+    },
+
+
    /**
     * Check to see if user has access to a particular project
     *
