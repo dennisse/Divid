@@ -83,7 +83,7 @@ AccessSchema.statics = {
 
     loadProject: function(project, callback) {
         this.find({ project: project })
-          .populate('user')
+          .populate({path: 'user', select: '_id name'})
           .sort({ 'created': 1 }) // sort by date
           .exec(callback);
     },
