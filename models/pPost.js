@@ -36,7 +36,7 @@ pPostSchema.statics = {
 
     load: function(id, callback) {
         this.findOne({ _id: id })
-          .populate('user')
+          .populate({ path: 'user', select: '_id, name'})
           .exec(callback);
     },
 
