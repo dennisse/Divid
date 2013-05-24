@@ -52,7 +52,7 @@ pPostSchema.statics = {
     loadProject: function(project, callback) {
         this.find({ project: project })
           .populate('user')
-          .sort({ 'when': -1 })
+          .sort({ 'when': -1, 'created': -1 })
           .exec(callback);
     },
 
@@ -70,7 +70,7 @@ pPostSchema.statics = {
           .populate({ path: 'user', select: 'name email status' })
           .populate({ path: 'project', select: 'name shortURL' })
           .limit(10)
-          .sort({ 'when': -1 })
+          .sort({ 'when': -1, 'created': -1 })
           .exec(callback);
     }
 
