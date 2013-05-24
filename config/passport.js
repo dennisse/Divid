@@ -42,10 +42,8 @@ module.exports = function (passport, config) {
     }));
 
     passport.use(new HashStrategy({ passReqToCallback: true }, function(req, hash, done) {
-        console.log('TRYNG ' + hash);
         Access.findOne({ randomToken: hash }, function(err, access) {
             if (err) return done(err);
-            console.log(access);
             if (!access) return done(null, false, { message: 'Unknown link' });
             User.findOne({ _id: access.user }, function(err, user) {
                 if (err) return done(err);
@@ -68,7 +66,6 @@ module.exports = function (passport, config) {
         // looks up the user in the database. Will create the user if it does not exist
         User.findOne({ 'facebook.id': profile.id }, function(err, user) {
             if(err) return done(err);
-            console.log(profile);
             if (!user) {
                 user = new User({
                     name: profile.displayName
