@@ -53,7 +53,7 @@ UserSchema
  *  Validations
  */
 
-var validatePrecenceOf = function (value) {
+var validatePrecenceOf = function(value) {
     return value && value.length;
 }
 
