@@ -25,14 +25,6 @@ Validator.prototype.getErrors = function() {
     return returnThis;
 }
 
-
-    if (req.user.status < access) {
-        console.log(req.header('Referer'));
-        if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
-        else { return res.redirect('back'); }
-    }
-
-
 /**
  * Before the user log in
  * ===============================================================
