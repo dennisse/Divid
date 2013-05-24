@@ -18,10 +18,18 @@
                     <section class="project">
                         <div class="row-fluid">
                             <div class="span11">
-                                <h1><a href="/project/<%= projects.project.shortURL %>"><%= projects.project.user.username %>/<strong><%= projects.project.name %></strong></a></h1>
+                                <h1><a href="/project/<%= projects.project.shortURL %>"><strong><%= projects.project.name %></strong></a></h1>
                                 <div class="row-fluid">
                                     <div class="span8">
-                                        <small>Meg, Robert, Turid-Laila, Kurt, Stian, Aleksander, Frank, Olav, Heidi, Anette, Kristine</small>
+                                        <small>
+                                            <% var ppl = 'Meg';
+                                                participants.forEach(function(participant) {
+                                                if (String(participant.project) === String(projects.project._id) && String(participant.user._id) !== String(user._id)) {
+                                                    ppl += ', ' + participant.user.name;
+                                                }
+                                            }); %>
+                                            <%- ppl %>
+                                        </small>
                                     </div>
                                     <div class="span4">
                                         <small>Oppgjør: <span class="text-error">-200 kr</span></small>
