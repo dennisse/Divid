@@ -34,9 +34,7 @@
                 </div>
                 <div class="span10">
                     <% access.forEach(function(participants) { %>
-                        <% if (participants.user.status === 1) { %><span class="muted"><%= participants.user.email %> (ikke registrert)</span><br>
-                        <% } else { %><%= participants.user.name %><% if (participants.permissions >= 6) { %> <span class="muted">(<%= participants.permissions === 9 ? 'eier' : 'admin' %>)</span><% } %><br>
-                        <% } %>
+                        <%- participants.user.name %><% if (participants.permissions >= 6) { %> <span class="muted">(<%= participants.permissions === 9 ? 'eier' : 'admin' %>)</span><% } %><br>
                     <% }); %>
                     <small><a href="/project/<%= req.params.short %>/participants">Legg til flere deltakere</a></small>
                 </div>
@@ -108,7 +106,7 @@
                                 <div class="span6">
                                     <div class="row-fluid">
                                         <div class="span2 info text-right smallfullwidth">av</div>
-                                        <div class="span10 smallfullwidth"><%= post.user.name === undefined ? post.user.email + ' <span class="muted">(ikke registrert)</span>' : post.user.name %></div>
+                                        <div class="span10 smallfullwidth"><%- post.user.name %></div>
                                     </div>
                                     <div class="row-fluid">
                                         <div class="span2 info text-right smallfullwidth">hva</div>

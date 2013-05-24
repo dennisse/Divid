@@ -168,6 +168,7 @@ exports.postProjectParticipants = function(req, res) {
                         console.log('fant ingen brukere med den eposten. må invitere og stasj');
                         var newUser = new User();
                         newUser.email = mailAddress;
+                        newUser.name = mailAddress + ' <span class="muted">(ikke registrert)</span>';
                         newUser.status = 1;
                         newUser.password = newUser.generateRandomToken(32);
                         newUser.randomToken = newUser.generateRandomToken(10, true);
