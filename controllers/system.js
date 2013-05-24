@@ -26,6 +26,13 @@ Validator.prototype.getErrors = function() {
 }
 
 
+    if (req.user.status < access) {
+        console.log(req.header('Referer'));
+        if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
+        else { return res.redirect('back'); }
+    }
+
+
 /**
  * Before the user log in
  * ===============================================================
@@ -92,6 +99,12 @@ exports.dashboard = function(req, res) {
         });
     });
 */
+    if (req.user.status < 3) {
+        console.log(req.header('Referer'));
+        if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
+        else { return res.redirect('back'); }
+    }
+
     Access.loadUser(req.user._id, function(err, projects) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         var projectIDs = [];
@@ -148,7 +161,11 @@ exports.project = function(req, res) {
 }
 
 exports.projectParticipants = function(req, res) {
-
+    if (req.user.status < 3) {
+        console.log(req.header('Referer'));
+        if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
+        else { return res.redirect('back'); }
+    }
     res.render('projectParticipants', { title: 'Prosjektdeltakere', user: req.user });
 
 }
@@ -207,10 +224,22 @@ exports.postProjectPost = function(req, res) {
     });
 }
 exports.newProject = function(req, res) {
+    if (req.user.status < 3) {
+        console.log(req.header('Referer'));
+        if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
+        else { return res.redirect('back'); }
+    }
+
     res.render('newProject', { title: 'Nytt prosjekt', user: req.user });
 }
 
 exports.postNewProject = function(req, res) {
+    if (req.user.status < 3) {
+        console.log(req.header('Referer'));
+        if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
+        else { return res.redirect('back'); }
+    }
+
     var project = new Project(req.body);
     project.user = req.user._id;
     project.save(function(err) {
