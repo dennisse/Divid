@@ -142,11 +142,45 @@ exports.project = function(req, res) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         Access.loadProject(project._id, function(err, access) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-            access.forEach(function(a) {
-                if (String(a.user._id) === String(req.user._id)) req.user.permissions = a.permissions;
-            });
             pPost.loadProject(project._id, function(err, posts) {
                 if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
+                // ALRIGHT! This is where the FUN starts!
+
+               // first we create an object that will hold all the calculational data
+                var pro = {
+                        users:  0   // number of users
+                      , user:   []  // this array will contain every user. Every user will then have it's own object inside this.
+                      , total:  0   // the overall total.
+                      , each:   0   // what each person has to pay
+                    };
+
+                // then we calculate how many users we have, and initiate objects foreach user
+                access.forEach(function(a) {
+                    if (String(a.user._id) === String(req.user._id)) req.user.permissions = a.permissions; //sets YOUR permissions in this project
+
+                    pro.users++;
+                    pro.user[a.user.id] = {
+                            total:  0
+                          , diff:   0
+                        };
+                });
+
+                // now we must collect all the money!
+                posts.forEach(function(p) {
+                    pro.total += parseFloat(p.value);
+                    pro.user[p.user._id].total += parseFloat(p.value);
+                });
+
+                // then calculate how much each user must pay in total
+                pro.each = pro.total / pro.users;
+
+                // then calculate how much each person owe and is owned
+                for(var i in pro.user) {
+                    pro.user[i].diff = parseFloat(pro.user[i].total - pro.each).toFixed(2);
+                }
+
+                console.log(pro);
                 res.render('project', {
                     title: project.name
                   , user: req.user
@@ -154,6 +188,7 @@ exports.project = function(req, res) {
                   , project: project
                   , access: access
                   , posts: posts
+                  , pro: pro
                 });
             });
         });

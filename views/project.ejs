@@ -63,9 +63,9 @@
                         <div class="row-fluid">
                                 <table class="table table-bordered table-condensed">
                                     <tr>
-                                        <td class="success">3000</td>
-                                        <td class="error">4000</td>
-                                        <td>1000</td>
+                                        <td class="success"><%= pro.user[req.user._id].total %></td>
+                                        <td class="error"><%= pro.total %></td>
+                                        <td><%= pro.user[req.user._id].diff %></td>
                                     </tr>
                                 </table><a href="#table-info" class="accordion-toggle" data-toggle="collapse"><i class="icon-info-sign"></i></a>
                         </div>
