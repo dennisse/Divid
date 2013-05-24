@@ -188,7 +188,7 @@ exports.postProjectParticipants = function(req, res) {
                             access.user = newUser._id;
                             access.creator = req.user._id;
                             access.project = project._id;
-                            access.randomToken = newUser.generateRandomToken(15, true);
+                            access.randomToken = access.generateRandomToken(15);
                             access.save(function(err) {
                                 if (err) {
                                     console.log(err.errors);
@@ -212,6 +212,13 @@ exports.postProjectParticipants = function(req, res) {
                                 access.user = user._id;
                                 access.creator = req.user._id;
                                 access.project = project._id;
+                                message.text = 'Du ble lagt til projektet "' + project.name + '"';
+                                console.log('user.status = '+  user.status);
+                                if (Number(user.status) < 3) {
+                                    console.log('DAFUQ MANN! ER JO INNI IFFEN FFS!');
+                                    access.randomToken = access.generateRandomToken(15);
+                                    message.text += '.\nDu kan få direkte tilgang til dette prosjektet her: https://divid.no/login/' + access.randomToken + ' \nDu kan bruke denne linken for å registrere deg, for å få tilgang til flere funksjoner: https://divid.no/invite/' + user.randomToken;
+                                }
                                 access.save(function(err) {
                                     if (err) {
                                         console.log(err.errors);
@@ -219,7 +226,6 @@ exports.postProjectParticipants = function(req, res) {
                                     }
                                     console.log('made new access for user ' + user.username);
                                     message.to = user.email;
-                                    message.text = 'Du ble lagt til projektet "' + project.name + '"';
                                     server.send(message, function(err, message) { console.log(err || message);});
                                 });
                             }
