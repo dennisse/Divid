@@ -152,7 +152,9 @@ exports.postProjectParticipants = function(req, res) {
             //var emails = sanitize(req.body.emails).xss();
             emails = emails.split('\r\n');
             emails.forEach(function(m) { // m = each mailaddress
-                if (m) v.check(m, m + ' is not a valid email').isEmail();
+                if (m) {
+                    v.check(m, m + ' is not a valid email').isEmail();
+                }
             });
 
             // error when validation fails
@@ -168,8 +170,7 @@ exports.postProjectParticipants = function(req, res) {
                 text:       'VIL DU BRUK DIVID?',
                 from:       'Divid <divid@divid.no>',
             }
-
-           emails.forEach(function(mailAddress) { // loops through all the emails and sets up each user
+            emails.forEach(function(mailAddress) { // loops through all the emails and sets up each user
                 User.loadUser(mailAddress, function(err, user) {
                     if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
                     if (!user) { //if the user doesn't exist, create one
@@ -213,9 +214,7 @@ exports.postProjectParticipants = function(req, res) {
                                 access.creator = req.user._id;
                                 access.project = project._id;
                                 message.text = 'Du ble lagt til projektet "' + project.name + '"';
-                                console.log('user.status = '+  user.status);
                                 if (Number(user.status) < 3) {
-                                    console.log('DAFUQ MANN! ER JO INNI IFFEN FFS!');
                                     access.randomToken = access.generateRandomToken(15);
                                     message.text += '.\nDu kan få direkte tilgang til dette prosjektet her: https://divid.no/login/' + access.randomToken + ' \nDu kan bruke denne linken for å registrere deg, for å få tilgang til flere funksjoner: https://divid.no/invite/' + user.randomToken;
                                 }

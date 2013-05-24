@@ -15,7 +15,6 @@
         <fieldset>
 
         <h1><legend><%= title %></legend></h1>
-        <p>Ta på meg!</p>
         <div class="control-group">
             <label for="username" class="control-label">Av</label>
             <div class="controls">
@@ -32,7 +31,7 @@
         <div class="control-group">
             <label for="what" class="control-label">Hva <strong class="text-error">*</strong></label>
             <div class="controls">
-                <input type="text" name="what" id="what" placeholder="Hva ble kjøpt" required>
+                <input type="text" name="what" id="what" placeholder="Hva ble kjøpt" required maxlength="40">
             </div>
         </div>
         <%
