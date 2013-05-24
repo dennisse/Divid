@@ -269,7 +269,7 @@ exports.deleteProjectPost = function(req, res) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
             if (!access) return res.status(403).render('error', { title: '403', text: 'Du har ikke tilgang til å gjøre dette' });
             pPost.load(req.params.post, function(err, post) {
-                if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+                if (err || !post) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err });
                 if (post.user._id === req.user._id || access.permissions >= 6) {
                     pPost.remove({ _id: post._id }, function(err) {
                         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
