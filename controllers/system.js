@@ -92,7 +92,6 @@ exports.dashboard = function(req, res) {
     });
 */
     if (req.user.status < 3) {
-        console.log(req.header('Referer'));
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
@@ -100,7 +99,7 @@ exports.dashboard = function(req, res) {
     Access.loadUser(req.user._id, function(err, projects) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         var projectIDs = [];
-        projects.forEach(function(project) { projectIDs.push(project.project._id); console.log(project.project.name); });
+        projects.forEach(function(project) { projectIDs.push(project.project._id); });
         Access.loadProjects(projectIDs, function(err, participants) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
             pPost.loadByProjects(projectIDs, function(err, posts) {
@@ -165,7 +164,6 @@ exports.project = function(req, res) {
 
 exports.projectParticipants = function(req, res) {
     if (req.user.status < 3) {
-        console.log(req.header('Referer'));
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
@@ -179,7 +177,6 @@ exports.projectPost = function(req, res) {
    /** ###################################
     * Need to check if user has access to this project!!
     */
-    console.log(req.loggedin);
     Project.loadShort(req.params.short, function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         req.project = project;
@@ -228,7 +225,6 @@ exports.postProjectPost = function(req, res) {
 }
 exports.newProject = function(req, res) {
     if (req.user.status < 3) {
-        console.log(req.header('Referer'));
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
@@ -238,7 +234,6 @@ exports.newProject = function(req, res) {
 
 exports.postNewProject = function(req, res) {
     if (req.user.status < 3) {
-        console.log(req.header('Referer'));
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
