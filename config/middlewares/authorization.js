@@ -5,7 +5,7 @@
  */
 
 exports.requiresLogin = function(req, res, next) {
-    if (!req.isAuthenticated()) return res.redirect('/test');
+    if (!req.isAuthenticated()) return res.redirect('/');
     next();
 }
 

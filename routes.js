@@ -26,7 +26,7 @@ module.exports = function(app, passport, auth) {
 
     app.get('/login', users.login);
 
-    app.post('/login', passport.authenticate('local', { failureRedirect: '/test' }), users.signin);
+    app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), users.signin);
 
     app.get('/signup', users.signup);
 
@@ -34,11 +34,11 @@ module.exports = function(app, passport, auth) {
 
     app.post('/test', users.signin);
 
-    app.get('/auth/facebook', passport.authenticate('facebook', { failureRedirect: '/test' }), users.signin);
-    app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/test' }), users.authCallback);
+    app.get('/auth/facebook', passport.authenticate('facebook', { failureRedirect: '/' }), users.signin);
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/' }), users.authCallback);
 
-    app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/test' }), users.signin);
-    app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/test' }), users.authCallback);
+    app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/' }), users.signin);
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), users.authCallback);
 
     app.get('/invite/:randomToken', users.claimInvite);
 
@@ -46,7 +46,7 @@ module.exports = function(app, passport, auth) {
 
     app.get('/logout', users.logout);
 
-    app.get('/login/:hash', passport.authenticate('hash', { failureRedirect: '/test'}), users.randomLogin);
+    app.get('/login/:hash', passport.authenticate('hash', { failureRedirect: '/'}), users.randomLogin);
 
    /**
     * REQUIRES LOGIN
