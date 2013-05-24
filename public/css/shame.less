@@ -66,11 +66,17 @@ section.content {
 .nav .menu{
 color: #FF9A00;
 }
-.navbar div.brand {
-    float: right;
-}
-.navbar a.brand {
+.navbar a.login {
     color: #FF9A00;
+    font-size: 20px;
+    font-weight: 200;
+}
+.navbar div.login {
+    float: left;
+    display: block;
+    padding: 10px 20px 10px;
+    margin-left: -20px;
+    color: @grayLight;
 }
 
 .bs-docs-sidenav {
@@ -152,13 +158,13 @@ section.projects section.project .span11 {
     padding: 5px;
     border-right: 2px solid @grayLight;
 }
-section.projects section.project .span1 {
+/*section.projects section.project .span1 {
     display: inline-block;
     height: 100%;
     background-color: white;
     min-height: inherit;
     font-size: 3em;
-}
+}*/
 section.projects a.btn-large {
     font-weight: bold;
     font-size: 3em;
@@ -249,11 +255,15 @@ div.lastactivity .activity .details {
 
 .logo { float: left }
 
-
-
-
-
-
+p.flip {
+    font-size: @fontSizeMini;
+    line-height: 10px;
+    width: 50px;
+    margin: 20px 0 0 -17px;
+    text-align: center;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+}
 
 
 @media (max-width: 480px) {
