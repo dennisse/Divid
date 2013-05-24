@@ -99,19 +99,39 @@ exports.dashboard = function(req, res) {
     Access.loadUser(req.user._id, function(err, projects) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         var projectIDs = [];
-        projects.forEach(function(project) { projectIDs.push(project.project._id); });
+        var pro = { project: [] };
+        projects.forEach(function(project) {
+            projectIDs.push(project.project._id);
+            pro.project[project.project._id] = {
+                total:  0  // total for project
+              , user:   0  // what req-user has spent on project
+              , users:  0  // number of users on project
+            };
+        });
         Access.loadProjects(projectIDs, function(err, participants) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+            participants.forEach(function(p) {
+                pro.project[p.project].users++;
+            });
             pPost.loadByProjects(projectIDs, function(err, posts) {
                 if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
                 Access.loadProjects(projectIDs, function(err, participants) {
                     if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
+                    // FUN FUN FUN CALCULATIONS
+
+                    posts.forEach(function(p) {
+                        if (String(p.user._id) === String(req.user._id)) pro.project[p.project._id].user += p.value;
+                        pro.project[p.project._id].total += p.value;
+                    });
+
                     res.render('dashboard', {
-                        title: 'Dashboard',
-                        user: req.user,
-                        projects: projects,
-                        posts: posts,
-                        participants: participants
+                        title: 'Dashboard'
+                      , user: req.user
+                      , projects: projects
+                      , posts: posts
+                      , participants: participants
+                      , pro: pro
                     });
                 });
             });
