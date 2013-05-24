@@ -75,4 +75,7 @@ module.exports = function(app, passport, auth) {
     app.get('/project/:short/participants', auth.requiresLogin, system.projectParticipants);
 
     app.post('/project/:short/participants', auth.requiresLogin, users.postProjectParticipants); // goes to the usercontroller because participants are users
+
+    app.get('/project/:short/delete/:post', auth.requiresLogin, system.deleteProjectPost);
+
 };

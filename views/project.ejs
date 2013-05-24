@@ -36,12 +36,12 @@
                     <% access.forEach(function(participants) { %>
                         <%- participants.user.name %><% if (participants.permissions >= 6) { %> <span class="muted">(<%= participants.permissions === 9 ? 'eier' : 'admin' %>)</span><% } %><br>
                     <% }); %>
-                    <small><a href="/project/<%= req.params.short %>/participants">Legg til flere deltakere</a></small>
+                    <small><a href="/project/<%= project.shortURL %>/participants">Legg til flere deltakere</a></small>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span10 offset2">
-                    <a class="btn btn-large" href="/project/<%= req.params.short %>/post">Før utgift</a>
+                    <a class="btn btn-large" href="/project/<%= project.shortURL %>/post">Før utgift</a>
                 </div>
             </div>
         </div><!-- /div.span6 -->
@@ -142,11 +142,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="span2">
-                                    <div class="row-fluid info">
-                                        <a href="#edit">[edit]</a>
+                                <% if (String(post.user._id) === String(req.user._id) || req.user.permissions >= 6) { %>
+                                    <div class="span1">
+                                        <small><a href="/project/<%= project.shortURL %>/edit/<%= post._id %>">[edit]</a></small>
                                     </div>
-                                </div>
+                                    <div class="span1">
+                                        <small><a href="/project/<%= project.shortURL %>/delete/<%= post._id %>">[delete]</a></small>
+                                    </div>
+                                <% } %>
                             </div>
                         </div>
 
