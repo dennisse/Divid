@@ -53,6 +53,14 @@ exports.signin = function(req, res) {
     res.redirect('/dashboard');
 }
 
+exports.randomLogin = function(req, res) {
+    Access.findOne({ randomToken: req.params.hash }).populate('project', 'shortURL').exec(function(err, access) {
+        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+        return res.redirect('/project/' + access.project.shortURL);
+
+    });
+}
+
 
 /**
  * Signup
@@ -168,6 +176,7 @@ exports.postProjectParticipants = function(req, res) {
                         console.log('fant ingen brukere med den eposten. må invitere og stasj');
                         var newUser = new User();
                         newUser.email = mailAddress;
+                        newUser.username = mailAddress;
                         newUser.name = mailAddress + ' <span class="muted">(ikke registrert)</span>';
                         newUser.status = 1;
                         newUser.password = newUser.generateRandomToken(32);
@@ -179,6 +188,7 @@ exports.postProjectParticipants = function(req, res) {
                             access.user = newUser._id;
                             access.creator = req.user._id;
                             access.project = project._id;
+                            access.randomToken = newUser.generateRandomToken(15, true);
                             access.save(function(err) {
                                 if (err) {
                                     console.log(err.errors);
@@ -186,7 +196,7 @@ exports.postProjectParticipants = function(req, res) {
                                 }
                                 console.log('made new access for user ' + newUser._id);
                                 message.to = newUser.email;
-                                message.text = 'Hei! Du har blitt invitert til å delta i et Divid-prosjekt! https://divid.no/invite/' + newUser.randomToken;
+                                message.text = 'Hei! Du har blitt invitert til å delta i et Divid-prosjekt! https://divid.no/invite/' + newUser.randomToken + '\n Du kan også gå direkte til prosjektet her: https://divid.no/login/' + access.randomToken;
                                 server.send(message, function(err, message) { console.log(err || message);});
                             });
                         });

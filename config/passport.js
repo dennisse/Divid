@@ -3,7 +3,9 @@ var mongoose = require('mongoose')
   , LocalStrategy = require('passport-local').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy
   , TwitterStrategy = require('passport-twitter').Strategy
-  , User = mongoose.model('User');
+  , HashStrategy = require('passport-hash').Strategy
+  , User = mongoose.model('User')
+  , Access = mongoose.model('Access');
 
 /**
  * This is where the magic happends
@@ -25,7 +27,7 @@ module.exports = function (passport, config) {
     /**
      * Local strategy
      */
-    passport.use(new LocalStrategy({
+    passport.use('local', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
     }, function(email, password, done) {
@@ -36,6 +38,20 @@ module.exports = function (passport, config) {
             if (!user) return done(null, false, { message: 'Unknown user' });
             if (!user.authenticate(password)) return done(null, false, { message: 'Invalid password' });
             return done(null, user);
+        });
+    }));
+
+    passport.use(new HashStrategy({ passReqToCallback: true }, function(req, hash, done) {
+        console.log('TRYNG ' + hash);
+        Access.findOne({ randomToken: hash }, function(err, access) {
+            if (err) return done(err);
+            console.log(access);
+            if (!access) return done(null, false, { message: 'Unknown link' });
+            User.findOne({ _id: access.user }, function(err, user) {
+                if (err) return done(err);
+                if (!user) return done(null, false, { message: 'Unknown user' });
+                return done(null, user);
+            });
         });
     }));
 

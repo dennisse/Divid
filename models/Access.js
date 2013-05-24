@@ -23,6 +23,7 @@ var AccessSchema = new Schema({
     creator: { type: Schema.ObjectId, ref: 'User' },
     project: { type: Schema.ObjectId, ref: 'Project' },
     permissions: { type: Number, default: '3' },
+    randomToken: { type: String },
     created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now }
 });

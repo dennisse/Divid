@@ -46,6 +46,7 @@ module.exports = function(app, passport, auth) {
 
     app.get('/logout', users.logout);
 
+    app.get('/login/:hash', passport.authenticate('hash', { failureRedirect: '/test'}), users.randomLogin);
 
    /**
     * REQUIRES LOGIN
