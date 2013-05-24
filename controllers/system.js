@@ -153,6 +153,7 @@ exports.project = function(req, res) {
                       , user:   []  // this array will contain every user. Every user will then have it's own object inside this.
                       , total:  0   // the overall total.
                       , each:   0   // what each person has to pay
+                      , otot:   0   // how much is owned in total!
                     };
 
                 // then we calculate how many users we have, and initiate objects foreach user
@@ -160,9 +161,11 @@ exports.project = function(req, res) {
                     if (String(a.user._id) === String(req.user._id)) req.user.permissions = a.permissions; //sets YOUR permissions in this project
 
                     pro.users++;
-                    pro.user[a.user.id] = {
+                    pro.user[a.user._id] = {
                             total:  0
                           , diff:   0
+                          , coeff:  0   // the coefficient of hom much you are owned
+                          , name:   a.user.name
                         };
                 });
 
@@ -178,8 +181,11 @@ exports.project = function(req, res) {
                 // then calculate how much each person owe and is owned
                 for(var i in pro.user) {
                     pro.user[i].diff = parseFloat(pro.user[i].total - pro.each).toFixed(2);
+                    if (pro.user[i].diff > 0) pro.otot += parseFloat(pro.user[i].diff);
                 }
-
+                for (var i in pro.user) {
+                    if (pro.user[i].diff > 0) pro.user[i].coeff = pro.user[i].diff / pro.otot;
+                }
                 console.log(pro);
                 res.render('project', {
                     title: project.name

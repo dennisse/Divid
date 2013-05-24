@@ -53,7 +53,7 @@
 
 
 
-        <div class="span6 smallfullwidth">
+        <div class="span6 smallfullwidth" id="accordion">
             <section class="status">
                 <div class="row-fluid">
                     <div class="span6 smallfullwidth">
@@ -69,12 +69,44 @@
                                     </tr>
                                 </table><a href="#table-info" class="accordion-toggle" data-toggle="collapse"><i class="icon-info-sign"></i></a>
                         </div>
-                        <div class="row-fluid accordion collapse" id="table-info">
-                            <p class="text-info"><small>Her vises hvor mye andre skylder deg totalt, hvor mye du skylder andre totalt, og differansen mellom disse to tallene</small></p>
-                        </div>
                     </div>
                 </div>
-                <canvas id="myChart" width="450" height="200"></canvas>
+                <div class="row-fluid accordion-body collapse" id="table-info">
+                    <p>Det er til sammen brukt <strong><%= (pro.total).toFixed(2) %></strong> <%= project.currency %>. Deltakerne skal altså betale <strong><%= (pro.each).toFixed(2) %></strong> <%= project.currency %> hver.</p>
+                    <% for (var i in pro.user) { %>
+                        <%- pro.user[i].name %> har betalt <%= pro.user[i].total %> <%= project.currency %>, og <%- pro.user[i].diff >= 0 ? 'skyldes <span class="text-success">' + pro.user[i].diff : 'skylder <span class="text-error">' + Math.abs(pro.user[i].diff) %></span> <%= project.currency %><br>
+                    <% } %>
+                    <p><small><a href="#example" data-toggle="collapse" class="accordion-toggle">Eksempel på hvordan oppgjøret kan gjøres</a></small></p>
+                </div>
+                <div class="row-fluid collapse" id="example">
+                    <table>
+                    <%
+                    // FUGLY LAST-MINUTE CODE
+                    var i = 1;
+                    for (var u in pro.user) {
+                        if (pro.user[u].coeff === 0) {
+                            if (i === 1) {%>
+                            <tr>
+                                <td></td>
+                            <% for (var p in pro.user) { %>
+                                <%- pro.user[p].coeff > 0 ? '<td>' + pro.user[p].name + '</td>' : '' %>
+                            <% } %>
+                            </tr>
+                            <% } %>
+                            <tr>
+                                <td><%- pro.user[u].name %></td>
+                            <% for (var p in pro.user) { %>
+                                <%- pro.user[p].coeff > 0 ? '<td>' + (Math.abs(pro.user[u].diff) * pro.user[p].coeff).toFixed(2) + '</td>' : '' %>
+                            <% } %>
+                            </tr>
+<%                          i++;
+                        }} %>
+                    </table>
+
+                </div>
+                <div class="row-fluid accordion-body in collapse" id="chart">
+                    <canvas id="myChart" width="450" height="200"></canvas>
+                </div>
             </section>
         </div>
     </div>
