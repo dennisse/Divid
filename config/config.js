@@ -4,7 +4,7 @@ var path = require('path')
 
 module.exports = {
     development: {
-        db: 'mongodb://localhost/test',
+        db: 'mongodb://localhost/Divid',
         root: rootPath,
         app: {
             name: 'Divid'
