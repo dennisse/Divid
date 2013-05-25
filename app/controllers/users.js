@@ -8,7 +8,7 @@ var mongoose = require('mongoose')
   , Project = mongoose.model('Project')
   , Access = mongoose.model('Access')
   , env = process.env.NODE_ENV || 'development'
-  , config = require('../config/config')[env]
+  , config = require('../../config/config')[env]
   , Validator = require('validator').Validator
   , v = new Validator()
   , sanitize = require('validator').sanitize;
@@ -22,17 +22,6 @@ Validator.prototype.getErrors = function() {
     var returnThis = this._errors;
     this._errors = ''; // need to reset errors between sessions because of object model
     return returnThis;
-}
-
-
-/**
- * Login
- */
-exports.login = function(req, res) {
-    res.render('login', {
-        title: 'Login'
-    });
-
 }
 
 
@@ -66,7 +55,7 @@ exports.randomLogin = function(req, res) {
  * Signup
  */
 exports.signup = function(req, res) {
-        res.render('signup', { title: 'Registrer deg', invite: false });
+        res.render('users/signup', { title: 'Registrer deg', invite: false });
 }
 
 /**
@@ -76,7 +65,7 @@ exports.create = function(req, res) {
     var user = new User(req.body);
     user.provider = 'local';
     user.save(function(err) {
-        if (err) return res.render('signup', { errors: err.errors, user: user });
+        if (err) return res.render('users/signup', { errors: err.errors, user: user });
         req.logIn(user, function(err) {
             if (err) return next(err);
             return res.redirect('/dashboard');
@@ -106,7 +95,7 @@ exports.authCallback = function(req, res, next) {
 exports.registerEmail = function(req, res) {
     // in case some user who has alreadu registered an email gets on this page
     if (req.user.email !== undefined) return res.redirect('/dashboard');
-    res.render('registerEmail', { title: 'Registrer din e-post' });
+    res.render('users/registerEmail', { title: 'Registrer din e-post' });
 }
 
 
@@ -125,7 +114,7 @@ exports.postRegisterEmail = function(req, res) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
         // if mail is in use..
-        if (user) return res.render('registerEmail', { title: 'Den e-posten er allerede i bruk. Vennligs registrer en annen.' });
+        if (user) return res.render('users/registerEmail', { title: 'Den e-posten er allerede i bruk. Vennligs registrer en annen.' });
 
         User.update({ _id: req.user._id }, { email: req.body.email, status: 3 }, function(err) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
@@ -183,7 +172,7 @@ exports.postProjectParticipants = function(req, res) {
                         newUser.password = newUser.generateRandomToken(32);
                         newUser.randomToken = newUser.generateRandomToken(10, true);
                         newUser.save(function(err) {
-                            if (err) return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
+                            if (err) return res.render('project/participants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
                             console.log('made new user ' + newUser._id);
                             var access = new Access();
                             access.user = newUser._id;
@@ -193,7 +182,7 @@ exports.postProjectParticipants = function(req, res) {
                             access.save(function(err) {
                                 if (err) {
                                     console.log(err.errors);
-                                    return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
+                                    return res.render('project/participants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
                                 }
                                 console.log('made new access for user ' + newUser._id);
                                 message.to = newUser.email;
@@ -204,7 +193,7 @@ exports.postProjectParticipants = function(req, res) {
 
                     } else { // if the user exists, add him to the project
                         Access.checkAccess(user._id, project._id, 0, function(err, acc) {
-                            if (err) return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
+                            if (err) return res.render('project/participants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
                             if (acc) { // if the user already has access to the project.. do nothing
                                 console.log('user ' + user.email + ' already has access to project ' + project.name);
                             } else {
@@ -221,7 +210,7 @@ exports.postProjectParticipants = function(req, res) {
                                 access.save(function(err) {
                                     if (err) {
                                         console.log(err.errors);
-                                        return res.render('projectParticipants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
+                                        return res.render('project/participants', { title: 'Nytt prosjekt - en feil oppstod', loggedin: true });
                                     }
                                     console.log('made new access for user ' + user.username);
                                     message.to = user.email;
@@ -251,7 +240,7 @@ exports.claimInvite = function(req, res) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         if (!user) return res.render('error', { title: 'This invite does not exist', text: 'Invitasjonen din er ugyldig' });
 
-        res.render('signup', {
+        res.render('users/signup', {
             invite: true,
             title: 'Registrer deg!',
             email: user.email }

@@ -4,7 +4,7 @@
  */
 var mongoose = require('mongoose')
   , env = process.env.NODE_ENV || 'development'
-  , config = require('../config/config.js')[env]
+  , config = require('../../config/config.js')[env]
   , Project = mongoose.model('Project')
   , Access = mongoose.model('Access')
   , User = mongoose.model('User')
@@ -34,23 +34,6 @@ exports.index = function(req, res) {
     if (req.user !== undefined) { return res.redirect('/dashboard'); }
     res.render('index', { title: 'DERS', user: req.user });
     };
-
-
-
-exports.test = function(req, res) {
-    res.render('test', {
-        title: 'test',
-        user: req.user
-    });
-};
-
-
-exports.home = function(req, res) {
-    res.render('home', {
-        title: 'home',
-        user: req.user
-    });
-};
 
 
 exports.faq = function(req, res) {
@@ -159,7 +142,7 @@ exports.dashboard = function(req, res) {
 
 exports.project = function(req, res) {
     Project.loadShort(req.params.short, function(err, project) {
-        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+        if (err || !project) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err });
         Access.loadProject(project._id, function(err, access) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
             pPost.loadProject(project._id, function(err, posts) {
@@ -207,7 +190,7 @@ exports.project = function(req, res) {
                     if (pro.user[i].diff > 0) pro.user[i].coeff = pro.user[i].diff / pro.otot;
                 }
                 console.log(pro);
-                res.render('project', {
+                res.render('project/project', {
                     title: project.name
                   , user: req.user
                   , req: req
@@ -228,7 +211,7 @@ exports.projectParticipants = function(req, res) {
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
-    res.render('projectParticipants', { title: 'Prosjektdeltakere', user: req.user });
+    res.render('project/participants', { title: 'Prosjektdeltakere', user: req.user });
 
 }
 
@@ -241,7 +224,7 @@ exports.projectPost = function(req, res) {
     Project.loadShort(req.params.short, function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         req.project = project;
-        res.render('projectPost', { title: 'Legg til utgift', user: req.user, req: req, project: project });
+        res.render('project/post', { title: 'Legg til utgift', user: req.user, req: req, project: project });
     });
 
 
@@ -278,7 +261,7 @@ exports.postProjectPost = function(req, res) {
             ppost.value        = sanitize(req.body.value).toInt(); // this will remove leading zeroes. '0123' => '123'
             ppost.when         = new Date(sanitize(req.body.date).escape() + ' ' + sanitize(req.body.time).escape() + ':00');
             ppost.save(function(err) {
-                if (err) return res.render('projectPost', { title: 'Legg til utgift - en feil oppstod', user: req.user, req: req, project: project });
+                if (err) return res.render('project/post', { title: 'Legg til utgift - en feil oppstod', user: req.user, req: req, project: project });
                 return res.redirect('/project/' + project.shortURL);
             });
         });
@@ -290,7 +273,7 @@ exports.newProject = function(req, res) {
         else { return res.redirect('back'); }
     }
 
-    res.render('newProject', { title: 'Nytt prosjekt', user: req.user });
+    res.render('project/newProject', { title: 'Nytt prosjekt', user: req.user });
 }
 
 exports.postNewProject = function(req, res) {
@@ -304,7 +287,7 @@ exports.postNewProject = function(req, res) {
     project.save(function(err) {
         if (err) {
             console.log(err.errors);
-            return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', user: req.user, errors: err.errors, project: project });
+            return res.render('project/newProject', { title: 'Nytt prosjekt - en feil oppstod', user: req.user, errors: err.errors, project: project });
         }
         var access = new Access();
         access.user = req.user._id;
@@ -314,7 +297,7 @@ exports.postNewProject = function(req, res) {
         access.save(function(err) {
             if (err) {
                 console.log(err.errors);
-                return res.render('newproject', { title: 'Nytt prosjekt - en feil oppstod', user: req.user });
+                return res.render('project/newProject', { title: 'Nytt prosjekt - en feil oppstod', user: req.user });
             }
             return res.redirect('/dashboard');
         });

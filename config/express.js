@@ -13,7 +13,7 @@ var express = require('express');
 module.exports = function (app, config, passport) {
 
     //sets view engine and path
-    app.set('views', config.root + '/views');
+    app.set('views', config.root + '/app/views');
     app.set('view engine', 'ejs');
 
     app.use(express.static(config.root + '/public'));

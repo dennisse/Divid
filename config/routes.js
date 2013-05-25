@@ -3,8 +3,8 @@
  * Dependencies
  */
 
-var users = require('./controllers/users')
-  , system = require('./controllers/system');
+var users = require('../app/controllers/users')
+  , system = require('../app/controllers/system');
 
 
 /*
@@ -16,23 +16,15 @@ var users = require('./controllers/users')
 module.exports = function(app, passport, auth) {
     app.get('/', system.index);
 
-    app.get('/test', system.test);
-
-    app.get('/home', system.home);
-
     app.get('/faq', system.faq);
 
     app.get('/contact', system.contact);
-
-    app.get('/login', users.login);
 
     app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), users.signin);
 
     app.get('/signup', users.signup);
 
     app.post('/signup', users.create);
-
-    app.post('/test', users.signin);
 
     app.get('/auth/facebook', passport.authenticate('facebook', { failureRedirect: '/' }), users.signin);
     app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/' }), users.authCallback);

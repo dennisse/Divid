@@ -29,8 +29,8 @@ db.once('open', function callback(){
 
 
 // Bootstrap models
-// This gets all model files in ./models
-var models_path = __dirname + '/models';
+// This gets all model files in ./app/models
+var models_path = __dirname + '/app/models';
 fs.readdirSync(models_path).forEach( function(file) {
     require(models_path + '/' + file);
 });
@@ -53,7 +53,7 @@ require('./config/express')(app, config, passport);
  * Routes
  */
 
-require('./routes')(app, passport, auth);
+require('./config/routes')(app, passport, auth);
 
 
 /**
