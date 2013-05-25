@@ -67,9 +67,8 @@ pPostSchema.statics = {
 
     loadByProjects: function(projects, callback) {
         this.find({ project: { $in: projects } })
-          .populate({ path: 'user', select: 'name email status' })
+          .populate({ path: 'user', select: '_id name' })
           .populate({ path: 'project', select: 'name shortURL' })
-          .limit(10)
           .sort({ 'when': -1, 'created': -1 })
           .exec(callback);
     }
