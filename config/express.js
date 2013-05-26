@@ -30,7 +30,7 @@ module.exports = function (app, config, passport) {
 
         app.use(express.methodOverride());
 
-        app.use(express.session({ secret: 'lsdrghoi4hgqio42nqf2uqi32f3bilu23fl23b' }));
+        app.use(express.session({ secret: config.sessionSecret }));
 
         // use passport session
         app.use(passport.initialize());

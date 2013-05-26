@@ -22,7 +22,8 @@ module.exports = {
         email: {
             server: 'localhost',
             ssl: false
-        }
+        },
+        sessionSecret: 'lsdrghoi4hgqio42nqf2uqi32f3bilu23fl23b',
     }
 }
 
