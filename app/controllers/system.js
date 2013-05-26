@@ -32,7 +32,7 @@ Validator.prototype.getErrors = function() {
 
 exports.index = function(req, res) {
     if (req.user !== undefined) { return res.redirect('/dashboard'); }
-    res.render('index', { title: 'DERS', user: req.user });
+    res.render('index', { title: 'Divid', user: req.user });
     };
 
 
