@@ -10,7 +10,8 @@
 
 @blueDark:      #0d56a6;
 @blueMedium:    #4186d3;
-@blueLight:     #000022;
+@blueLight:     #689ad3;
+@ourOrange:     #ff9a00;
 
 
 
@@ -232,21 +233,42 @@ div.lastactivity .activity .details {
 
 .indexwrapper {
     width: 100%;
+    background-color: @blueLight;
 }
 
 #index1 {
 
 }
 
+.indexwrapper .container {
+    box-shadow: 0 2px 2px rgba(0,0,0,.5);
+    padding: 20px;
+    background-color: @white;
+}
+
+#index2 {
+}
+
+#index2 .container {
+    background-color: #ecf2fa;
+
+}
+
 #index3 {
-    background-color: @blueMedium;
+}
+#index3 .container {
 }
 
 #index4 {
-    background-color: @blueDark;
-    color: @yellow;
-}
 
+}
+#index4 a {
+
+    color: @ourOrange;
+}
+#index4 .container {
+    background-color: #ecf2fa;
+}
 .infobox {
     text-align: center;
     padding: 46px;
