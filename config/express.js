@@ -36,7 +36,7 @@ module.exports = function (app, config, passport) {
         app.use(passport.initialize());
         app.use(passport.session());
 
-        app.use(express.favicon(__dirname + '/public/faviconb.ico'));
+        app.use(express.favicon(__dirname + '/public/favicon.ico'));
 
         // use LESS for CSS
         app.use(require('less-middleware')({ src: config.root + '/public' }));
