@@ -49,7 +49,6 @@ AccessSchema.methods = {
             var x = Math.floor(Math.random() * chars.length);
             token += chars.charAt(x);
         }
-        console.log('token ' + token);
         return token;
     }
 
@@ -117,7 +116,6 @@ AccessSchema.statics = {
 
     checkAccess: function(user, project, permissions, callback) {
         if (typeof(permissions) === 'undefined') permissions = 0;
-        console.log('inni checkPermissions!')
         this.findOne({ user: user })
           .where('project').equals(project)
           .where('permissions').gte(permissions)
