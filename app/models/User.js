@@ -40,9 +40,7 @@ var UserSchema = new Schema({
  * Virtuals
  */
 
-UserSchema
-  .virtual('password')
-  .set(function(password) {
+UserSchema.virtual('password').set(function(password) {
     this._password = password
     this.salt = this.makeSalt()
     this.hashed_password = this.encryptPassword(password)
@@ -56,6 +54,7 @@ UserSchema
 var validatePrecenceOf = function(value) {
     return value && value.length;
 }
+
 
 // the four validations below only apply if you are signing up traditionally
 

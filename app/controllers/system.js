@@ -33,7 +33,7 @@ Validator.prototype.getErrors = function() {
 exports.index = function(req, res) {
     if (req.user !== undefined) { return res.redirect('/dashboard'); }
     res.render('index', { title: 'Divid', user: req.user });
-    };
+}
 
 
 exports.faq = function(req, res) {
@@ -57,23 +57,8 @@ exports.contact = function(req, res) {
  * ===============================================================
 */
 
-
-
 exports.dashboard = function(req, res) {
 
-/*
-    Access.find({ user: req.user._id }, function(err, accesses) {
-        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-        console.log('accesses ' + accesses);
-        accesses.forEach(function(access) {
-            Project.load(access.project, function(err, project) {
-                    if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-                    projectList.push(project);
-                    console.log(project.user.username);
-                });
-        });
-    });
-*/
     if (req.user.status < 3) {
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
