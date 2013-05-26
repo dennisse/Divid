@@ -18,7 +18,7 @@ module.exports = function (app, config, passport) {
 
     app.use(express.static(config.root + '/public'));
 
-    // don't use logger for test enc
+    // don't use logger for test env
     if (process.env.NODE_ENV !== 'test') app.use(express.logger('dev'));
 
 
@@ -44,7 +44,7 @@ module.exports = function (app, config, passport) {
         app.use(app.router);
 
         app.use(function(err, req, res, next) {
-            if (~err.message.indexOf('not fount')) return next(); // treat like 404
+            if (~err.message.indexOf('not found')) return next(); // treat like 404
 
             console.error(err.stack);
 
