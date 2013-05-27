@@ -133,7 +133,7 @@ exports.postProjectParticipants = function(req, res) {
         if (err || !project) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
         Access.checkAccess(req.user._id, project._id, 3, function(err, access) {
-            if (err || !access) return res.status(403).render('error', { title: '403', text: 'No sir! NO ACCESS FOR YOU', error: err });
+            if (err || !access) return res.status(403).render('error', { title: '403', text: 'No sir! NO ACCESS FOR YOU', error: err || 'no access' });
 
             // validate
             var emails = sanitize(req.body.emails).xss();
