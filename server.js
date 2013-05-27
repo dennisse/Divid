@@ -15,7 +15,7 @@ var express = require('express')
 
 var port = process.env.PORT || 8000
   , env = process.env.NODE_ENV || 'development'
-  , config = require('./config/config')[env]
+  , config = require('./config/config')[env] // loads the config for the current environment
   , auth = require('./config/middlewares/authorization');
 
 

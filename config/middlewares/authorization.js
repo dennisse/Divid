@@ -1,4 +1,4 @@
-
+// AUTH Middleware. This is what checks if you are logged in.
 
 /*
  * Generic require login routing

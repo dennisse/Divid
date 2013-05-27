@@ -2,6 +2,7 @@
 /**
  * Module dependencies
  */
+
 var mongoose = require('mongoose')
   , env = process.env.NODE_ENV || 'development'
   , config = require('../../config/config.js')[env]
@@ -21,35 +22,53 @@ Validator.prototype.error = function(msg) {
 }
 Validator.prototype.getErrors = function() {
     var returnThis = this._errors;
-    this._errors = ''; // need to reset errors between sessions because of object model
+    this._errors = ''; // need to reset errors between sessions because of object model that retains errors
     return returnThis;
 }
+
 
 /**
  * Before the user log in
  * ===============================================================
 */
 
+
+/**
+ * GET '/'
+ */
+
 exports.index = function(req, res) {
-    if (req.user !== undefined) { return res.redirect('/dashboard'); }
-    res.render('index', { title: 'Divid', user: req.user });
+    if (req.user !== undefined) return res.redirect('/dashboard'); // if the user is logged in, redirect to dashboard
+    res.render('index', {
+        title: 'Divid'
+      , user:req.user
+    });
 }
 
+
+/**
+ * GET '/faq'
+ */
 
 exports.faq = function(req, res) {
     res.render('faq', {
-        title: 'faq',
-        user: req.user
+        title: 'FAQ'
+      , user: req.user
     });
 }
 
+
+/**
+ * GET '/contact'
+ */
 
 exports.contact = function(req, res) {
     res.render('contact', {
-        title: 'contact',
-        user: req.user
+        title: 'Kontakt'
+      , user: req.user
     });
 }
+
 
 
 /**
@@ -57,79 +76,85 @@ exports.contact = function(req, res) {
  * ===============================================================
 */
 
+
+/**
+ * GET '/dashboard'
+ */
+
 exports.dashboard = function(req, res) {
 
+    // check if user is actually registered
     if (req.user.status < 3) {
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
 
+    // start by loading all the projects the current user has access to
     Access.loadUser(req.user._id, function(err, projects) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
         var projectIDs = [];
         var pro = { project: [] };
+
+        // Time to initiate some projects so we can calculate how much the user owes / is owned
         projects.forEach(function(project) {
-            projectIDs.push(project.project._id);
-            pro.project[project.project._id] = {
+            projectIDs.push(project.project._id); // fills an array with all the project IDs
+            pro.project[project.project._id] = { // initiates an object for each project, where we can store some data
                 total:  0  // total for project
               , user:   0  // what req-user has spent on project
               , users:  0  // number of users on project
             };
         });
+
+        // loads all the users for the projects the current user has access to
+        // this is necessary so we can calculate what the user owes based on how many users each project has
         Access.loadProjects(projectIDs, function(err, participants) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
+            // counts the users in each project
             participants.forEach(function(p) {
                 pro.project[p.project].users++;
             });
+
+            // loads ALL posts for EVERY project the user has access to
             pPost.loadByProjects(projectIDs, function(err, posts) {
                 if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-                Access.loadProjects(projectIDs, function(err, participants) {
-                    if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
-                    // FUN FUN FUN CALCULATIONS
+                // FUN FUN FUN CALCULATIONS
+                posts.forEach(function(p) {
+                    if (String(p.user._id) === String(req.user._id)) pro.project[p.project._id].user += p.value;
+                    pro.project[p.project._id].total += p.value;
+                });
 
-                    posts.forEach(function(p) {
-                        if (String(p.user._id) === String(req.user._id)) pro.project[p.project._id].user += p.value;
-                        pro.project[p.project._id].total += p.value;
-                    });
-
-                    res.render('dashboard', {
-                        title: 'Dashboard'
-                      , user: req.user
-                      , projects: projects
-                      , posts: posts
-                      , participants: participants
-                      , pro: pro
-                    });
+                res.render('dashboard', {
+                    title: 'Dashboard'
+                  , user: req.user
+                  , projects: projects
+                  , posts: posts
+                  , participants: participants
+                     , pro: pro
                 });
             });
-            /*            res.render('dashboard', {
-                title: 'Dashboard',
-                user: req.user,
-                projects: projects
-            });
-*/
         });
     });
-
-/*
-    Project.find(function(err, projects) {
-        if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-        res.render('dashboard', {
-            title: 'Dashboad',
-            user: req.user,
-            projects: projects
-        });
-    });*/
 }
 
 
+/**
+ * GET '/project/:short'
+ * :short = shortURL for project
+ */
 
 exports.project = function(req, res) {
+    // loads the project based on the :short part of the url
     Project.loadShort(req.params.short, function(err, project) {
         if (err || !project) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err });
+
+        //loads all users in project
         Access.loadProject(project._id, function(err, access) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
+            // loads all posts in project
             pPost.loadProject(project._id, function(err, posts) {
                 if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
 
@@ -171,10 +196,12 @@ exports.project = function(req, res) {
                     pro.user[i].diff = parseFloat(pro.user[i].total - pro.each).toFixed(2);
                     if (pro.user[i].diff > 0) pro.otot += parseFloat(pro.user[i].diff);
                 }
+
+                // sets the coefficient if the user is owed money
                 for (var i in pro.user) {
                     if (pro.user[i].diff > 0) pro.user[i].coeff = pro.user[i].diff / pro.otot;
                 }
-                console.log(pro);
+
                 res.render('project/project', {
                     title: project.name
                   , user: req.user
@@ -186,35 +213,52 @@ exports.project = function(req, res) {
                 });
             });
         });
-
     });
 }
 
 
+/**
+ * GET '/project/:short/participants'
+ *
+ * POST is in app/controllers/users.js
+ */
+
 exports.projectParticipants = function(req, res) {
+    // check if user is actually registered
     if (req.user.status < 3) {
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
-    res.render('project/participants', { title: 'Prosjektdeltakere', user: req.user });
 
+    res.render('project/participants', {
+        title: 'Prosjektdeltakere'
+      , user: req.user
+    });
 }
 
+
+/**
+ * GET '/projet/:short/post'
+ */
 
 exports.projectPost = function(req, res) {
 
-   /** ###################################
-    * Need to check if user has access to this project!!
-    */
     Project.loadShort(req.params.short, function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
         req.project = project;
-        res.render('project/post', { title: 'Legg til utgift', user: req.user, req: req, project: project });
+        res.render('project/post', {
+            title: 'Legg til utgift'
+          , user: req.user
+          , req: req
+          , project: project
+        });
     });
-
-
-
 }
+
+
+/**
+ * POST '/project:short/post'
+ */
 
 exports.postProjectPost = function(req, res) {
 
@@ -245,6 +289,7 @@ exports.postProjectPost = function(req, res) {
             ppost.participants = sanitize(req.body.participants).escape();
             ppost.value        = sanitize(req.body.value).toInt(); // this will remove leading zeroes. '0123' => '123'
             ppost.when         = new Date(sanitize(req.body.date).escape() + ' ' + sanitize(req.body.time).escape() + ':00');
+
             ppost.save(function(err) {
                 if (err) return res.render('project/post', { title: 'Legg til utgift - en feil oppstod', user: req.user, req: req, project: project });
                 return res.redirect('/project/' + project.shortURL);
@@ -252,14 +297,28 @@ exports.postProjectPost = function(req, res) {
         });
     });
 }
+
+
+/**
+ * GET '/project/new'
+ */
+
 exports.newProject = function(req, res) {
     if (req.user.status < 3) {
         if (req.header('Referer') === undefined) { return res.status(403).render('error', { title: 403, text: 'Du har ikke tilgang til denne siden. Du må registrere deg først. Sjekk mailen din for å se invitekode.' }); }
         else { return res.redirect('back'); }
     }
 
-    res.render('project/newProject', { title: 'Nytt prosjekt', user: req.user });
+    res.render('project/newProject', {
+        title: 'Nytt prosjekt'
+      , user: req.user
+    });
 }
+
+
+/**
+ * POST '/project/new'
+ */
 
 exports.postNewProject = function(req, res) {
     if (req.user.status < 3) {
@@ -282,7 +341,10 @@ exports.postNewProject = function(req, res) {
         access.save(function(err) {
             if (err) {
                 console.log(err.errors);
-                return res.render('project/newProject', { title: 'Nytt prosjekt - en feil oppstod', user: req.user });
+                return res.render('project/newProject', {
+                    title: 'Nytt prosjekt - en feil oppstod'
+                  , user: req.user
+                });
             }
             return res.redirect('/dashboard');
         });
@@ -291,18 +353,30 @@ exports.postNewProject = function(req, res) {
 }
 
 
+/**
+ * GET '/project/:short/delete/:post'
+ */
+
 exports.deleteProjectPost = function(req, res) {
+
+    //Locate project
     Project.findOne({ shortURL: req.params.short }).select('_id').exec(function(err, project) {
         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
+
+        //make sure you actually have access
         Access.findOne({project: project._id, user: req.user._id}, function(err, access) {
             if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
             if (!access) return res.status(403).render('error', { title: '403', text: 'Du har ikke tilgang til å gjøre dette' });
+
             pPost.load(req.params.post, function(err, post) {
                 if (err || !post) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err });
+
                 if (post.user._id === req.user._id || access.permissions >= 6) {
+
+                    // delete! (only if access)
                     pPost.remove({ _id: post._id }, function(err) {
                         if (err) return res.status(500).render('error', { title: '500', text: 'En serverfeil oppstod', error: err.stack });
-                        console.log('deleted post ' + post._id);
+
                         return res.redirect('back');
                     })
                 } else { return res.status(403).render('error', { title: '403', text: 'Du har ikke tilgang til å gjøre dette' }); }

@@ -19,13 +19,13 @@ var mongoose = require('mongoose')
  */
 
 var AccessSchema = new Schema({
-    user: { type: Schema.ObjectId, ref: 'User' },
-    creator: { type: Schema.ObjectId, ref: 'User' },
-    project: { type: Schema.ObjectId, ref: 'Project' },
-    permissions: { type: Number, default: '3' },
-    randomToken: { type: String },
-    created: { type: Date, default: Date.now },
-    updated: { type: Date, default: Date.now }
+    user:           { type: Schema.ObjectId, ref: 'User' }
+  , creator:        { type: Schema.ObjectId, ref: 'User' }
+  , project:        { type: Schema.ObjectId, ref: 'Project' }
+  , permissions:    { type: Number, default: '3' }
+  , randomToken:    String
+  , created:        { type: Date, default: Date.now }
+  , updated:        { type: Date, default: Date.now }
 });
 
 
@@ -38,7 +38,6 @@ AccessSchema.methods = {
     *
     * @param {Number} length
     * @return {String}
-    * @api public
     */
 
     generateRandomToken: function(length) {
@@ -58,15 +57,15 @@ AccessSchema.statics = {
 
    /**
     * Load ALL accesses for a single user
+    * This will load all the persmissions a user has, and include info about the projects
     *
     * @param {ObjectId} id
     * @param {Function} callback
-    * @api private
     */
 
     loadUser: function(id, callback) {
         this.find({ user: id })
-          .populate('project')
+          .populate('project') // will joins the data from the project
           .sort({ 'created': -1 }) // sort by date
           .exec(callback);
     },
@@ -77,7 +76,6 @@ AccessSchema.statics = {
     *
     * @param {ObjectId} project
     * @param {Function} callback
-    * @api private
     */
 
     loadProject: function(project, callback) {
@@ -90,10 +88,11 @@ AccessSchema.statics = {
 
    /**
     * Load all users associated with several projects
+    * This is useful for the dashboard, where all the projects of a user is loaded. This way
+    * we can print the name of the participants in each project the user has access to.
     *
-    * @param {Arrau[ObjectId]} projects
+    * @param {Array[ObjectId]} projects
     * @param {Function} callback
-    * @api private
     */
 
     loadProjects: function(projects, callback) {
@@ -111,7 +110,6 @@ AccessSchema.statics = {
     * @param {ObjectId} project
     * @param {Number} permissisons
     * @param {Function} callback
-    * @api private
     */
 
     checkAccess: function(user, project, permissions, callback) {

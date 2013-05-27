@@ -32,7 +32,7 @@ module.exports = function(app, passport, auth) {
     app.get('/auth/twitter', passport.authenticate('twitter', { failureRedirect: '/' }), users.signin);
     app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), users.authCallback);
 
-    app.get('/invite/:randomToken', users.claimInvite);
+    app.get('/invite/:randomToken', users.claimInvite); // :randomToken can be retrieved in 'req.params.randomToken'
 
     app.post('/invite/:randomToken', users.postClaimInvite);
 
@@ -40,11 +40,11 @@ module.exports = function(app, passport, auth) {
 
     app.get('/login/:hash', passport.authenticate('hash', { failureRedirect: '/'}), users.randomLogin);
 
+
    /**
     * REQUIRES LOGIN
     * ============================================================
     */
-
 
     app.get('/dashboard', auth.requiresLogin, system.dashboard);
 

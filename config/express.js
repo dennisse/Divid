@@ -33,8 +33,8 @@ module.exports = function (app, config, passport) {
         app.use(express.session({ secret: config.sessionSecret }));
 
         // use passport session
-        app.use(passport.initialize());
-        app.use(passport.session());
+        app.use(passport.initialize()); // initializes passport, our login module
+        app.use(passport.session());    // With sessions!
 
         app.use(express.favicon(__dirname + '/public/favicon.ico'));
 
@@ -42,6 +42,8 @@ module.exports = function (app, config, passport) {
         app.use(require('less-middleware')({ src: config.root + '/public' }));
 
         app.use(app.router);
+
+        // If no routes are triggered, we reach these babies:
 
         app.use(function(err, req, res, next) {
             if (~err.message.indexOf('not found')) return next(); // treat like 404

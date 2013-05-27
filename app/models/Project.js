@@ -7,14 +7,14 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
 var ProjectSchema = new Schema({
-    user: { type: Schema.ObjectId, ref: 'User' },
-    name: { type: String, default: '', trim: true },
-    description: {type: String, default: '', trim: true },
-    currency: { type: String, default: 'kr', trim: true },
-    public: { type: String, default: 'invite-only' },
-    created: { type: Date, default: Date.now },
-    updated: { type: Date, default: Date.now },
-    shortURL: { type: String, unique: true }
+    user:           { type: Schema.ObjectId, ref: 'User' }
+  , name:           { type: String, default: '', trim: true }
+  , description:    { type: String, default: '', trim: true }
+  , currency:       { type: String, default: 'kr', trim: true }
+  , public:         { type: String, default: 'invite-only' }
+  , created:        { type: Date, default: Date.now }
+  , updated:        { type: Date, default: Date.now }
+  , shortURL:       { type: String, unique: true }
 });
 
 // the four validations below only apply if you are signing up traditionally
@@ -25,6 +25,8 @@ ProjectSchema.path('name').validate(function(name) {
 }, 'Project name cannot be blank');
 
 
+
+// This is a pre-save-hook. It runs every time an object is saved.
 ProjectSchema.pre('save', function(next) {
     if (this.shortURL !== undefined) return next();
     var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

@@ -20,19 +20,19 @@ var mongoose = require('mongoose')
  */
 
 var UserSchema = new Schema({
-    name: String,
-    email: { type: String, unique: true },
-    username: String,
-    provider: String,
-    hashed_password: String,
-    salt: String,
-    accessToken: String,
-    facebook: {},
-    twitter: {},
-    status: { type: Number, default: 2 },
-    randomToken: String,
-    created: { type: Date, default: Date.now },
-    updated: { type: Date, default: Date.now }
+    name:               String
+  , email:              { type: String, unique: true }
+  , username:           String
+  , provider:           String
+  , hashed_password:    String
+  , salt:               String
+  , accessToken:        String
+  , facebook:           {}
+  , twitter:            {}
+  , status:             { type: Number, default: 2 }
+  , randomToken:        String
+  , created:            { type: Date, default: Date.now }
+  , updated:            { type: Date, default: Date.now }
 });
 
 
@@ -108,19 +108,19 @@ UserSchema.methods = {
     */
 
     authenticate: function(plainText) {
-        return this.encryptPassword(plainText) === this.hashed_password;
+        return this.encryptPassword(plainText) === this.hashed_password; // will return true or false
     },
 
 
    /**
     * Make salt
+    * This is used to make the password hash cryptographically stronger
     *
     * @return {String}
-    * @api public
     */
 
     makeSalt: function() {
-        return Math.round((new Date().valueOf() * Math.random())) + '';
+        return Math.round((new Date().valueOf() * Math.random())) + ''; // valueOf date and random number = random stuff!
     },
 
 
@@ -129,12 +129,12 @@ UserSchema.methods = {
     *
     * @param {String} password
     * @return {String}
-    * @api public
     */
 
     encryptPassword: function(password) {
         if (!password) return '';
-        return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+        // if the user isn't registered, he has no salt. Therefore he can not log in. He has to use his email.
+        return crypto.createHmac('sha1', this.salt || Math.random() + Math.random()).update(password).digest('hex');
     },
 
 
@@ -144,13 +144,12 @@ UserSchema.methods = {
     * @param {Number} length
     * @param {Boolean} noDate
     * @return {String}
-    * @api public
     */
 
     generateRandomToken: function(length, noDate) {
         if (typeof(length) === undefined) length = 16; // default length of token
         var chars = '_-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-          , token = noDate ? '' : new Date().getTime() + '_';
+          , token = noDate ? '' : new Date().getTime() + '_'; // if noDate is provided as true, the random token will not start with a timestamp.
         for (var i = 0; i < length; i++) {
             var x = Math.floor(Math.random() * chars.length);
             token += chars.charAt(x);
@@ -166,7 +165,6 @@ UserSchema.statics = {
     *
     * @param {String} email
     * @param {Function} callback
-    * @api private
     */
 
     loadUser: function(email, callback) {

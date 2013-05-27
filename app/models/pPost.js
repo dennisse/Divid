@@ -7,18 +7,18 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
 var pPostSchema = new Schema({
-    user: { type: Schema.ObjectId, ref: 'User' },
-    for: { type: Schema.ObjectId, ref: 'User' },
-    project: { type: Schema.ObjectId, ref: 'Project' },
-    what: { type: String, default: '', trim: true },
-    comment: { type: String, default: '', trim: true },
-    participants: [],
-    value: { type: Number, defailt: 0 },
-    file: { type: String, default: '', trim: true },
-    currency: { type: String, default: 'kr', trim: true },
-    created: { type: Date, default: Date.now },
-    updated: { type: Date, default: Date.now },
-    when: { type: Date, default: Date.now }
+    user:           { type: Schema.ObjectId, ref: 'User' }
+  , for:            { type: Schema.ObjectId, ref: 'User' }
+  , project:        { type: Schema.ObjectId, ref: 'Project' }
+  , what:           { type: String, default: '', trim: true }
+  , comment:        { type: String, default: '', trim: true }
+  , participants:   []
+  , value:          { type: Number, default: 0 }
+  , file:           { type: String, default: '', trim: true }
+  , currency:       { type: String, default: 'kr', trim: true }
+  , created:        { type: Date, default: Date.now }
+  , updated:        { type: Date, default: Date.now }
+  , when:           { type: Date, default: Date.now }
 });
 
 
@@ -31,12 +31,11 @@ pPostSchema.statics = {
     *
     * @param {ObjectId} id
     * @param {Function} callback
-    * @api private
     */
 
     load: function(id, callback) {
         this.findOne({ _id: id })
-          .populate({ path: 'user', select: '_id, name'})
+          .populate({ path: 'user', select: '_id, name'}) // include name of the user who posted it
           .exec(callback);
     },
 
@@ -46,23 +45,21 @@ pPostSchema.statics = {
     *
     * @param {ObjectId} project
     * @param {Function} callback
-    * @api private
     */
 
     loadProject: function(project, callback) {
         this.find({ project: project })
-          .populate('user')
+          .populate({ path: 'user', select: '_id, name'})
           .sort({ 'when': -1, 'created': -1 })
           .exec(callback);
     },
 
 
    /**
-    * Find last ten posts belonging projects a user is part of, by project ids
+    * Find all posts that belongs to projects provided in an array
     *
     * @param {Array[ObjectId]} projects
     * @param {Function} callback
-    * @api private
     */
 
     loadByProjects: function(projects, callback) {
